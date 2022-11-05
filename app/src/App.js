@@ -1,7 +1,7 @@
-import {createContext, useEffect, useState} from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { Route, Routes } from "react-router-dom";
 
-import ContextSample from './components/ContextSample';
+import Landing from "./pages/Landing";
+import { createContext } from 'react';
 
 export const MainContext = createContext();
 
@@ -12,23 +12,16 @@ const contextData = {
 }
 
 function App() {
-  const [data, setData] = useState('')
-
-  useEffect(() => {
-    let endpoint = link + "api";
-    fetch(endpoint)
-      .then((res) => res.json())
-      .then((data) => setData(data.message));
-  }, [])
 
   return (
     <MainContext.Provider value={contextData}>
-      <div className="">
-        Blood Link Sample App
-        PUSH - Changed
-        <p>{!data ? "Loadingss..." : data}</p>
-      </div>
-      <ContextSample />
+      <Routes>
+        <Route path="/" element={<Landing/>}></Route>
+        <Route path="/search" element={<Landing/>}></Route>
+        <Route path="/register" element={<Landing/>}></Route>
+        <Route path="/login" element={<Landing/>}></Route>
+        <Route path="/main" element={<Landing/>}></Route>
+      </Routes>
     </MainContext.Provider>
   );
 }
