@@ -3,11 +3,11 @@ import { useContext, useEffect, useState } from 'react';
 import { MainContext } from '../App';
 
 const ContextSample = () => {
-  const contextDate = useContext(MainContext);
+  const contextData = useContext(MainContext);
 
   return (
     <div className="">
-      Main Link : {contextDate.link}
+      Main Link : {contextData.link}
     </div>
   );
 }
