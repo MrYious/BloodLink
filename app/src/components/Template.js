@@ -1,13 +1,10 @@
-import { useContext, useEffect, useState } from 'react';
-
-import { MainContext } from '../App';
+import { useEffect, useState } from 'react';
 
 const Template = () => {
-  const contextDate = useContext(MainContext);
 
   return (
-    <div className="">
-      Main Link : {contextDate.link}
+    <div>
+      Template
     </div>
   );
 }

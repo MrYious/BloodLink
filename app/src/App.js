@@ -1,7 +1,7 @@
 import {createContext, useEffect, useState} from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 
-import Template from './components/Template';
+import ContextSample from './components/ContextSample';
 
 export const MainContext = createContext();
 
@@ -28,7 +28,7 @@ function App() {
         PUSH - Changed
         <p>{!data ? "Loadingss..." : data}</p>
       </div>
-      <Template />
+      <ContextSample />
     </MainContext.Provider>
   );
 }
