@@ -3,9 +3,9 @@ import { useEffect, useState } from 'react';
 const Template = () => {
 
   return (
-    <div>
+    <section className='flex w-full min-h-screen bg-red-50'>>
       Template
-    </div>
+    </section>
   );
 }
 
