@@ -1,0 +1,11 @@
+LOCAL CALLS FIRST TOP TO BOTTOM
+    - RENDER OTHER COMPONENTS IN RESULT
+        - LOCAL CALLS FIRST TOP TO BOTTOM IN COMPONENT
+            - CALL useEffect of most child components first upto parent component (last)
+
+Rerenders
+    LOCAL CALLS FIRST TOP TO BOTTOM
+        - RENDER OTHER COMPONENTS IN RESULT
+            - LOCAL CALLS FIRST TOP TO BOTTOM IN COMPONENT
+                - No more useEffect calls if [] but always rerender.
+                - all  useEffect return is called (child to parent) before executing useEffect main (child to parent)
