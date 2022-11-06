@@ -5,10 +5,10 @@ import NavigationBar from '../components/NavigationBar';
 const Landing = () => {
 
   return (
-    <div className='bg-red-50'>
+    <div className='bg-blue-50'>
       <section id='home' className='flex flex-col w-full min-h-screen '>
         <NavigationBar />
-        <div className='flex justify-center items-center flex-col h-[90vh] '>
+        <div className='flex justify-center items-center flex-col min-h-[100vh] '>
           Home
         </div>
       </section>
@@ -21,7 +21,7 @@ const Landing = () => {
       <section id='about' className='flex items-center justify-center w-full min-h-screen '>
         About
       </section>
-      <section id='footer' className='flex items-center justify-center w-full min-h-screen'>
+      <section id='footer' className='flex items-center justify-center w-full h-[30vh]'>
         Footer
       </section>
     </div>
