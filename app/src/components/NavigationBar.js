@@ -1,12 +1,29 @@
 import { FaBars, FaTimes } from 'react-icons/fa';
+import { Link, useLocation } from "react-router-dom";
+import { animateScroll, scroller } from 'react-scroll';
 import { useEffect, useState } from 'react';
 
-import { Link } from "react-router-dom";
-import { Link as ScrollLink } from 'react-scroll'
-
 const NavigationBar = () => {
-  const [isLogin, setIsLogin] = useState(true);
+  let location = useLocation();
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    if (location.pathname === '/' && location.hash) {
+      scroller.scrollTo(location.hash.slice(1), {
+        duration: 500,
+        delay: 100,
+        smooth: true,
+      })
+      // console.log('Pathname', location.pathname);
+      // console.log('Hash', location.hash.slice(1));
+    }else{
+      animateScroll.scrollToTop();
+    }
+
+    // console.log('Location', location);
+  }, [location])
 
   return (
     <>
@@ -38,65 +55,25 @@ const NavigationBar = () => {
 
       {/* MOBILE NAV MENU LINKS */}
       <div className={`fixed flex flex-col gap-5 w-full ${!isOpen && 'hidden' } items-center justify-center p-4 bg-blue-100 h-[100vh] md:hidden bg-opacity-40 backdrop-blur-md`}>
-        <ScrollLink
-          activeClass="border-b-2 border-red-700 text-3xl"
-          to={'home'}
-          spy={true}
-          smooth={true}
-          duration={500}
-          className="flex items-center gap-1 px-3 py-1 text-2xl cursor-pointer hover:border-red-700 hover:border-b-2"
-          onClick={()=>{setIsOpen(!isOpen)}}
-        >
-          Home
-        </ScrollLink>
-        <ScrollLink
-          activeClass="border-b-2 border-red-700 text-3xl"
-          to={'features'}
-          spy={true}
-          smooth={true}
-          duration={500}
-          className="flex items-center gap-1 px-3 py-1 text-2xl cursor-pointer hover:border-red-700 hover:border-b-2"
-          onClick={()=>{setIsOpen(!isOpen)}}
-        >
-          Features
-        </ScrollLink>
-        <ScrollLink
-          activeClass="border-b-2 border-red-700 text-3xl"
-          to={'contact'}
-          spy={true}
-          smooth={true}
-          duration={500}
-          className="flex items-center gap-1 px-3 py-1 text-2xl cursor-pointer hover:border-red-700 hover:border-b-2"
-          onClick={()=>{setIsOpen(!isOpen)}}
-        >
-          Contact
-        </ScrollLink>
-        <ScrollLink
-          activeClass="border-b-2 border-red-700 text-3xl"
-          to={'about'}
-          spy={true}
-          smooth={true}
-          duration={500}
-          className="flex items-center gap-1 px-3 py-1 text-2xl cursor-pointer hover:border-red-700 hover:border-b-2"
-          onClick={()=>{setIsOpen(!isOpen)}}
-        >
-          About
-        </ScrollLink>
+        <Link to="/#home" onClick={()=>{setIsOpen(!isOpen)}} className='flex items-center gap-1 px-3 py-1 text-2xl cursor-pointer hover:border-red-700 hover:border-b-2'>Home</Link>
+        <Link to="/#features" onClick={()=>{setIsOpen(!isOpen)}} className='flex items-center gap-1 px-3 py-1 text-2xl cursor-pointer hover:border-red-700 hover:border-b-2'>Features</Link>
+        <Link to="/#contact" onClick={()=>{setIsOpen(!isOpen)}} className='flex items-center gap-1 px-3 py-1 text-2xl cursor-pointer hover:border-red-700 hover:border-b-2'>Contact</Link>
+        <Link to="/#about" onClick={()=>{setIsOpen(!isOpen)}} className='flex items-center gap-1 px-3 py-1 text-2xl cursor-pointer hover:border-red-700 hover:border-b-2'>About</Link>
         {
-          isLogin
+          location.pathname !== '/login'
           ?
             <Link to={'/login'} className='px-4 py-2 mx-2 text-3xl text-white bg-red-800 rounded-md shadow-sm shadow-black hover:bg-red-900'>
               Login
             </Link>
           :
-            <Link to={'/register'} className='px-4 py-2 mx-2 text-xl text-white bg-red-800 rounded-md shadow-sm shadow-black hover:bg-red-900'>
+            <Link to={'/register'} className='px-4 py-2 mx-2 text-3xl text-white bg-red-800 rounded-md shadow-sm shadow-black hover:bg-red-900'>
               Register
             </Link>
         }
       </div>
 
       {/* HORIZONTAL NAVIGATION BAR */}
-      <section className='hidden md:flex items-end justify-start w-full h-[10vh] bg-transparent shadow-sm backdrop-blur-sm shadow-black fixed ' >
+      <section className='hidden md:flex items-end justify-start w-full h-[10vh] bg-blue-200 bg-opacity-40 shadow-sm backdrop-blur-sm shadow-black fixed ' >
         <Link to={'/'} className='text-[40px] px-4 h-full flex items-center shrink-0 leading-tight'>
           <span className='text-red-700'>
             Blood
@@ -106,48 +83,12 @@ const NavigationBar = () => {
           </span>
         </Link>
         <div className='flex items-center justify-end w-full h-full gap-2 px-5 py-3'>
-          <ScrollLink
-            activeClass="border-b-2 border-red-700 text-lg"
-            to={'home'}
-            spy={true}
-            smooth={true}
-            duration={500}
-            className="flex items-center gap-1 px-3 py-1 cursor-pointer hover:border-red-700 hover:border-b-2"
-          >
-            Home
-          </ScrollLink>
-          <ScrollLink
-            activeClass="border-b-2 border-red-700 text-lg"
-            to={'features'}
-            spy={true}
-            smooth={true}
-            duration={500}
-            className="flex items-center gap-1 px-3 py-1 cursor-pointer hover:border-red-700 hover:border-b-2"
-          >
-            Features
-          </ScrollLink>
-          <ScrollLink
-            activeClass="border-b-2 border-red-700 text-lg"
-            to={'contact'}
-            spy={true}
-            smooth={true}
-            duration={500}
-            className="flex items-center gap-1 px-3 py-1 cursor-pointer hover:border-red-700 hover:border-b-2"
-          >
-            Contact
-          </ScrollLink>
-          <ScrollLink
-            activeClass="border-b-2 border-red-700 text-lg"
-            to={'about'}
-            spy={true}
-            smooth={true}
-            duration={500}
-            className="flex items-center gap-1 px-3 py-1 cursor-pointer hover:border-red-700 hover:border-b-2"
-          >
-            About
-          </ScrollLink>
+          <Link to="/#home" className='flex items-center gap-1 px-3 py-1 cursor-pointer hover:border-red-700 hover:border-b-2'>Home</Link>
+          <Link to="/#features" className='flex items-center gap-1 px-3 py-1 cursor-pointer hover:border-red-700 hover:border-b-2'>Features</Link>
+          <Link to="/#contact" className='flex items-center gap-1 px-3 py-1 cursor-pointer hover:border-red-700 hover:border-b-2'>Contact</Link>
+          <Link to="/#about" className='flex items-center gap-1 px-3 py-1 cursor-pointer hover:border-red-700 hover:border-b-2'>About</Link>
           {
-            isLogin
+            location.pathname !== '/login'
             ?
               <Link to={'/login'} className='px-4 py-2 mx-2 text-xl text-white bg-red-800 rounded-md shadow-sm shadow-black hover:bg-red-900'>
                 Login
