@@ -54,7 +54,7 @@ const NavigationBar = () => {
       </div>
 
       {/* MOBILE NAV MENU LINKS */}
-      <div className={`fixed flex flex-col gap-5 w-full ${!isOpen && 'hidden' } items-center justify-center p-4 bg-blue-100 h-[100vh] md:hidden bg-opacity-40 backdrop-blur-md`}>
+      <div className={`fixed flex flex-col gap-5 select-none w-full ${!isOpen && 'hidden' } items-center justify-center p-4 bg-blue-100 h-[100vh] md:hidden bg-opacity-40 backdrop-blur-md`}>
         <Link to="/#home" onClick={()=>{setIsOpen(!isOpen)}} className='flex items-center gap-1 px-3 py-1 text-2xl cursor-pointer hover:border-red-700 hover:border-b-2'>Home</Link>
         <Link to="/#features" onClick={()=>{setIsOpen(!isOpen)}} className='flex items-center gap-1 px-3 py-1 text-2xl cursor-pointer hover:border-red-700 hover:border-b-2'>Features</Link>
         <Link to="/#contact" onClick={()=>{setIsOpen(!isOpen)}} className='flex items-center gap-1 px-3 py-1 text-2xl cursor-pointer hover:border-red-700 hover:border-b-2'>Contact</Link>
@@ -73,7 +73,7 @@ const NavigationBar = () => {
       </div>
 
       {/* HORIZONTAL NAVIGATION BAR */}
-      <section className='hidden md:flex items-end justify-start w-full h-[10vh] bg-blue-100 bg-opacity-40 shadow-sm backdrop-blur-md shadow-black fixed ' >
+      <section className='hidden select-none md:flex items-end justify-start w-full h-[10vh] bg-blue-100 bg-opacity-40 shadow-sm backdrop-blur-md shadow-black fixed ' >
         <Link to={'/'} className='text-[40px] px-4 h-full flex items-center shrink-0 leading-tight'>
           <span className='text-red-700'>
             Blood
