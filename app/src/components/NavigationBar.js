@@ -28,9 +28,9 @@ const NavigationBar = () => {
   return (
     <>
       {/* MOBILE NAV MENU HEADER*/}
-      <div className='flex items-center w-full p-4 bg-blue-300 fixed min-h-[10vh] md:hidden z-[2] bg-opacity-40 backdrop-blur-sm select-none'>
+      <div className='flex items-center w-full bg-blue-300 fixed h-[10vh] md:hidden z-[2] bg-opacity-40 backdrop-blur-sm select-none'>
         {/* BUTTON */}
-        <div  className='w-1/4'>
+        <div  className='w-1/4 pl-2 '>
           <div className='p-2 cursor-pointer w-fit' onClick={()=>{setIsOpen(!isOpen)}}>
             {
               isOpen
@@ -41,7 +41,7 @@ const NavigationBar = () => {
             }
           </div>
         </div>
-        <Link to={'/'} className='text-[40px] h-full flex justify-center shrink-0 w-1/2 '>
+        <Link to={'/'} className='text-[40px] h-full flex justify-center items-center shrink-0 w-1/2 '>
           <span className='text-red-700'>
             Blood
           </span>
@@ -73,7 +73,7 @@ const NavigationBar = () => {
       </div>
 
       {/* HORIZONTAL NAVIGATION BAR */}
-      <section className='hidden md:flex items-end justify-start w-full h-[10vh] bg-blue-200 bg-opacity-40 shadow-sm backdrop-blur-sm shadow-black fixed ' >
+      <section className='hidden md:flex items-end justify-start w-full h-[10vh] bg-blue-100 bg-opacity-40 shadow-sm backdrop-blur-md shadow-black fixed ' >
         <Link to={'/'} className='text-[40px] px-4 h-full flex items-center shrink-0 leading-tight'>
           <span className='text-red-700'>
             Blood
