@@ -160,8 +160,61 @@ const Landing = () => {
         About
       </section>
       {/* FOOTER */}
-      <section id='footer' className='flex items-center justify-center w-full h-[30vh]'>
-        Footer
+      <section id='footer' className='flex w-full h-[30vh] bg-slate-300'>
+        {/* Column 1 */}
+        <div className="flex flex-col items-center justify-center w-[35%] gap-2 py-5 ">
+          <Link to={'/'} className='text-[55px] p-4 flex items-center shrink-0 leading-tight'>
+            <span className='text-red-700'>
+              Blood
+            </span>
+            <span className='border-b-2 border-blue-600'>
+              Link
+            </span>
+          </Link>
+          <div>© 2022 Copyright | BloodLink</div>
+          <div className="gap-2 text-sm">All rights reserved.</div>
+        </div>
+        {/* Column 2 */}
+        <div className="flex w-[25%]">
+          <div className="flex flex-col w-[45%] gap-3 p-5 ">
+            <Link to="/#home" className='flex gap-1 px-2 py-1 cursor-pointer center w-22 hover:border-red-700 hover:border-l-2 hover:pl-5 hover:text-red-900'>Home</Link>
+            <Link to="/#features" className='flex gap-1 px-2 py-1 cursor-pointer w-22 hover:border-red-700 hover:border-l-2 hover:pl-5 hover:text-red-900'>Features</Link>
+            <Link to="/#contact" className='flex gap-1 px-2 py-1 cursor-pointer w-22 hover:border-red-700 hover:border-l-2 hover:pl-5 hover:text-red-900'>Contact</Link>
+            <Link to="/#about" className='flex gap-1 px-2 py-1 cursor-pointer w-22 hover:border-red-700 hover:border-l-2 hover:pl-5 hover:text-red-900'>About</Link>
+          </div>
+          <div className="flex flex-col w-[55%] gap-3 p-5 ">
+            <Link to="/search" className='flex gap-1 px-2 py-1 cursor-pointer w-22 hover:border-red-700 hover:border-l-2 hover:pl-5 hover:text-red-900'>Search Donors</Link>
+            <Link to="/login" className='flex gap-1 px-2 py-1 cursor-pointer w-22 hover:border-red-700 hover:border-l-2 hover:pl-5 hover:text-red-900'>Sign In</Link>
+            <Link to="/register" className='flex gap-1 px-2 py-1 cursor-pointer w-22 hover:border-red-700 hover:border-l-2 hover:pl-5 hover:text-red-900'>Sign Up</Link>
+          </div>
+        </div>
+        {/* Column 3 */}
+        <div className="flex flex-col items-center justify-center w-[40%] ">
+          <div className="flex gap-3 text-2xl">
+            <div className="p-2 text-white bg-red-700 rounded-full shadow-sm cursor-pointer shadow-black hover:bg-red-900">
+              <FaFacebookF />
+            </div>
+            <div className="p-2 text-white bg-red-700 rounded-full shadow-sm cursor-pointer shadow-black hover:bg-red-900">
+              <FaInstagram />
+            </div>
+            <div className="p-2 text-white bg-red-700 rounded-full shadow-sm cursor-pointer shadow-black hover:bg-red-900">
+              <FaRedditAlien />
+            </div>
+            <div className="p-2 text-white bg-red-700 rounded-full shadow-sm cursor-pointer shadow-black hover:bg-red-900">
+              <FaTwitter />
+            </div>
+            <div className="p-2 text-white bg-red-700 rounded-full shadow-sm cursor-pointer shadow-black hover:bg-red-900">
+              <FaYoutube />
+            </div>
+          </div>
+          <form className="flex flex-col items-start justify-center gap-2 py-5 ">
+            <div className="font-semibold ">Sign up for our newsletter:</div>
+            <div className="flex gap-4">
+              <input type="email" placeholder="Email Address" required className="w-80 p-2 border-[1px] border-gray-900 rounded focus:text-gray-700 focus:border-red-800 focus:outline-none"/>
+              <button className="px-5 py-2 font-bold text-white bg-red-800 rounded shadow-sm resize-none hover:bg-red-900 shadow-black">SUBSCRIBE</button>
+            </div>
+          </form>
+        </div>
       </section>
     </div>
   );
