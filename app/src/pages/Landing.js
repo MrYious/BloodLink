@@ -7,7 +7,7 @@ import feature1 from '../assets/images/feature1.png'
 const Landing = () => {
 
   return (
-    <div className='bg-blue-50'>
+    <div className='bg-gray-200'>
       {/* HERO BANNER */}
       <section id='home' className='flex flex-col w-full min-h-screen bg-cover bg-hero-banner'>
         <NavigationBar />
@@ -28,7 +28,7 @@ const Landing = () => {
         </div>
       </section>
       {/* FEATURES */}
-      <section id='features' className='flex flex-col items-center justify-center w-full min-h-[90vh] gap-10 bg-gray-200 py-10 lg:py-0'>
+      <section id='features' className='flex flex-col items-center justify-center w-full min-h-[90vh] gap-10 py-10 lg:py-0 '>
         <div className="flex flex-col gap-1">
           <div className="px-5 text-4xl">
             Features
@@ -69,8 +69,8 @@ const Landing = () => {
         </div>
       </section>
       {/* CONTACT */}
-      <section id='contact' className='flex flex-col items-center justify-center w-full min-h-[90vh] bg-cover bg-contact bg-center py-16'>
-        <div className="flex flex-col items-center justify-center rounded overflow-hidden w-[85%] md:[80%] gap-10 p-10 bg-slate-300 shadow-md shadow-black">
+      <section id='contact' className='flex flex-col items-center justify-center w-full min-h-[90vh] bg-cover bg-contact bg-center py-16 '>
+        <div className="flex flex-col items-center justify-center  overflow-hidden w-[85%] md:[80%] gap-10 p-10 bg-slate-300 shadow-md shadow-black">
           <div className="flex flex-col gap-1 ">
             <div className="px-5 text-4xl">
               Contact Us
@@ -154,7 +154,7 @@ const Landing = () => {
         </div>
       </section>
       {/* ABOUT */}
-      <section id='about' className='flex flex-col items-center justify-center w-full min-h-[90vh] bg-gray-200 '>
+      <section id='about' className='flex flex-col items-center justify-center w-full min-h-[90vh]  '>
         <div className="flex flex-col gap-1 py-10">
           <div className="px-5 text-4xl">
             About Us
