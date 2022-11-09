@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 
 import NavigationBar from '../components/NavigationBar';
 import login from '../assets/images/login.jpg'
-import register from '../assets/images/register.jpg'
 import { useState } from "react";
 
 const Login = () => {
@@ -80,7 +79,7 @@ const Login = () => {
         <div className="flex flex-col gap-4 w-[85%] lg:w-[45%] select-none">
           <img src={login} alt="w-full" />
         </div>
-        <form onSubmit={handleLogin} className="flex flex-col w-[80%] lg:w-[40%] p-10 gap-10 ">
+        <form onSubmit={handleLogin} className="flex flex-col w-[80%] lg:w-[40%] p-10 gap-10">
           {/* 1 */}
           <div className="flex flex-col gap-2 ">
             <div className="text-4xl font-bold tracking-wider">Welcome Back!</div>
