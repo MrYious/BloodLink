@@ -1,4 +1,15 @@
-import { FaAngleRight, FaFacebookF, FaInstagram, FaRedditAlien, FaTwitter, FaYoutube } from "react-icons/fa";
+import {
+  FaAngleRight,
+  FaBug,
+  FaBullhorn,
+  FaFacebookF,
+  FaHeadset,
+  FaInstagram,
+  FaLaptopCode,
+  FaRedditAlien,
+  FaTwitter,
+  FaYoutube
+} from "react-icons/fa";
 
 import { Link } from "react-router-dom";
 import NavigationBar from '../components/NavigationBar';
@@ -39,30 +50,30 @@ const Landing = () => {
           {/* 1 */}
           <div className="flex flex-col justify-start items-center w-[80%] md:w-[40%] lg:w-[25%] rounded-md shadow-sm shadow-black overflow-hidden">
             <img src={feature1} alt="feature1" className="w-full" />
-            <div className="flex flex-col items-center justify-center gap-3 p-3 bg-blue-50">
-              <div className="text-xl font-bold ">Feature 1</div>
+            <div className="flex flex-col items-center justify-center w-full gap-3 p-3 bg-blue-50">
+              <div className="text-xl font-bold ">Browse Donors</div>
               <div className="text-center">
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vel voluptatem dicta iste quisquam totam cumque iure facere fugit magni rem vitae dolorum quaerat suscipit architecto, alias minus distinctio tempor
+                The platform offers a wide selection of registered users based on the active donors. We also use filters to limit the results into more the specific ones.
               </div>
             </div>
           </div>
           {/* 2 */}
           <div className="flex flex-col justify-start items-center w-[80%] md:w-[40%] lg:w-[25%] rounded-md shadow-sm shadow-black overflow-hidden">
             <img src={feature1} alt="feature1" className="w-full" />
-            <div className="flex flex-col items-center justify-center gap-3 p-3 bg-blue-50">
-              <div className="text-xl font-bold ">Feature 2</div>
+            <div className="flex flex-col items-center justify-center w-full gap-3 p-3 bg-blue-50">
+              <div className="text-xl font-bold ">Connect with others</div>
               <div className="text-center">
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vel voluptatem dicta iste quisquam totam cumque iure facere fugit magni rem vitae dolorum quaerat suscipit architecto, alias minus distinctio tempor
+                Surfing the list of donors enables the blood donation seekers to connect with their preferred donors by initiating a request alongside a short message.
               </div>
             </div>
           </div>
           {/* 3 */}
           <div className="flex flex-col justify-start items-center w-[80%] md:w-[40%] lg:w-[25%] rounded-md shadow-sm shadow-black overflow-hidden">
             <img src={feature1} alt="feature1" className="w-full" />
-            <div className="flex flex-col items-center justify-center gap-3 p-3 bg-blue-50">
-              <div className="text-xl font-bold ">Feature 3</div>
+            <div className="flex flex-col items-center justify-center w-full gap-3 p-3 bg-blue-50">
+              <div className="text-xl font-bold ">Profile and Past Records</div>
               <div className="text-center">
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vel voluptatem dicta iste quisquam totam cumque iure facere fugit magni rem vitae dolorum quaerat suscipit architecto, alias minus distinctio tempor
+                In this feature, the users are capable to creating their profiles and see other's profile. The profile includes their donation history and other records
               </div>
             </div>
           </div>
@@ -111,40 +122,40 @@ const Landing = () => {
                 <div className="flex flex-wrap justify-center w-full gap-3 lg:justify-start lg:gap-5">
                   <div className="flex w-fit">
                     <div className="flex items-center justify-center p-4 text-3xl text-white bg-red-700 rounded-lg shrink-0">
-                      <FaAngleRight />
+                      <FaHeadset />
                     </div>
                     <div className="flex flex-col items-start justify-between w-full p-2">
                       <div className="font-bold">Technical Support</div>
-                      <div className="text-sm">support@example.com</div>
+                      <div className="text-sm">support@bloodlink.com</div>
                     </div>
                   </div>
                   <div className="flex w-fit">
                     <div className="flex items-center justify-center p-4 text-3xl text-white bg-red-700 rounded-lg shrink-0">
-                      <FaAngleRight />
+                      <FaLaptopCode />
                     </div>
                     <div className="flex flex-col items-start justify-between w-full p-2">
-                      <div className="font-bold">Technical Support</div>
-                      <div className="text-sm">support@example.com</div>
+                      <div className="font-bold">Developer</div>
+                      <div className="text-sm">developers@bloodlink.com</div>
                     </div>
                   </div>
                 </div>
                 <div className="flex flex-wrap justify-center w-full gap-3 lg:justify-start lg:gap-5">
                   <div className="flex w-fit">
                     <div className="flex items-center justify-center p-4 text-3xl text-white bg-red-700 rounded-lg shrink-0">
-                      <FaAngleRight />
+                      <FaBullhorn />
                     </div>
                     <div className="flex flex-col items-start justify-between w-full p-2">
-                      <div className="font-bold">Technical Support</div>
-                      <div className="text-sm">support@example.com</div>
+                      <div className="font-bold">Promotions</div>
+                      <div className="text-sm">promote@bloodlink.com</div>
                     </div>
                   </div>
                   <div className="flex w-fit">
                     <div className="flex items-center justify-center p-4 text-3xl text-white bg-red-700 rounded-lg shrink-0">
-                      <FaAngleRight />
+                      <FaBug />
                     </div>
                     <div className="flex flex-col items-start justify-between w-full p-2">
-                      <div className="font-bold">Technical Support</div>
-                      <div className="text-sm">support@example.com</div>
+                      <div className="font-bold">Bug Report</div>
+                      <div className="text-sm">report@bloodlink.com</div>
                     </div>
                   </div>
                 </div>
