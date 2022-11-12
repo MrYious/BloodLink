@@ -29,44 +29,27 @@ const Login = () => {
   const [password, setPassword] = useState('');
 
   const handleLogin = (e) => {
-    // axios.post('http://localhost:5000/main/login', {
-    //   email: email,
-    //   password: password,
-    // })
-    // .then(function (response) {
-    //   // SUCCESS
-    //   console.log("Login Success", response.data)
-    //   localStorage.clear();
-    //   localStorage.setItem('loggedIn', "true");
-    //   localStorage.setItem('userID', response.data.user.id);
-    //   localStorage.setItem('addressID', response.data.user.addressID);
-    //   localStorage.setItem('username', response.data.user.firstname);
-    //   localStorage.setItem('type', response.data.user.accountType);
-
-    //   localStorage.setItem('userData', JSON.stringify(response.data.user));
-    //   localStorage.setItem('addressData', JSON.stringify(response.data.address));
-    //   localStorage.setItem('requestsData', JSON.stringify(response.data.requests));
-    //   if(response.data.user.accountType === "Donor"){
-    //       localStorage.setItem('donorInfoData', JSON.stringify(response.data.donorInfo));
-    //   }
-
-    //   navigate("/dashboard")
-    // })
-    // .catch(function (error) {
-    //     // FAIL
-    //     console.log("Login Failed", error)
-    //     setAlert({
-    //         message: error.response.data.message,
-    //         error: true
-    //     });
-    // });
-    e.preventDefault();
-    setAlert({
-      show: true,
-      header: 'Login Failed',
-      message: 'Incorrect Email or Password',
-      isError: true,
+    const data = {
+      email: email,
+      password: password,
+    }
+    console.log('DATA | ', data);
+    let endpoint = contextData.link + 'api/login';
+    console.log('ENDPOINT', endpoint);
+    axios.post(endpoint, {data})
+    .then(function (response) {
+      console.log("Login Success", response.data)
+      navigate("/main", {state: {message: response.data.message, isError: false}})
+    })
+    .catch(function (error) {
+      console.log(error.response.data.message);
+      setAlert({
+        show: true,
+        header: error.response.data.message,
+        isError: true,
+      });
     });
+    e.preventDefault();
   };
 
   return (
