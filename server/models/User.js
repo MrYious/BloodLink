@@ -6,13 +6,10 @@ const { DataTypes } = Sequelize;
 // Structured Data in each USER TABLE
 
 const User = dbConfig.define('user',{
-    addressID:{
-        type: DataTypes.INTEGER
-    },
-    lastname:{
+    firstname:{
         type: DataTypes.STRING
     },
-    firstname:{
+    lastname:{
         type: DataTypes.STRING
     },
     middlename:{
@@ -24,7 +21,7 @@ const User = dbConfig.define('user',{
     age:{
         type: DataTypes.INTEGER
     },
-    mobileNo:{
+    mobileNumber:{
         type: DataTypes.STRING
     },
     email:{
@@ -33,13 +30,13 @@ const User = dbConfig.define('user',{
     profilePicture:{
         type: DataTypes.STRING,
     },
-    bloodType:{
+    bloodGroup:{
         type: DataTypes.STRING
     },
     password:{
         type: DataTypes.STRING
     },
-    accountType:{
+    shortBio:{
         type: DataTypes.STRING
     },
 },{
