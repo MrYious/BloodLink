@@ -6,13 +6,13 @@ import express from "express";
 // LIST OF ENDPOINTS
 const apiRouter = express.Router();
 
-// router.post('/login', validateUserByEmail);
+// apiRouter.post('/login', validateUserByEmail);
 apiRouter.post('/register', createNewUser)
-// router.patch('/updateProfile', updateUserProfile);
-// router.get('/donors', getAllDonors);
-// router.post('/request', createRequest);
-// router.patch('/request', updateRequest);
-// router.post('/requestList', getRequestsByID);
-// router.post('/seedusers', seedUser);
+// apiRouter.patch('/updateProfile', updateUserProfile);
+// apiRouter.get('/donors', getAllDonors);
+// apiRouter.post('/request', createRequest);
+// apiRouter.patch('/request', updateRequest);
+// apiRouter.post('/requestList', getRequestsByID);
+// apiRouter.post('/seedusers', seedUser);
 
 export default apiRouter;

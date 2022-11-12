@@ -27,6 +27,10 @@ app.use(express.static(path.resolve('./app/build')));
 // ROUTES -> CONTROLLERS -> MODELS
 app.use("/api", apiRoutes);
 
+app.get("/sample", (req, res) => {
+  res.json({ message: "Hello from server!" });
+});
+
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });
