@@ -1,11 +1,12 @@
 import { FaEnvelope, FaLock, FaTimes } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 import NavigationBar from '../components/NavigationBar';
 import login from '../assets/images/login.jpg'
-import { useState } from "react";
 
 const Login = () => {
+  const location = useLocation();
   const navigate = useNavigate();
   const [alert, setAlert] = useState({
     show: false,
@@ -13,6 +14,16 @@ const Login = () => {
     message: '',
     isError: false
   });
+
+  useEffect(() => {
+    if(location.state){
+      setAlert({
+        show: true,
+        header: location.state.message,
+        isError: location.state.isError,
+      });
+    }
+  }, [location])
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -63,14 +74,14 @@ const Login = () => {
       {/* ALERT */}
       {
         alert.show &&
-        <div className={`flex items-start justify-between gap-5 w-[30%] border ${ alert.isError ? 'bg-red-100 border-red-400 text-red-700' : ''} p-4 rounded fixed z-[2] bottom-0 m-5`} role="alert">
+        <div className={`flex items-start justify-between gap-5 w-[30%] border ${ alert.isError ? 'bg-red-100 border-red-400 text-red-700' : 'bg-green-100 border-green-400 text-green-700'} p-4 rounded fixed z-[2] bottom-0 m-5`} role="alert">
           <div>
             <div className="py-1 font-bold">
               {alert.header}
             </div>
             {alert.message}
           </div>
-          <FaTimes onClick={()=>{setAlert({...alert, show: false})}} className="-mt-2 -mr-2 text-2xl text-red-900 cursor-pointer"/>
+          <FaTimes onClick={()=>{setAlert({...alert, show: false})}} className={`-mt-2 -mr-2 text-2xl  ${ alert.isError ? 'text-red-900' : 'text-green-900'}  cursor-pointer`}/>
         </div>
       }
       <NavigationBar />
