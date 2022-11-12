@@ -1,5 +1,7 @@
 // import User from "../models/User.js";
 
+// LIST OF FUNCTIONS (CRUD & VALIDATION)
+
 export const createUser = async (req, res) => {
     // try {
     //     const checkUser = await User.findOne({

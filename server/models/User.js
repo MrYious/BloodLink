@@ -3,7 +3,9 @@ import dbConfig from "../config/dbConfig";
 
 const { DataTypes } = Sequelize;
 
-const User = db.define('user',{
+// Structured Data in each USER TABLE
+
+const User = dbConfig.define('user',{
     addressID:{
         type: DataTypes.INTEGER
     },

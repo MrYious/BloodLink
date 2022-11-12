@@ -11,6 +11,7 @@ import {
 
 import express from "express";
 
+// LIST OF ENDPOINTS
 const apiRouter = express.Router();
 
 // router.post('/login', validateUserByEmail);
