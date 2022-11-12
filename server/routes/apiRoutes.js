@@ -1,12 +1,14 @@
 import {
-    createNewUser
+    createNewUser,
+    validateUserLogin
 } from "../controllers/mainController.js";
+
 import express from "express";
 
 // LIST OF ENDPOINTS
 const apiRouter = express.Router();
 
-// apiRouter.post('/login', validateUserByEmail);
+apiRouter.post('/login', validateUserLogin);
 apiRouter.post('/register', createNewUser)
 // apiRouter.patch('/updateProfile', updateUserProfile);
 // apiRouter.get('/donors', getAllDonors);
