@@ -75,6 +75,8 @@ const Register = () => {
     const selectedData = regionData.find((data) => data.region_name === e.target.value)
     console.log('Selected Region Data: ', selectedData);
     setData({...data, address: { ...data.address, region: e.target.value, province: '', city: '', barangay: ''}})
+    setCityData([]);
+    setBarangayData([]);
 
     // Get Provinces
     provinces(selectedData.region_code).then((province) => {
@@ -88,6 +90,7 @@ const Register = () => {
     const selectedData = provinceData.find((data) => data.province_name === e.target.value)
     console.log('Selected Province Data: ', selectedData);
     setData({...data, address: { ...data.address, province: e.target.value, city: '', barangay: ''}})
+    setBarangayData([]);
 
     // Get Provinces
     cities(selectedData.province_code).then((city) => {
@@ -159,12 +162,13 @@ const Register = () => {
       .then(function (response) {
         console.log("Register Success", response.data)
         console.log(response.data);
-        // navigate("/login", {state: {message: response.data.message, isError: false}})
+        navigate("/login", {state: {message: response.data.message, isError: false}})
       })
       .catch(function (error) {
+        console.log(error.response.data.message);
         setAlert({
           show: true,
-          header: 'Register Failed',
+          header: error.response.data.message,
           isError: true,
         });
       });
