@@ -1,11 +1,14 @@
 import { FaEnvelope, FaLock, FaTimes } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
+import { MainContext } from '../App.js'
 import NavigationBar from '../components/NavigationBar';
+import axios  from "axios";
 import login from '../assets/images/login.jpg'
 
 const Login = () => {
+  const contextData = useContext(MainContext);
   const location = useLocation();
   const navigate = useNavigate();
   const [alert, setAlert] = useState({
