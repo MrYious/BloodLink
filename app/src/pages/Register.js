@@ -1,4 +1,3 @@
-import { FaChevronLeft, FaTimes } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import {
   barangays,
@@ -6,10 +5,11 @@ import {
   provinces,
   regions,
 } from "select-philippines-address";
+import { useEffect, useState } from "react";
 
+import { FaTimes } from "react-icons/fa";
 import NavigationBar from '../components/NavigationBar';
 import register from '../assets/images/register.jpg'
-import { useState } from "react";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -48,6 +48,70 @@ const Register = () => {
       confirmPassword: '',
     },
   });
+
+  const [regionData, setRegionData] = useState([]);
+  const [provinceData, setProvinceData] = useState([]);
+  const [cityData, setCityData] = useState([])
+  const [barangayData, setBarangayData] = useState([])
+
+  useEffect(() => {
+    regions().then((region) => {
+      // console.log(region);
+      setRegionData(region);
+    });
+
+  }, [])
+
+  useEffect(() => {
+    // console.log('Data: ', data)
+    setData({...data, address: { ...data.address, line2: `${data.address.barangay && data.address.barangay + ', '}${data.address.city && data.address.city + ', '}${data.address.province && data.address.province + ', '}${data.address.region}` }})
+  }, [data.address.region, data.address.province, data.address.city, , data.address.barangay])
+
+  const handleSelectRegion = (e) =>{
+    console.log(e.target.value);
+    const selectedData = regionData.find((data) => data.region_name === e.target.value)
+    console.log('Selected Region Data: ', selectedData);
+    setData({...data, address: { ...data.address, region: e.target.value, province: '', city: '', barangay: ''}})
+
+    // Get Provinces
+    provinces(selectedData.region_code).then((province) => {
+      console.log(province);
+      setProvinceData(province);
+    });
+  }
+
+  const handleSelectProvince = (e) =>{
+    console.log(e.target.value);
+    const selectedData = provinceData.find((data) => data.province_name === e.target.value)
+    console.log('Selected Province Data: ', selectedData);
+    setData({...data, address: { ...data.address, province: e.target.value, city: '', barangay: ''}})
+
+    // Get Provinces
+    cities(selectedData.province_code).then((city) => {
+      console.log(city);
+      setCityData(city);
+    });
+  }
+
+  const handleSelectCity = (e) =>{
+    console.log(e.target.value);
+    const selectedData = cityData.find((data) => data.city_name === e.target.value)
+    console.log('Selected City Data: ', selectedData);
+    setData({...data, address: { ...data.address, city: e.target.value, barangay: ''}})
+
+    // Get Provinces
+    barangays(selectedData.city_code).then((barangay) => {
+      console.log(barangay);
+      setBarangayData(barangay);
+    });
+  }
+
+  const handleSelectBarangay = (e) =>{
+    console.log(e.target.value);
+    const selectedData = barangayData.find((data) => data.brgy_name === e.target.value)
+    console.log('Selected Barangay Data: ', selectedData);
+    setData({...data, address: { ...data.address, barangay: e.target.value}})
+  }
 
   const handlePreviousStep = (e) => {
     e.preventDefault();
@@ -190,31 +254,45 @@ const Register = () => {
             {
               stepCount === 2 && <>
                 <div className="flex flex-col gap-3 lg:flex-row">
-                  <select value={data.personal.gender} onChange={(e)=> {setData({...data, personal: { ...data.personal, gender: e.target.value}})}} placeholder="Gender" autoComplete="Gender" required className="w-full lg:w-[50%] bg-transparent focus:outline-none p-2 border-[1px] border-gray-900 rounded">
-                    <option value='' disabled>Region</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
+                  <select value={data.address.region} onChange={handleSelectRegion} required className="w-full lg:w-[50%] bg-transparent focus:outline-none p-2 border-[1px] border-gray-900 rounded">
+                    <option key={'0'} value='' disabled>Region</option>
+                    {
+                      regionData.map(
+                        (region) => <option key={region.id} value={region.region_name}>{region.region_name}</option>
+                      )
+                    }
                   </select>
-                  <select value={data.personal.gender} onChange={(e)=> {setData({...data, personal: { ...data.personal, gender: e.target.value}})}} placeholder="Gender" autoComplete="Gender" required className="w-full lg:w-[50%] bg-transparent focus:outline-none p-2 border-[1px] border-gray-900 rounded">
-                    <option value='' disabled>Province</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
+                  <select value={data.address.province} onChange={handleSelectProvince} required className="w-full lg:w-[50%] bg-transparent focus:outline-none p-2 border-[1px] border-gray-900 rounded">
+                    <option key={'0'} value='' disabled>Province</option>
+                    {
+                      provinceData.map(
+                        (province) => <option key={province.province_code} value={province.province_name}>{province.province_name}</option>
+                      )
+                    }
                   </select>
                 </div>
                 <div className="flex flex-col gap-3 lg:flex-row">
-                  <select value={data.personal.gender} onChange={(e)=> {setData({...data, personal: { ...data.personal, gender: e.target.value}})}} placeholder="Gender" autoComplete="Gender" required className="w-full lg:w-[50%] bg-transparent focus:outline-none p-2 border-[1px] border-gray-900 rounded">
-                    <option value='' disabled>City</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
+                  <select value={data.address.city} onChange={handleSelectCity} required className="w-full lg:w-[50%] bg-transparent focus:outline-none p-2 border-[1px] border-gray-900 rounded">
+                    <option key={'0'} value='' disabled>City</option>
+                    {
+                      cityData.map(
+                        (city) => <option key={city.city_code} value={city.city_name}>{city.city_name}</option>
+                      )
+                    }
                   </select>
-                  <select value={data.personal.gender} onChange={(e)=> {setData({...data, personal: { ...data.personal, gender: e.target.value}})}} placeholder="Gender" autoComplete="Gender" required className="w-full lg:w-[50%] bg-transparent focus:outline-none p-2 border-[1px] border-gray-900 rounded">
-                    <option value='' disabled>Barangay</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
+                  <select value={data.address.barangay} onChange={handleSelectBarangay} required className="w-full lg:w-[50%] bg-transparent focus:outline-none p-2 border-[1px] border-gray-900 rounded">
+                    <option key={'0'} value='' disabled>Barangay</option>
+                    {
+                      barangayData.map(
+                        (barangay) => <option key={barangay.brgy_code} value={barangay.brgy_name}>{barangay.brgy_name}</option>
+                      )
+                    }
                   </select>
                 </div>
                 <input value={data.address.line1} onChange={(e)=> {setData({...data, address: { ...data.address, line1: e.target.value}})}} maxLength={300} type={"text"} placeholder="Address Line 1" autoComplete="Address Line 1" required className="w-[100%] bg-transparent focus:outline-none p-2 border-[1px] border-gray-900 rounded" />
-                <input value={data.address.line2} onChange={(e)=> {setData({...data, address: { ...data.address, line2: e.target.value}})}} maxLength={300} disabled type={"text"} placeholder="Address Line 2" autoComplete="Address Line 2" required className="w-[100%] bg-transparent focus:outline-none p-2 border-[1px] border-gray-900 rounded" />
+                <input
+                  value={`${data.address.barangay && data.address.barangay + ', '}${data.address.city && data.address.city + ', '}${data.address.province && data.address.province + ', '}${data.address.region}`}
+                  maxLength={300} disabled type={"text"} placeholder="Address Line 2" autoComplete="Address Line 2" required className="w-[100%] bg-transparent focus:outline-none p-2 border-[1px] border-gray-900 rounded" />
               </>
             }
             {/* Step 3 */}
@@ -223,7 +301,7 @@ const Register = () => {
                 <div className="w-[100%] text-xs italic ">
                   This will show on your profile
                 </div>
-                <textarea maxLength={500} required placeholder="Tell us something about yourself" className="w-full resize-none bg-transparent focus:outline-none p-2 border-[1px] border-gray-900 rounded" rows="6"></textarea>
+                <textarea value={data.personal.bio} onChange={(e)=> {setData({...data, personal: { ...data.personal, bio: e.target.value}})}} maxLength={500} required placeholder="Tell us something about yourself" className="w-full resize-none bg-transparent focus:outline-none p-2 border-[1px] border-gray-900 rounded" rows="6"></textarea>
               </>
             }
             {/* Step 4 */}
