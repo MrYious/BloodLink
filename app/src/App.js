@@ -10,7 +10,7 @@ import { createContext } from 'react';
 
 export const MainContext = createContext();
 
-const link = window.location.href !== 'http://localhost:3000/' ? 'http://localhost:3001/' : 'https://blood-link.herokuapp.com/';
+const link = window.location.href.includes('http://localhost:3000/') ? 'http://localhost:3001/' : 'https://bloodlink.netlify.app/';
 
 const contextData = {
   link: link
