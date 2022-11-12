@@ -5,13 +5,16 @@ import {
   provinces,
   regions,
 } from "select-philippines-address";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { FaTimes } from "react-icons/fa";
+import { MainContext } from '../App.js'
 import NavigationBar from '../components/NavigationBar';
+import axios  from "axios";
 import register from '../assets/images/register.jpg'
 
 const Register = () => {
+  const contextData = useContext(MainContext);
   const navigate = useNavigate();
   const [alert, setAlert] = useState({
     show: false,
@@ -65,7 +68,7 @@ const Register = () => {
   useEffect(() => {
     // console.log('Data: ', data)
     setData({...data, address: { ...data.address, line2: `${data.address.barangay && data.address.barangay + ', '}${data.address.city && data.address.city + ', '}${data.address.province && data.address.province + ', '}${data.address.region}` }})
-  }, [data.address.region, data.address.province, data.address.city, , data.address.barangay])
+  }, [data.address.region, data.address.province, data.address.city, data.address.barangay])
 
   const handleSelectRegion = (e) =>{
     console.log(e.target.value);
@@ -150,10 +153,20 @@ const Register = () => {
       handleNextStep();
     } else {
       console.log('DATA | ', data);
-      setAlert({
-        show: true,
-        header: 'Register Failed',
-        isError: true,
+      let endpoint = contextData.link + 'api/register';
+      console.log('ENDPOINT', endpoint);
+      axios.post(endpoint, data)
+      .then(function (response) {
+        console.log("Register Success", response.data)
+        console.log(response.data);
+        // navigate("/login")
+      })
+      .catch(function (error) {
+        setAlert({
+          show: true,
+          header: 'Register Failed',
+          isError: true,
+        });
       });
     }
     // axios.post('http://localhost:5000/main/login', {
