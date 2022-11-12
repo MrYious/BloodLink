@@ -37,7 +37,7 @@ const User = dbConfig.define('user',{
         type: DataTypes.STRING
     },
     shortBio:{
-        type: DataTypes.STRING
+        type: DataTypes.STRING(500)
     },
 },{
     freezeTableName: true

@@ -22,10 +22,10 @@ const Address = dbConfig.define('address',{
         type: DataTypes.STRING
     },
     addressLine1:{
-        type: DataTypes.STRING
+        type: DataTypes.STRING(300)
     },
     addressLine2:{
-        type: DataTypes.STRING
+        type: DataTypes.STRING(300)
     },
 },{
     freezeTableName: true

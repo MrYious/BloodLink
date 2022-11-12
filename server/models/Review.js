@@ -10,7 +10,7 @@ const Review = dbConfig.define('review',{
         type: DataTypes.STRING
     },
     comment:{
-        type: DataTypes.STRING
+        type: DataTypes.STRING(300)
     },
     rating:{
         type: DataTypes.INTEGER

@@ -19,7 +19,7 @@ const DonorInfo = dbConfig.define('donorinfo',{
         type: DataTypes.STRING
     },
     healthConditions:{
-        type: DataTypes.STRING
+        type: DataTypes.STRING(500)
     },
     lastDonation:{
         type: DataTypes.DATE
