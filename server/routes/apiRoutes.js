@@ -1,21 +1,13 @@
 import {
-    // createRequest,
-    // createUser,
-    // getAllDonors,
-    // getRequestsByID,
-    // seedUser,
-    // updateRequest,
-    // updateUserProfile,
-    // validateUserByEmail
+    createNewUser
 } from "../controllers/mainController.js";
-
 import express from "express";
 
 // LIST OF ENDPOINTS
 const apiRouter = express.Router();
 
 // router.post('/login', validateUserByEmail);
-// router.post('/register', createUser)
+apiRouter.post('/register', createNewUser)
 // router.patch('/updateProfile', updateUserProfile);
 // router.get('/donors', getAllDonors);
 // router.post('/request', createRequest);
