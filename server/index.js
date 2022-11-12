@@ -1,6 +1,7 @@
-const express = require("express");
-const cors = require('cors')
-const path = require('path');
+import cors from "cors";
+import dbConfig from "./config/dbConfig.js";
+import express from "express";
+import path from "path";
 
 const PORT = process.env.PORT || 3001;
 
@@ -11,8 +12,16 @@ const corsOptions ={
 }
 
 const app = express();
+
+try {
+  await dbConfig.authenticate();
+  console.log('Database connected...');
+} catch (error) {
+  console.error('Connection error:', error);
+}
+
 app.use(cors(corsOptions))
-app.use(express.static(path.resolve(__dirname, '../app/build')));
+app.use(express.static(path.resolve('./app/build')));
 
 app.get("/api", (req, res) => {
   res.json({ message: "Hello from server!" });
