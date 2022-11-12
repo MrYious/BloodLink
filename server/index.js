@@ -23,6 +23,7 @@ try {
 
 app.use(cors(corsOptions))
 app.use(express.static(path.resolve('./app/build')));
+app.use(express.json());
 
 // ROUTES -> CONTROLLERS -> MODELS
 app.use("/api", apiRoutes);
