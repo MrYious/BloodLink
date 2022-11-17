@@ -27,7 +27,9 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/main" element={<Main />} />
         <Route path="/main/search" element={<Template />} />
-        <Route path="/main/myprofile" element={<Template />} />
+        <Route path="/main/profile" element={<Template />} />
+        <Route path="/main/update" element={<Template />} />
+
         <Route path="/main/profile/:nameID" element={<Template />} />
         <Route path="/main/requests" element={<Template />} />
         <Route path="/main/active" element={<Template />} />
