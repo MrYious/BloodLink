@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from "react";
 
 import { FaTimes } from 'react-icons/fa';
 import { MainContext } from '../App.js'
-import NavigationBar from '../components/NavigationBar';
+import MainNavigationBar from '../components/MainNavigationBar';
 import axios  from "axios";
 
 const Main = () => {
@@ -44,11 +44,13 @@ const Main = () => {
             <FaTimes onClick={()=>{setAlert({...alert, show: false})}} className={`-mt-2 -mr-2 text-2xl  ${ alert.isError ? 'text-red-900' : 'text-green-900'}  cursor-pointer`}/>
           </div>
         }
-        <NavigationBar />
+        <MainNavigationBar />
         <div className='flex justify-center items-center flex-col min-h-[100vh] '>
           Main
         </div>
-      </section>
+      </section><div className='flex justify-center items-center flex-col min-h-[90vh] '>
+          Main
+        </div>
     </div>
   );
 }
