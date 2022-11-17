@@ -6,7 +6,7 @@ import { MainContext } from '../App.js'
 import MainNavigationBar from '../components/MainNavigationBar';
 import axios  from "axios";
 
-const Main = () => {
+const HistoryCompleted = () => {
   const contextData = useContext(MainContext);
   const location = useLocation();
   const navigate = useNavigate();
@@ -62,4 +62,4 @@ const Main = () => {
   );
 }
 
-export default Main;
+export default HistoryCompleted;

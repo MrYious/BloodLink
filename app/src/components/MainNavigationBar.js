@@ -1,5 +1,5 @@
 import { FaBars, FaHome, FaSearch, FaTimes } from 'react-icons/fa';
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from 'react';
 
 import { animateScroll } from 'react-scroll';
@@ -7,6 +7,7 @@ import profilepic from '../assets/images/profilepic.jpg'
 
 const MainNavigationBar = () => {
   let location = useLocation();
+  const navigate = useNavigate();
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -14,6 +15,11 @@ const MainNavigationBar = () => {
   useEffect(() => {
     animateScroll.scrollToTop();
   }, [location])
+
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate("/");
+  }
 
   return (
     <>
@@ -59,7 +65,7 @@ const MainNavigationBar = () => {
                 <div className='border-b-[1px] border-black'></div>
               </li>
               <li className='w-40'>
-                <div className="block w-full px-4 py-2 text-sm font-normal text-gray-700 bg-transparent dropdown-item whitespace-nowrap hover:bg-gray-300">
+                <div onClick={handleLogout} className="block w-full px-4 py-2 text-sm font-normal text-gray-700 bg-transparent cursor-pointer dropdown-item whitespace-nowrap hover:bg-gray-300">
                   Logout
                 </div>
               </li>

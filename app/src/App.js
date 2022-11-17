@@ -1,11 +1,18 @@
 import { Route, Routes } from "react-router-dom";
 
+import Active from "./pages/Active";
+import BrowseDonor from "./pages/BrowseDonor";
+import HistoryCancelled from "./pages/HistoryCancelled";
+import HistoryCompleted from "./pages/HistoryCompleted";
+import HistoryDeclined from "./pages/HistoryDeclined";
 import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import Main from "./pages/Main";
+import Profile from "./pages/Profile";
 import Register from "./pages/Register";
+import Requests from "./pages/Requests";
 import SearchDonor from "./pages/SearchDonor";
-import Template from "./components/Template";
+import UpdateProfile from "./pages/UpdateProfile";
 import { createContext } from 'react';
 
 export const MainContext = createContext();
@@ -26,16 +33,17 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/main" element={<Main />} />
-        <Route path="/main/search" element={<Template />} />
-        <Route path="/main/profile" element={<Template />} />
-        <Route path="/main/update" element={<Template />} />
 
-        <Route path="/main/profile/:nameID" element={<Template />} />
-        <Route path="/main/requests" element={<Template />} />
-        <Route path="/main/active" element={<Template />} />
-        <Route path="/main/history/completed" element={<Template />} />
-        <Route path="/main/history/declined" element={<Template />} />
-        <Route path="/main/history/cancelled" element={<Template />} />
+        <Route path="/main/search" element={<BrowseDonor />} />
+        <Route path="/main/profile" element={<Profile />} />
+        <Route path="/main/update" element={<UpdateProfile />} />
+
+        <Route path="/main/profile/:nameID" element={<Profile />} />
+        <Route path="/main/requests" element={<Requests />} />
+        <Route path="/main/active" element={<Active />} />
+        <Route path="/main/history/completed" element={<HistoryCompleted />} />
+        <Route path="/main/history/declined" element={<HistoryDeclined />} />
+        <Route path="/main/history/cancelled" element={<HistoryCancelled />} />
       </Routes>
     </MainContext.Provider>
   );

@@ -6,7 +6,7 @@ import { MainContext } from '../App.js'
 import MainNavigationBar from '../components/MainNavigationBar';
 import axios  from "axios";
 
-const Main = () => {
+const Profile = () => {
   const contextData = useContext(MainContext);
   const location = useLocation();
   const navigate = useNavigate();
@@ -18,6 +18,7 @@ const Main = () => {
     message: '',
     isError: false
   });
+
 
   useEffect(() => {
     if(!userId){
@@ -62,4 +63,4 @@ const Main = () => {
   );
 }
 
-export default Main;
+export default Profile;
