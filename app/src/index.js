@@ -1,4 +1,5 @@
 import './index.css';
+import 'tw-elements';
 
 import App from './App';
 import { BrowserRouter } from "react-router-dom";

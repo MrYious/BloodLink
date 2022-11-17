@@ -16,6 +16,7 @@
     "react-router-dom": "^6.4.3",
     "react-scripts": "5.0.1",
     "select-philippines-address": "^1.0.6",
+    "tw-elements": "^1.0.0-alpha12",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
