@@ -10,6 +10,7 @@ const Main = () => {
   const contextData = useContext(MainContext);
   const location = useLocation();
   const navigate = useNavigate();
+  const userId = localStorage.getItem('userID');
 
   const [alert, setAlert] = useState({
     show: false,
@@ -17,6 +18,12 @@ const Main = () => {
     message: '',
     isError: false
   });
+
+  useEffect(() => {
+    if(userId){
+      navigate("/")
+    }
+  }, [])
 
   useEffect(() => {
     if(location.state){
