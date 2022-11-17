@@ -39,6 +39,7 @@ function App() {
         <Route path="/main/update" element={<UpdateProfile />} />
 
         <Route path="/main/profile/:nameID" element={<Profile />} />
+
         <Route path="/main/requests" element={<Requests />} />
         <Route path="/main/active" element={<Active />} />
         <Route path="/main/history/completed" element={<HistoryCompleted />} />
