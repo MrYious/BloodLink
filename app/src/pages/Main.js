@@ -59,24 +59,25 @@ const Main = () => {
             {/* 1 */}
             <SideBar />
             {/* 2 */}
-            <div className="flex flex-col w-full text-center bg-green-400">
-              Add Content Here
-            </div>
-            {/* 3 */}
-            <div className="flex flex-col bg-green-500 w-[25%] p-5 shrink-0">
-              <div className='flex items-center h-[40vh] border border-black'>
-                Content
+            <div className="flex w-full ">
+              <div className="flex flex-col w-full text-center ">
+                Add Content Here
               </div>
-              <div className='flex items-center h-[40vh] border border-black'>
-                Content
+              <div className="flex flex-col w-[25%] p-5 shrink-0">
+                <div className='flex items-center h-[40vh] border border-black'>
+                  Content
+                </div>
+                <div className='flex items-center h-[40vh] border border-black'>
+                  Content
+                </div>
+                <div className='flex items-center h-[40vh] border border-black'>
+                  Content
+                </div>
+                <div className='flex items-center h-[40vh] border border-black'>
+                  Content
+                </div>
+                {/* <a className="twitter-timeline" href="https://twitter.com/philredcross?ref_src=twsrc%5Etfw">Tweets by philredcross</a> */}
               </div>
-              <div className='flex items-center h-[40vh] border border-black'>
-                Content
-              </div>
-              <div className='flex items-center h-[40vh] border border-black'>
-                Content
-              </div>
-              {/* <a className="twitter-timeline" href="https://twitter.com/philredcross?ref_src=twsrc%5Etfw">Tweets by philredcross</a> */}
             </div>
           </div>
         </div>
