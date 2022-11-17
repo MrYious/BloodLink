@@ -10,9 +10,6 @@ import bcrypt from "bcrypt"
 
 const saltRounds = 10;
 
-// 
-// 
-// 
 export const createNewUser = async (req, res) => {
     try {
         // console.log("BODY: ", req.body.data)
@@ -88,7 +85,7 @@ export const validateUserLogin = async (req, res) => {
         } else if(!(bcrypt.compareSync(req.body.data.password, checkUser.password ))){
             res.status(400).json({ message: "Incorrect Email or Password!" });
         } else {
-            res.status(200).json({ message: "Login Success!" });
+            res.status(200).json({ message: "Login Success!", checkUser });
         }
 
     } catch (error) {

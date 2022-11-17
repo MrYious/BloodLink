@@ -36,12 +36,14 @@ const Login = () => {
       email: email,
       password: password,
     }
-    console.log('DATA | ', data);
+    // console.log('DATA | ', data);
     let endpoint = contextData.link + 'api/login';
-    console.log('ENDPOINT', endpoint);
+    // console.log('ENDPOINT', endpoint);
     axios.post(endpoint, {data})
     .then(function (response) {
       console.log("Login Success", response.data)
+      localStorage.clear();
+      localStorage.setItem('userID', response.data.checkUser.id);
       navigate("/main", {state: {message: response.data.message, isError: false}})
     })
     .catch(function (error) {
