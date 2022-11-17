@@ -6,7 +6,8 @@ import { useEffect, useState } from 'react';
 const NavigationBar = () => {
   let location = useLocation();
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  var userId = localStorage.getItem('userID');
+  const [isLoggedIn, setIsLoggedIn] = useState(userId ? true : false);
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -27,6 +28,8 @@ const NavigationBar = () => {
     // console.log('Value ', width, ' | ' , height / 10);
 
     // console.log('Location', location);
+    userId = localStorage.getItem('userID');
+    setIsLoggedIn(userId ? true : false);
   }, [location])
 
   return (
@@ -64,6 +67,12 @@ const NavigationBar = () => {
         <Link to="/#contact" onClick={()=>{setIsOpen(!isOpen)}} className='flex items-center gap-1 px-3 py-1 text-2xl cursor-pointer hover:border-red-700 hover:border-b-2'>Contact</Link>
         <Link to="/#about" onClick={()=>{setIsOpen(!isOpen)}} className='flex items-center gap-1 px-3 py-1 text-2xl cursor-pointer hover:border-red-700 hover:border-b-2'>About</Link>
         {
+          isLoggedIn
+          ?
+            <Link to={'/main'} className='px-4 py-2 mx-2 text-3xl text-white bg-red-800 rounded-md shadow-sm shadow-black hover:bg-red-900'>
+              Main
+            </Link>
+          :
           location.pathname !== '/login'
           ?
             <Link to={'/login'} className='px-4 py-2 mx-2 text-3xl text-white bg-red-800 rounded-md shadow-sm shadow-black hover:bg-red-900'>
@@ -92,6 +101,12 @@ const NavigationBar = () => {
           <Link to="/#contact" className='flex items-center gap-1 px-3 py-1 cursor-pointer hover:border-red-700 hover:border-b-2'>Contact</Link>
           <Link to="/#about" className='flex items-center gap-1 px-3 py-1 cursor-pointer hover:border-red-700 hover:border-b-2'>About</Link>
           {
+            isLoggedIn
+            ?
+              <Link to={'/main'} className='px-4 py-2 mx-2 text-xl text-white bg-red-800 rounded-md shadow-sm shadow-black hover:bg-red-900'>
+                Main
+              </Link>
+            :
             location.pathname !== '/login'
             ?
               <Link to={'/login'} className='px-4 py-2 mx-2 text-xl text-white bg-red-800 rounded-md shadow-sm shadow-black hover:bg-red-900'>
