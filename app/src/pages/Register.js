@@ -286,7 +286,7 @@ const Register = () => {
                 <div className="w-[100%] text-xs italic ">
                   This will show on your profile
                 </div>
-                <textarea value={data.personal.bio} onChange={(e)=> {setData({...data, personal: { ...data.personal, bio: e.target.value}})}} maxLength={500} required placeholder="Tell us something about yourself" className="w-full resize-none bg-transparent focus:outline-none p-2 border-[1px] border-gray-900 rounded" rows="6"></textarea>
+                <textarea value={data.personal.bio} onChange={(e)=> {setData({...data, personal: { ...data.personal, bio: e.target.value}})}} maxLength={300} required placeholder="Tell us something about yourself" className="w-full resize-none bg-transparent focus:outline-none p-2 border-[1px] border-gray-900 rounded" rows="6"></textarea>
               </>
             }
             {/* Step 4 */}
