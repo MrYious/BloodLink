@@ -27,6 +27,9 @@ const User = dbConfig.define('user',{
     email:{
         type: DataTypes.STRING
     },
+    status:{
+        type: DataTypes.STRING
+    },
     profilePicture:{
         type: DataTypes.STRING,
     },
