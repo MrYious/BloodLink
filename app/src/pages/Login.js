@@ -36,9 +36,7 @@ const Login = () => {
       email: email,
       password: password,
     }
-    // console.log('DATA | ', data);
     let endpoint = contextData.link + 'api/login';
-    // console.log('ENDPOINT', endpoint);
     axios.post(endpoint, {data})
     .then(function (response) {
       console.log("Login Success", response.data)
