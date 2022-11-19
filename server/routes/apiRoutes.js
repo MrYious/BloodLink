@@ -1,5 +1,6 @@
 import {
     createNewUser,
+    findUserByID,
     validateUserLogin
 } from "../controllers/mainController.js";
 
@@ -10,7 +11,7 @@ const apiRouter = express.Router();
 
 apiRouter.post('/login', validateUserLogin);
 apiRouter.post('/register', createNewUser)
-// apiRouter.patch('/updateProfile', updateUserProfile);
+apiRouter.post('/getUserByID', findUserByID);
 // apiRouter.get('/donors', getAllDonors);
 // apiRouter.post('/request', createRequest);
 // apiRouter.patch('/request', updateRequest);

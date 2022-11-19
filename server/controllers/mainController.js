@@ -92,3 +92,57 @@ export const validateUserLogin = async (req, res) => {
         res.status(400).json({ message: error.message });
     }
 }
+
+export const findUserByID = async (req, res) => {
+    try {
+        console.log("BODY: ", req.body.data)
+
+        const user = await User.findOne({
+            where: {
+                id: req.body.data.id
+            }
+        });
+
+        const address = await Address.findOne({
+            where: {
+                userID: req.body.data.id
+            }
+        });
+
+        const donorInfo = await DonorInfo.findOne({
+            where: {
+                userID: req.body.data.id
+            }
+        });
+
+        const acceptDonorReq = await DonorRequest.findAll({
+            where: {
+                donorID: req.body.data.id
+            }
+        });
+
+        const seekDonorReq = await DonorRequest.findAll({
+            where: {
+                seekerID: req.body.data.id
+            }
+        });
+
+        const allReviews = await Review.findAll();
+
+        if(!user){
+            res.status(400).json({ message: "Error loading user's profile data!" });
+        } else {
+            res.status(200).json({ message: "Retrieve Success!", userProfile: {
+                user,
+                address,
+                donorInfo,
+                acceptDonorReq,
+                seekDonorReq,
+                allReviews,
+            }});
+        }
+        res.status(200).json({ message: "Success!" });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}
