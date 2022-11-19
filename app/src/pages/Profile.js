@@ -14,6 +14,7 @@ const Profile = () => {
   const navigate = useNavigate();
   const userId = localStorage.getItem('userID');
 
+  const [userProfile, setUserProfile] = useState({});
   const [showModal, setShowModal] = useState(false);
   const [alert, setAlert] = useState({
     show: false,
@@ -24,7 +25,25 @@ const Profile = () => {
 
   useEffect(() => {
     if(!userId){
-      navigate("/")
+      navigate("/");
+    }else{
+      const data = {
+        id: userId,
+      }
+      let endpoint = contextData.link + 'api/getUserByID';
+      axios.post(endpoint, {data})
+      .then(function (response) {
+        // console.log("Load UserProfile Success", response.data);
+        setUserProfile(response.data.userProfile);
+      })
+      .catch(function (error) {
+        console.log(error.response.data.message);
+        setAlert({
+          show: true,
+          header: error.response.data.message,
+          isError: true,
+        });
+      });
     }
   }, [])
 
@@ -58,6 +77,7 @@ const Profile = () => {
             <FaTimes onClick={()=>{setAlert({...alert, show: false})}} className={`-mt-2 -mr-2 text-2xl  ${ alert.isError ? 'text-red-900' : 'text-green-900'}  cursor-pointer`}/>
           </div>
         }
+        {/* MODAL */}
         {showModal && (
         <>
           <div
