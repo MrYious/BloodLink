@@ -23,15 +23,15 @@ const Landing = () => {
       <section id='home' className='flex flex-col w-full min-h-screen bg-cover bg-hero-banner'>
         <NavigationBar />
         <div className='flex flex-col justify-center items-center min-h-[100vh] '>
-          <div className='flex flex-col items-start justify-center gap-5 py-8 -ml-[40%] bg-blue-200 shadow-black shadow-md px-9 bg-opacity-80 backdrop-blur-sm'>
-            <div className='flex flex-col font-bold text-7xl'>
+          <div className='flex flex-col items-start justify-center gap-5 py-8  lg:-ml-[40%] bg-blue-200 shadow-black shadow-md px-9 bg-opacity-80 backdrop-blur-sm'>
+            <div className='flex flex-col text-5xl font-bold md:text-6xl lg:text-7xl'>
               <div className=''>SHARE YOUR</div>
               <div className='text-red-600 '>POWER</div>
             </div>
-            <div className='text-3xl italic'>
+            <div className='text-xl italic lg:text-3xl md:text-2xl'>
               Your <span className='text-red-600'>blood</span> can save <span className='border-b-2 border-blue-800'> lives </span>
             </div>
-            <Link to={'/register'} className='flex items-center px-4 py-2 mb-2 text-xl text-white bg-red-800 rounded-md shadow-sm w-fit shadow-black hover:bg-red-900'>
+            <Link to={'/register'} className='flex items-center px-4 py-2 mb-2 text-white bg-red-800 rounded-md shadow-sm text-md md:text-lg lg:text-xl w-fit shadow-black hover:bg-red-900'>
               <FaAngleRight className="text-md"/>
               Become a DONOR
             </Link>
@@ -118,45 +118,41 @@ const Landing = () => {
                   </div>
                 </div>
               </div>
-              <div className="flex flex-col items-center gap-3 lg:gap-5 lg:items-start">
-                <div className="flex flex-wrap justify-center w-full gap-3 lg:justify-start lg:gap-5">
-                  <div className="flex w-fit">
-                    <div className="flex items-center justify-center p-4 text-3xl text-white bg-red-700 rounded-lg shrink-0">
-                      <FaHeadset />
-                    </div>
-                    <div className="flex flex-col items-start justify-between w-full p-2">
-                      <div className="font-bold">Technical Support</div>
-                      <div className="text-sm">support@bloodlink.com</div>
-                    </div>
+              <div className="flex flex-wrap justify-around w-full gap-3 lg:gap-5">
+                <div className="flex w-[85%] md:w-[48%] ">
+                  <div className="flex items-center justify-center p-4 text-3xl text-white bg-red-700 rounded-lg shrink-0">
+                    <FaHeadset />
                   </div>
-                  <div className="flex w-fit">
-                    <div className="flex items-center justify-center p-4 text-3xl text-white bg-red-700 rounded-lg shrink-0">
-                      <FaLaptopCode />
-                    </div>
-                    <div className="flex flex-col items-start justify-between w-full p-2">
-                      <div className="font-bold">Developer</div>
-                      <div className="text-sm">developers@bloodlink.com</div>
-                    </div>
+                  <div className="flex flex-col items-start justify-between w-full p-2">
+                    <div className="font-bold">Technical Support</div>
+                    <div className="text-sm">support@bloodlink.com</div>
                   </div>
                 </div>
-                <div className="flex flex-wrap justify-center w-full gap-3 lg:justify-start lg:gap-5">
-                  <div className="flex w-fit">
-                    <div className="flex items-center justify-center p-4 text-3xl text-white bg-red-700 rounded-lg shrink-0">
-                      <FaBullhorn />
-                    </div>
-                    <div className="flex flex-col items-start justify-between w-full p-2">
-                      <div className="font-bold">Promotions</div>
-                      <div className="text-sm">promote@bloodlink.com</div>
-                    </div>
+                <div className="flex w-[85%] md:w-[48%] ">
+                  <div className="flex items-center justify-center p-4 text-3xl text-white bg-red-700 rounded-lg shrink-0">
+                    <FaLaptopCode />
                   </div>
-                  <div className="flex w-fit">
-                    <div className="flex items-center justify-center p-4 text-3xl text-white bg-red-700 rounded-lg shrink-0">
-                      <FaBug />
-                    </div>
-                    <div className="flex flex-col items-start justify-between w-full p-2">
-                      <div className="font-bold">Bug Report</div>
-                      <div className="text-sm">report@bloodlink.com</div>
-                    </div>
+                  <div className="flex flex-col items-start justify-between w-full p-2">
+                    <div className="font-bold">Developer</div>
+                    <div className="text-sm">developers@bloodlink.com</div>
+                  </div>
+                </div>
+                <div className="flex w-[85%] md:w-[48%] ">
+                  <div className="flex items-center justify-center p-4 text-3xl text-white bg-red-700 rounded-lg shrink-0">
+                    <FaBullhorn />
+                  </div>
+                  <div className="flex flex-col items-start justify-between w-full p-2">
+                    <div className="font-bold">Promotions</div>
+                    <div className="text-sm">promote@bloodlink.com</div>
+                  </div>
+                </div>
+                <div className="flex w-[85%] md:w-[48%] ">
+                  <div className="flex items-center justify-center p-4 text-3xl text-white bg-red-700 rounded-lg shrink-0">
+                    <FaBug />
+                  </div>
+                  <div className="flex flex-col items-start justify-between w-full p-2">
+                    <div className="font-bold">Bug Report</div>
+                    <div className="text-sm">report@bloodlink.com</div>
                   </div>
                 </div>
               </div>
