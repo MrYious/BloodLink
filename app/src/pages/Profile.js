@@ -1,4 +1,4 @@
-import { FaAngleLeft, FaAngleRight, FaFacebookSquare, FaInstagramSquare, FaQuoteLeft, FaStar, FaTimes, FaTwitterSquare } from 'react-icons/fa';
+import { FaAngleLeft, FaAngleRight, FaFacebookSquare, FaInstagramSquare, FaQuoteLeft, FaRegStar, FaStar, FaTimes, FaTwitterSquare } from 'react-icons/fa';
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 
@@ -7,6 +7,7 @@ import MainNavigationBar from '../components/MainNavigationBar';
 import SideBar from '../components/SideBar.js';
 import axios  from "axios";
 import profilepic from '../assets/images/profilepic.jpg'
+import sample from '../assets/images/sample.jpg'
 
 const Profile = () => {
   // USE THIS PAGE ON OTHER PERSON'S PROFILE
@@ -149,15 +150,44 @@ const Profile = () => {
                 {/*header*/}
                 <div className="flex items-start justify-between p-5 border-b border-solid rounded-t border-slate-200">
                   <h3 className="text-xl font-semibold">
-                    Modal Title
+                    Donor Review
                   </h3>
                   <FaTimes onClick={() => setShowModal(false)} className='text-xl cursor-pointer ' />
                 </div>
                 {/*body*/}
-                <div className="flex flex-col p-6 text-sm">
-                  <p className="leading-relaxed text-slate-500">
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Beatae minima sed nemo assumenda veritatis, sit quaerat consectetur. At, dolores. Facilis quidem aperiam unde quod nesciunt ullam, amet adipisci est quae quo libero! Aspernatur ut nisi quidem vero culpa facere inventore vitae eligendi provident? Quasi, cupiditate, magnam, numquam labore tenetur quo iure deleniti amet veniam inventore consequatur accusamus veritatis nam adipisci? Provident, ex ducimus ab, consequuntur sit, nihil perspiciatis veritatis voluptates laborum asperiores dolorum. Placeat nam eum quidem quos sed perferendis dolor illum a! Reprehenderit perferendis, at facilis suscipit ipsam commodi porro similique eaque a doloremque earum. Eius atque ab fuga!
-                  </p>
+                <div className="flex flex-col p-6 text-sm md:flex-row ">
+                  {/* 1 */}
+                  <div className='flex w-full md:w-[70%] shrink-0'>
+                    <div className='flex items-center justify-center p-5 text-2xl'>
+                      <FaQuoteLeft />
+                    </div>
+                    <div className='flex flex-col gap-2'>
+                      <div className='flex gap-2 text-lg cursor-pointer hover:underline' >
+                        {modalContent.seeker.name}
+                      </div>
+                      <div className='flex text-2xl'>
+                        {
+                          [...Array(modalContent.rating)].map((e, i) => <FaStar key={i} />)
+                        }
+                        {
+                          [...Array(5 - modalContent.rating)].map((e, i) => <FaRegStar key={i} />)
+                        }
+                      </div>
+                      <div className="leading-relaxed text-slate-500">
+                        {/* {modalContent.comment} */}
+                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis p
+                      </div>
+                      <div className='italic'>
+                        {modalContent.date}
+                      </div>
+                    </div>
+                  </div>
+                  {/* 2 */}
+                  <div className=' w-full md:w-[30%] h-44 p-3 select-none'>
+                    <div className='flex items-center justify-center w-full h-full border border-black rounded'>
+                      <img src={sample} className="w-full" alt="sample image" />
+                    </div>
+                  </div>
                 </div>
                 {/*footer*/}
                 <div className="flex items-center justify-end p-6 border-t border-solid rounded-b border-slate-200">
@@ -377,6 +407,9 @@ const Profile = () => {
                         {
                           [...Array(userProfile.donorInfo.avgRating)].map((e, i) => <FaStar key={i} />)
                         }
+                        {
+                          [...Array(5 - userProfile.donorInfo.avgRating)].map((e, i) => <FaRegStar key={i} />)
+                        }
                       </div>
                     </div>
                     <div className='flex justify-between text-xs'>
@@ -419,63 +452,126 @@ const Profile = () => {
                     No Records
                   </div> */}
                   <div className='flex flex-wrap justify-around gap-5 text-sm'>
-                    {/* 1 */}
                     <div onClick={()=>{handleOpenReview(1)}} className='flex w-[100%] md:w-[48%] gap-2 p-2 border border-black rounded cursor-pointer shrink-0 hover:bg-gray-200'>
                       <div className='flex items-center justify-center p-2 text-2xl'>
                         <FaQuoteLeft />
                       </div>
                       <div className='flex flex-col gap-2'>
                         <div className='text-sm italic text-justify'>
-                          Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean m
+                          Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis p
                         </div>
                         <div className='flex gap-1'>
-                          <FaStar />
-                          <FaStar />
-                          <FaStar />
-                          <FaStar />
-                          <FaStar />
+                          {
+                            [...Array(3)].map((e, i) => <FaStar key={i} />)
+                          }
+                          {
+                            [...Array(5 - 3)].map((e, i) => <FaRegStar key={i} />)
+                          }
                         </div>
                         <div className='text-xs'>
                           Mark Edison Rosario
                         </div>
                       </div>
                     </div>
-                    {/* 2 */}
                     <div onClick={()=>{handleOpenReview(1)}} className='flex w-[100%] md:w-[48%] gap-2 p-2 border border-black rounded cursor-pointer shrink-0 hover:bg-gray-200'>
                       <div className='flex items-center justify-center p-2 text-2xl'>
                         <FaQuoteLeft />
                       </div>
                       <div className='flex flex-col gap-2'>
                         <div className='text-sm italic text-justify'>
-                          Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean m
+                          Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis p
                         </div>
                         <div className='flex gap-1'>
-                          <FaStar />
-                          <FaStar />
-                          <FaStar />
-                          <FaStar />
-                          <FaStar />
+                          {
+                            [...Array(3)].map((e, i) => <FaStar key={i} />)
+                          }
+                          {
+                            [...Array(5 - 3)].map((e, i) => <FaRegStar key={i} />)
+                          }
                         </div>
                         <div className='text-xs'>
                           Mark Edison Rosario
                         </div>
                       </div>
                     </div>
-                    {/* 3 */}
                     <div onClick={()=>{handleOpenReview(1)}} className='flex w-[100%] md:w-[48%] gap-2 p-2 border border-black rounded cursor-pointer shrink-0 hover:bg-gray-200'>
                       <div className='flex items-center justify-center p-2 text-2xl'>
                         <FaQuoteLeft />
                       </div>
                       <div className='flex flex-col gap-2'>
                         <div className='text-sm italic text-justify'>
-                          Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean m
+                          Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis p
                         </div>
                         <div className='flex gap-1'>
-                          <FaStar />
-                          <FaStar />
-                          <FaStar />
-                          <FaStar />
-                          <FaStar />
+                          {
+                            [...Array(3)].map((e, i) => <FaStar key={i} />)
+                          }
+                          {
+                            [...Array(5 - 3)].map((e, i) => <FaRegStar key={i} />)
+                          }
+                        </div>
+                        <div className='text-xs'>
+                          Mark Edison Rosario
+                        </div>
+                      </div>
+                    </div>
+                    <div onClick={()=>{handleOpenReview(1)}} className='flex w-[100%] md:w-[48%] gap-2 p-2 border border-black rounded cursor-pointer shrink-0 hover:bg-gray-200'>
+                      <div className='flex items-center justify-center p-2 text-2xl'>
+                        <FaQuoteLeft />
+                      </div>
+                      <div className='flex flex-col gap-2'>
+                        <div className='text-sm italic text-justify'>
+                          Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis p
+                        </div>
+                        <div className='flex gap-1'>
+                          {
+                            [...Array(3)].map((e, i) => <FaStar key={i} />)
+                          }
+                          {
+                            [...Array(5 - 3)].map((e, i) => <FaRegStar key={i} />)
+                          }
+                        </div>
+                        <div className='text-xs'>
+                          Mark Edison Rosario
+                        </div>
+                      </div>
+                    </div>
+                    <div onClick={()=>{handleOpenReview(1)}} className='flex w-[100%] md:w-[48%] gap-2 p-2 border border-black rounded cursor-pointer shrink-0 hover:bg-gray-200'>
+                      <div className='flex items-center justify-center p-2 text-2xl'>
+                        <FaQuoteLeft />
+                      </div>
+                      <div className='flex flex-col gap-2'>
+                        <div className='text-sm italic text-justify'>
+                          Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis p
+                        </div>
+                        <div className='flex gap-1'>
+                          {
+                            [...Array(3)].map((e, i) => <FaStar key={i} />)
+                          }
+                          {
+                            [...Array(5 - 3)].map((e, i) => <FaRegStar key={i} />)
+                          }
+                        </div>
+                        <div className='text-xs'>
+                          Mark Edison Rosario
+                        </div>
+                      </div>
+                    </div>
+                    <div onClick={()=>{handleOpenReview(1)}} className='flex w-[100%] md:w-[48%] gap-2 p-2 border border-black rounded cursor-pointer shrink-0 hover:bg-gray-200'>
+                      <div className='flex items-center justify-center p-2 text-2xl'>
+                        <FaQuoteLeft />
+                      </div>
+                      <div className='flex flex-col gap-2'>
+                        <div className='text-sm italic text-justify'>
+                          Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis p
+                        </div>
+                        <div className='flex gap-1'>
+                          {
+                            [...Array(3)].map((e, i) => <FaStar key={i} />)
+                          }
+                          {
+                            [...Array(5 - 3)].map((e, i) => <FaRegStar key={i} />)
+                          }
                         </div>
                         <div className='text-xs'>
                           Mark Edison Rosario
