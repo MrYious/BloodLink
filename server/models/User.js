@@ -42,6 +42,15 @@ const User = dbConfig.define('user',{
     shortBio:{
         type: DataTypes.STRING(500)
     },
+    linkFB:{
+        type: DataTypes.STRING
+    },
+    linkFB:{
+        type: DataTypes.STRING
+    },
+    linkFB:{
+        type: DataTypes.STRING
+    },
 },{
     freezeTableName: true
 });
