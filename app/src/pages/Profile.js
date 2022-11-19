@@ -420,7 +420,7 @@ const Profile = () => {
                   </div> */}
                   <div className='flex flex-wrap justify-around gap-5 text-sm'>
                     {/* 1 */}
-                    <div onClick={()=>{handleOpenReview(1)}} className='flex w-[48%] gap-2 p-2 border border-black rounded cursor-pointer shrink-0 hover:bg-gray-200'>
+                    <div onClick={()=>{handleOpenReview(1)}} className='flex w-[100%] md:w-[48%] gap-2 p-2 border border-black rounded cursor-pointer shrink-0 hover:bg-gray-200'>
                       <div className='flex items-center justify-center p-2 text-2xl'>
                         <FaQuoteLeft />
                       </div>
@@ -441,7 +441,7 @@ const Profile = () => {
                       </div>
                     </div>
                     {/* 2 */}
-                    <div onClick={()=>{handleOpenReview(1)}} className='flex w-[48%] gap-2 p-2 border border-black rounded cursor-pointer shrink-0 hover:bg-gray-200'>
+                    <div onClick={()=>{handleOpenReview(1)}} className='flex w-[100%] md:w-[48%] gap-2 p-2 border border-black rounded cursor-pointer shrink-0 hover:bg-gray-200'>
                       <div className='flex items-center justify-center p-2 text-2xl'>
                         <FaQuoteLeft />
                       </div>
@@ -462,7 +462,7 @@ const Profile = () => {
                       </div>
                     </div>
                     {/* 3 */}
-                    <div onClick={()=>{handleOpenReview(1)}} className='flex w-[48%] gap-2 p-2 border border-black rounded cursor-pointer shrink-0 hover:bg-gray-200'>
+                    <div onClick={()=>{handleOpenReview(1)}} className='flex w-[100%] md:w-[48%] gap-2 p-2 border border-black rounded cursor-pointer shrink-0 hover:bg-gray-200'>
                       <div className='flex items-center justify-center p-2 text-2xl'>
                         <FaQuoteLeft />
                       </div>
