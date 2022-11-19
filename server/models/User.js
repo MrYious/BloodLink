@@ -45,10 +45,10 @@ const User = dbConfig.define('user',{
     linkFB:{
         type: DataTypes.STRING
     },
-    linkFB:{
+    linkIG:{
         type: DataTypes.STRING
     },
-    linkFB:{
+    linkTW:{
         type: DataTypes.STRING
     },
 },{
