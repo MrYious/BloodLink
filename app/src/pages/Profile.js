@@ -9,12 +9,71 @@ import axios  from "axios";
 import profilepic from '../assets/images/profilepic.jpg'
 
 const Profile = () => {
+  // USE THIS PAGE ON OTHER PERSON'S PROFILE
+  // TODO: MAP REVIEWS, LINK MODALS AND OTHER PERSON's PROFILE
   const contextData = useContext(MainContext);
   const location = useLocation();
   const navigate = useNavigate();
   const userId = localStorage.getItem('userID');
 
-  const [userProfile, setUserProfile] = useState({});
+  const [isOtherUser, setIsOtherUser] = useState(false);
+  const [userProfile, setUserProfile] = useState({
+    user: {
+      id: 1,
+      firstname: "",
+      lastname: "",
+      middlename: "",
+      gender: "",
+      age: 0,
+      mobileNumber: "",
+      email: "",
+      status: "",
+      profilePicture: null,
+      bloodGroup: "",
+      shortBio: "",
+      linkFB: null,
+      linkIG: null,
+      linkTW: null,
+      createdAt: "",
+    },
+    address: {
+      region: "",
+      province: "",
+      city: "",
+      barangay: "",
+      addressLine1: "",
+      addressLine2: "",
+    },
+    donorInfo: {
+      avgRating: 0,
+      totalDonations: 0,
+      healthStatus: "",
+      healthConditions: "",
+      lastDonation: "",
+    },
+    acceptDonorReq: {
+
+    },
+    allReviews: {
+
+    }
+  });
+
+  const [modalContent, setModalContent] = useState({
+    donor: {
+      id: '',
+      name: 'Mark Edison Rosario',
+    },
+    seeker: {
+      id: '',
+      name: 'Tessia Eralith',
+    },
+    date: '2022-11-11',
+    comment: 'He is very helpful, a good person.',
+    rating: 4,
+    image: '',
+  })
+
   const [showModal, setShowModal] = useState(false);
   const [alert, setAlert] = useState({
     show: false,
@@ -34,6 +93,7 @@ const Profile = () => {
       axios.post(endpoint, {data})
       .then(function (response) {
         // console.log("Load UserProfile Success", response.data);
+        // console.log(JSON.stringify(response.data.userProfile));
         setUserProfile(response.data.userProfile);
       })
       .catch(function (error) {
@@ -134,36 +194,47 @@ const Profile = () => {
                 {/* 1 */}
                 <div className="flex flex-col w-full gap-5 lg:gap-14 lg:flex-row">
                   <div className="bg-black w-60 h-60 shrink-0">
-                    <img src={profilepic} className='w-full ' alt="profilepicture" />
+                    <img src={userProfile.user.profilePicture ? userProfile.user.profilePicture : profilepic} className='w-full ' alt="profilepicture" />
                   </div>
                   <div className="flex flex-col justify-around w-full h-full gap-6 lg:gap-3">
                     <div className="flex flex-col gap-2 text-4xl">
-                      {'Mark Edison Rosario'}
+                      {userProfile.user.firstname + ' ' + userProfile.user.lastname}
                       <div className='text-xs italic'>
-                        Registered since <span className='underline '>09/20/2011</span>
+                        Registered since <span className='underline '>{userProfile.user.createdAt}</span>
                       </div>
                     </div>
                     <div className="flex gap-3 text-sm font-bold">
                       <div className="text-gray-600">
                         STATUS:
                       </div>
-                      <div className='text-green-400'>
-                        ACTIVE
-                      </div>
+                      {
+                        userProfile.user.status === 'Active'
+                        ?
+                          <div className='text-green-400'>
+                            ACTIVE
+                          </div>
+                        :
+                          <div className='text-red-400'>
+                            INACTIVE
+                          </div>
+                      }
                     </div>
                     <div className="flex flex-col gap-3">
                       <div className="text-sm font-bold text-gray-600">
                         SOCIAL MEDIA
                       </div>
                       <div className="flex gap-4 text-4xl ">
-                        <FaFacebookSquare className='cursor-pointer hover:text-red-800'/>
+                        <FaFacebookSquare  className='cursor-pointer hover:text-red-800'/>
                         <FaInstagramSquare className='cursor-pointer hover:text-red-800'/>
                         <FaTwitterSquare className='cursor-pointer hover:text-red-800'/>
                       </div>
                     </div>
-                    <div>
-                      <Link to={'/main/update'} className='py-1 text-xs bg-red-300 border border-red-500 rounded-full px-7 hover:bg-red-500'>Edit Profile</Link>
-                    </div>
+                    {
+                      isOtherUser &&
+                      <div>
+                        <Link to={'/main/update'} className='py-1 text-xs bg-red-300 border border-red-500 rounded-full px-7 hover:bg-red-500'>Edit Profile</Link>
+                      </div>
+                    }
                   </div>
                 </div>
                 {/* 2 */}
@@ -178,7 +249,7 @@ const Profile = () => {
                         Full Name
                       </div>
                       <div>
-                        Mark Edison Rosario
+                        {userProfile.user.firstname + ' ' + userProfile.user.middlename + ' ' + userProfile.user.lastname}
                       </div>
                     </div>
                     <div className='flex justify-between text-xs'>
@@ -186,7 +257,7 @@ const Profile = () => {
                         Gender
                       </div>
                       <div>
-                        Male
+                        {userProfile.user.gender}
                       </div>
                     </div>
                     <div className='flex justify-between text-xs'>
@@ -194,7 +265,7 @@ const Profile = () => {
                         Age
                       </div>
                       <div>
-                        21
+                        {userProfile.user.age}
                       </div>
                     </div>
                     <div className='flex justify-between text-xs'>
@@ -202,7 +273,7 @@ const Profile = () => {
                         Contact No.
                       </div>
                       <div>
-                        09322831560
+                        {userProfile.user.mobileNumber}
                       </div>
                     </div>
                     <div className='flex justify-between text-xs'>
@@ -210,7 +281,7 @@ const Profile = () => {
                         Email
                       </div>
                       <div>
-                        rosariomark37@gmail.com
+                        {userProfile.user.email}
                       </div>
                     </div>
                   </div>
@@ -224,7 +295,7 @@ const Profile = () => {
                         Region
                       </div>
                       <div>
-                        4A Calabarzon
+                        {userProfile.address.region}
                       </div>
                     </div>
                     <div className='flex justify-between text-xs'>
@@ -232,7 +303,7 @@ const Profile = () => {
                         Province
                       </div>
                       <div>
-                        Laguna
+                        {userProfile.address.province}
                       </div>
                     </div>
                     <div className='flex justify-between text-xs'>
@@ -240,7 +311,7 @@ const Profile = () => {
                         City
                       </div>
                       <div>
-                        San Pedro
+                        {userProfile.address.city}
                       </div>
                     </div>
                     <div className='flex justify-between text-xs'>
@@ -248,7 +319,7 @@ const Profile = () => {
                         Barangay
                       </div>
                       <div>
-                        Estrella
+                        {userProfile.address.barangay}
                       </div>
                     </div>
                     <div className='flex justify-between text-xs'>
@@ -257,10 +328,10 @@ const Profile = () => {
                       </div>
                       <div className='text-right'>
                         <div>
-                          B9 L19 P2 Villa Rosa Subv, Brgy Estrella
+                          {userProfile.address.addressLine1}
                         </div>
                         <div>
-                          Estrella, City Of San Pedro, Laguna, Region IV-A (CALABARZON)
+                          {userProfile.address.addressLine2}
                         </div>
                       </div>
                     </div>
@@ -274,7 +345,7 @@ const Profile = () => {
                       <div className='w-full border border-gray-500'></div>
                     </div>
                     <div className='text-sm text-justify'>
-                      Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec.
+                      {userProfile.user.shortBio}
                     </div>
                   </div>
                   <div className="flex flex-col w-full gap-5 ">
@@ -287,7 +358,7 @@ const Profile = () => {
                         Blood Group
                       </div>
                       <div>
-                        O+
+                        {userProfile.user.bloodGroup}
                       </div>
                     </div>
                     <div className='flex justify-between text-xs'>
@@ -295,7 +366,7 @@ const Profile = () => {
                         Donations
                       </div>
                       <div>
-                        0
+                        {userProfile.donorInfo.totalDonations}
                       </div>
                     </div>
                     <div className='flex justify-between text-xs'>
@@ -303,11 +374,9 @@ const Profile = () => {
                         Rating
                       </div>
                       <div className='flex gap-1'>
-                        <FaStar />
-                        <FaStar />
-                        <FaStar />
-                        <FaStar />
-                        <FaStar />
+                        {
+                          [...Array(userProfile.donorInfo.avgRating)].map((e, i) => <FaStar key={i} />)
+                        }
                       </div>
                     </div>
                     <div className='flex justify-between text-xs'>
@@ -315,7 +384,7 @@ const Profile = () => {
                         Health Status
                       </div>
                       <div>
-                        Healthy
+                        {userProfile.donorInfo.healthStatus}
                       </div>
                     </div>
                     <div className='flex justify-between text-xs'>
@@ -323,7 +392,7 @@ const Profile = () => {
                         Last Donation
                       </div>
                       <div>
-                        09-30-2001
+                        {userProfile.donorInfo.lastDonation ? userProfile.donorInfo.lastDonation : 'Not set'}
                       </div>
                     </div>
                     <div className='flex justify-between text-xs'>
@@ -331,7 +400,7 @@ const Profile = () => {
                         Health Conditions
                       </div>
                       <div className='text-right'>
-                        None
+                        {userProfile.donorInfo.healthConditions ? userProfile.donorInfo.healthConditions : 'N/A'}
                       </div>
                     </div>
                   </div>
