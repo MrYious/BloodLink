@@ -59,7 +59,7 @@ const Main = () => {
             {/* 1 */}
             <SideBar />
             {/* 2 */}
-            <div className="flex w-full bg-green-300">
+            <div className="flex w-full bg-gray-100">
               <div className="flex flex-col w-full text-center">
                 Add Content Here
               </div>
