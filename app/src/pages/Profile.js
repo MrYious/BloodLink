@@ -218,8 +218,8 @@ const Profile = () => {
           {/* 1 */}
           <SideBar />
           {/* 2 */}
-          <div className="flex flex-col items-center w-full bg-gray-200">
-            <div className="flex flex-col p-10 w-[100%] md:w-[85%] lg:w-[65%] gap-8 bg-gray-100 shadow-white">
+          <div className="flex flex-col items-center w-full bg-gray-100">
+            <div className="flex flex-col p-10 w-[100%] md:w-[85%] lg:w-[65%] gap-8 bg-gray-50 drop-shadow-xl shadow-white">
               {/* 1 */}
               <div className="flex flex-col w-full gap-5 lg:gap-14 lg:flex-row">
                 <div className="bg-black w-60 h-60 shrink-0">
