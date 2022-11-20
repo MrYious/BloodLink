@@ -29,7 +29,7 @@ const SideBar = () => {
                     }
                 </Link>
                 <Link to={'/main/requests'} className="flex items-center h-12 gap-2 rounded cursor-pointer hover:bg-gray-300">
-                    <div className='flex items-center justify-center h-full w-14 shrink-0'>
+                    <div className='flex items-center justify-center h-full text-gray-700 w-14 shrink-0'>
                         <FaPlus className='text-xl'/>
                     </div>
                     {
@@ -40,7 +40,7 @@ const SideBar = () => {
                     }
                 </Link>
                 <Link to={'/main/active'} className="flex items-center h-12 gap-2 rounded cursor-pointer hover:bg-gray-300">
-                    <div className='flex items-center justify-center h-full w-14 shrink-0'>
+                    <div className='flex items-center justify-center h-full text-gray-700 w-14 shrink-0'>
                         <FaInbox className='text-xl'/>
                     </div>
                     {
@@ -51,7 +51,7 @@ const SideBar = () => {
                     }
                 </Link>
                 <Link to={'/main/history/completed'} className="flex items-center h-12 gap-2 rounded cursor-pointer hover:bg-gray-300">
-                    <div className='flex items-center justify-center h-full w-14 shrink-0'>
+                    <div className='flex items-center justify-center h-full text-gray-700 w-14 shrink-0'>
                         <FaClock className='text-xl'/>
                     </div>
                     {
@@ -62,7 +62,7 @@ const SideBar = () => {
                     }
                 </Link>
                 <Link to={'/main/history/cancelled'} className="flex items-center h-12 gap-2 rounded cursor-pointer hover:bg-gray-300">
-                    <div className='flex items-center justify-center h-full w-14 shrink-0'>
+                    <div className='flex items-center justify-center h-full text-gray-700 w-14 shrink-0'>
                         <FaWindowClose className='text-xl'/>
                     </div>
                     {
@@ -73,8 +73,8 @@ const SideBar = () => {
                     }
                 </Link>
                 <Link to={'/main/history/declined'} className="flex items-center h-12 gap-2 rounded cursor-pointer hover:bg-gray-300">
-                    <div className='flex items-center justify-center h-full w-14 shrink-0'>
-                        <FaWindowClose className='text-xl'/>
+                    <div className='flex items-center justify-center h-full text-gray-700 w-14 shrink-0'>
+                        <FaWindowClose className='text-xl '/>
                     </div>
                     {
                         isOpen &&
