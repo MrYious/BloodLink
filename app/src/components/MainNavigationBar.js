@@ -1,4 +1,4 @@
-import { FaBars, FaHome, FaSearch, FaTimes } from 'react-icons/fa';
+import { FaHome, FaRegCaretSquareDown, FaSearch, FaSortDown } from 'react-icons/fa';
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from 'react';
 
@@ -48,6 +48,7 @@ const MainNavigationBar = () => {
           <div className="relative flex flex-col gap-5 dropdown">
             <a href="#" className="transition duration-150 ease-in-out dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
               <img className='w-12 border border-black rounded-full shadow cursor-pointer shadow-black'  src={profilepic} alt="profilepic" />
+              <FaSortDown className='absolute bottom-0 right-0 text-xl'/>
             </a>
             {/* LINKS */}
             <ul className="absolute hidden float-left py-2 text-base text-left list-none bg-gray-200 border-none rounded-lg shadow-sm dropdown-menu min-w-max shadow-black bg-clip-padding" aria-labelledby="dropdownMenuButton2">
