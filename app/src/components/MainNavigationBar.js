@@ -24,7 +24,7 @@ const MainNavigationBar = () => {
   return (
     <>
       {/* HORIZONTAL NAVIGATION BAR */}
-      <section className='select-none flex items-end justify-start w-full h-[10vh] z-[2] bg-blue-100 bg-opacity-70 shadow-sm backdrop-blur-md shadow-black fixed ' >
+      <section className='select-none flex items-end justify-start w-full h-[10vh] z-[2] bg-blue-100 bg-opacity-70 shadow-sm backdrop-blur-md shadow-gray-400 fixed ' >
         {/* LEFT */}
         <Link to={'/main'} className='text-[30px] md:text-[40px] pl-4 md:px-4 h-full flex items-center shrink-0 leading-tight'>
           <span className='text-red-700'>

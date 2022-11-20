@@ -86,7 +86,7 @@ const NavigationBar = () => {
       </div>
 
       {/* HORIZONTAL NAVIGATION BAR */}
-      <section className='hidden select-none md:flex items-end justify-start w-full h-[10vh] z-[2] bg-blue-100 bg-opacity-70 shadow-sm backdrop-blur-md shadow-black fixed ' >
+      <section className='hidden select-none md:flex items-end justify-start w-full h-[10vh] z-[2] bg-blue-100 bg-opacity-70 shadow-sm backdrop-blur-md shadow-gray-600 fixed ' >
         <Link to={'/'} className='text-[40px] px-4 h-full flex items-center shrink-0 leading-tight'>
           <span className='text-red-700'>
             Blood
