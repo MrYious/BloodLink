@@ -21,69 +21,28 @@ const UpdateProfile = () => {
   const navigate = useNavigate();
   const userId = localStorage.getItem('userID');
 
-  const [tab, setTab] = useState(1)
-  const [userProfile, setUserProfile] = useState({
-    user: {
-      id: 1,
-      firstname: "",
-      lastname: "",
-      middlename: "",
-      gender: "",
-      age: 0,
-      mobileNumber: "",
-      email: "",
-      status: "",
-      profilePicture: null,
-      bloodGroup: "",
-      shortBio: "",
-      linkFB: null,
-      linkIG: null,
-      linkTW: null,
-      createdAt: "",
-    },
-    address: {
-      region: "",
-      province: "",
-      city: "",
-      barangay: "",
-      addressLine1: "",
-      addressLine2: "",
-    },
-    donorInfo: {
-      avgRating: 0,
-      totalDonations: 0,
-      healthStatus: "",
-      healthConditions: "",
-      lastDonation: "",
-    },
-    acceptDonorReq: {
-
-    },
-    allReviews: {
-
-    }
-  });
+  const [tab, setTab] = useState(1);
 
   const [tabAccount, setTabAccount] = useState({
     status: 'Active',
   })
   const [tabPersonal, setTabPersonal] = useState({
-    firstName: 'Mark Edison',
-    middleName: 'Perez',
-    lastName: 'Rosario',
-    gender: 'Active',
-    age: 21,
-    contact: '09322831860',
-    email: 'rosariomark37@gmail.com',
-    bio: 'Sample Bio',
+    firstName: '',
+    middleName: '',
+    lastName: '',
+    gender: '',
+    age: 0,
+    contact: '',
+    email: '',
+    bio: '',
   })
   const [tabAddress, setTabAddress] = useState({
-    region: 'Active',
-    province: 'Active',
-    city: 'Active',
-    barangay: 'Active',
-    line1: 'Active',
-    line2: 'Active',
+    region: '',
+    province: '',
+    city: '',
+    barangay: '',
+    line1: '',
+    line2: '',
   })
   const [tabSocial, setTabSocial] = useState({
     facebook: '',
@@ -91,8 +50,8 @@ const UpdateProfile = () => {
     twitter: '',
   })
   const [tabHealth, setTabHealth] = useState({
-    bloodGroup: 'O+',
-    status: 'Normal',
+    bloodGroup: '',
+    status: '',
     conditions: '',
   })
 
@@ -122,12 +81,91 @@ const UpdateProfile = () => {
       let endpoint = contextData.link + 'api/getUserByID';
       axios.post(endpoint, {data})
       .then(function (response) {
-        // console.log("Load UserProfile Success", response.data);
+        console.log("Load UserProfile Success", response.data.userProfile);
+        var result = response.data.userProfile;
         // console.log(JSON.stringify(response.data.userProfile));
-        setUserProfile(response.data.userProfile);
+
+        setTabAccount({
+          ...tabAccount,
+          status: result.user.status,
+        })
+
+        setTabPersonal({
+          ...tabPersonal,
+          firstName: result.user.firstname,
+          middleName: result.user.middlename,
+          lastName: result.user.lastname,
+          gender: result.user.gender,
+          age: result.user.age,
+          contact: result.user.mobileNumber,
+          email: result.user.email,
+          bio: result.user.shortBio,
+        })
+
+        setTabSocial({
+          ...tabSocial,
+          facebook: result.user.linkFB ? result.user.linkFB : '',
+          instagram: result.user.linkFB ? result.user.linkFB : '',
+          twitter: result.user.linkFB ? result.user.linkFB : '',
+        })
+
+        setTabHealth({
+          ...tabHealth,
+          bloodGroup: result.user.bloodGroup,
+          status: result.donorInfo.healthStatus,
+          conditions: result.donorInfo.healthConditions ? result.donorInfo.healthConditions : '',
+        })
+
         regions().then((region) => {
-          // console.log(region);
-          setRegionData(region);
+          var regions = region;
+          // setRegionData(region);
+
+          console.log(region);
+          let selectedRegion = regions.find((data) => data.region_name === result.address.region)
+          console.log('Selected Region Data: ', selectedRegion);
+          console.log(selectedRegion,  result.address.region);
+
+          provinces(selectedRegion.region_code).then((province) => {
+            var provinces = province;
+            // setProvinceData(province);
+
+            console.log(province);
+            let selectedProvince = provinces.find((data) => data.province_name === result.address.province)
+            console.log('Selected Province Data: ', selectedProvince);
+
+            cities(selectedProvince.province_code).then((city) => {
+              var cities = city;
+              // setCityData(city);
+
+              console.log(city);
+              let selectedCity = cities.find((data) => data.city_name === result.address.city)
+              console.log('Selected City Data: ', selectedCity);
+
+              barangays(selectedCity.city_code).then((barangay) => {
+                var barangays = barangay;
+                // setBarangayData(barangay);
+
+                console.log(barangay);
+                let selectedBarangay = barangays.find((data) => data.brgy_name === result.address.barangay)
+                console.log('Selected Barangay Data: ', selectedBarangay);
+
+                setRegionData(regions);
+                setProvinceData(provinces);
+                setCityData(cities);
+                setBarangayData(barangays);
+
+                setTabAddress({
+                  ...tabAddress,
+                  region: result.address.region,
+                  province: result.address.province,
+                  city: result.address.city,
+                  barangay: result.address.barangay,
+                  line1: result.address.addressLine1,
+                  line2: result.address.addressLine2,
+                })
+              });
+            });
+          });
         });
       })
       .catch(function (error) {
@@ -168,7 +206,6 @@ const UpdateProfile = () => {
     setTabAddress({...tabAddress, province: e.target.value, city: '', barangay: ''})
     setBarangayData([]);
 
-    // Get Provinces
     cities(selectedData.province_code).then((city) => {
       console.log(city);
       setCityData(city);
