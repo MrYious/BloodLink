@@ -12,7 +12,6 @@ import { MainContext } from '../App.js'
 import MainNavigationBar from '../components/MainNavigationBar';
 import SideBar from '../components/SideBar.js';
 import axios  from "axios";
-import e from "cors";
 import profilepic from '../assets/images/profilepic.jpg'
 
 const UpdateProfile = () => {
@@ -26,6 +25,7 @@ const UpdateProfile = () => {
   const [tabAccount, setTabAccount] = useState({
     status: 'Active',
   })
+
   const [tabPersonal, setTabPersonal] = useState({
     firstName: '',
     middleName: '',
@@ -36,6 +36,7 @@ const UpdateProfile = () => {
     email: '',
     bio: '',
   })
+
   const [tabAddress, setTabAddress] = useState({
     region: '',
     province: '',
@@ -44,11 +45,13 @@ const UpdateProfile = () => {
     line1: '',
     line2: '',
   })
+
   const [tabSocial, setTabSocial] = useState({
     facebook: '',
     instagram: '',
     twitter: '',
   })
+
   const [tabHealth, setTabHealth] = useState({
     bloodGroup: '',
     status: '',
@@ -75,109 +78,117 @@ const UpdateProfile = () => {
     if(!userId){
       navigate("/");
     }else{
-      const data = {
-        id: userId,
-      }
-      let endpoint = contextData.link + 'api/getUserByID';
-      axios.post(endpoint, {data})
-      .then(function (response) {
-        console.log("Load UserProfile Success", response.data.userProfile);
-        var result = response.data.userProfile;
-        // console.log(JSON.stringify(response.data.userProfile));
+      fetchUserProfile();
+    }
+  }, [])
 
-        setTabAccount({
-          ...tabAccount,
-          status: result.user.status,
-        })
+  useEffect(() => {
+    fetchUserProfile();
+  }, [tab])
 
-        setTabPersonal({
-          ...tabPersonal,
-          firstName: result.user.firstname,
-          middleName: result.user.middlename,
-          lastName: result.user.lastname,
-          gender: result.user.gender,
-          age: result.user.age,
-          contact: result.user.mobileNumber,
-          email: result.user.email,
-          bio: result.user.shortBio,
-        })
+  const fetchUserProfile = () => {
+    const data = {
+      id: userId,
+    }
+    let endpoint = contextData.link + 'api/getUserByID';
+    axios.post(endpoint, {data})
+    .then(function (response) {
+      console.log("Load UserProfile Success", response.data.userProfile);
+      var result = response.data.userProfile;
+      // console.log(JSON.stringify(response.data.userProfile));
 
-        setTabSocial({
-          ...tabSocial,
-          facebook: result.user.linkFB ? result.user.linkFB : '',
-          instagram: result.user.linkFB ? result.user.linkFB : '',
-          twitter: result.user.linkFB ? result.user.linkFB : '',
-        })
+      setTabAccount({
+        ...tabAccount,
+        status: result.user.status,
+      })
 
-        setTabHealth({
-          ...tabHealth,
-          bloodGroup: result.user.bloodGroup,
-          status: result.donorInfo.healthStatus,
-          conditions: result.donorInfo.healthConditions ? result.donorInfo.healthConditions : '',
-        })
+      setTabPersonal({
+        ...tabPersonal,
+        firstName: result.user.firstname,
+        middleName: result.user.middlename,
+        lastName: result.user.lastname,
+        gender: result.user.gender,
+        age: result.user.age,
+        contact: result.user.mobileNumber,
+        email: result.user.email,
+        bio: result.user.shortBio,
+      })
 
-        regions().then((region) => {
-          var regions = region;
-          // setRegionData(region);
+      setTabSocial({
+        ...tabSocial,
+        facebook: result.user.linkFB ? result.user.linkFB : '',
+        instagram: result.user.linkIG ? result.user.linkIG : '',
+        twitter: result.user.linkTW ? result.user.linkTW : '',
+      })
 
-          console.log(region);
-          let selectedRegion = regions.find((data) => data.region_name === result.address.region)
-          console.log('Selected Region Data: ', selectedRegion);
-          console.log(selectedRegion,  result.address.region);
+      setTabHealth({
+        ...tabHealth,
+        bloodGroup: result.user.bloodGroup,
+        status: result.donorInfo.healthStatus,
+        conditions: result.donorInfo.healthConditions ? result.donorInfo.healthConditions : '',
+      })
 
-          provinces(selectedRegion.region_code).then((province) => {
-            var provinces = province;
-            // setProvinceData(province);
+      regions().then((region) => {
+        var regions = region;
+        // setRegionData(region);
 
-            console.log(province);
-            let selectedProvince = provinces.find((data) => data.province_name === result.address.province)
-            console.log('Selected Province Data: ', selectedProvince);
+        console.log(region);
+        let selectedRegion = regions.find((data) => data.region_name === result.address.region)
+        console.log('Selected Region Data: ', selectedRegion);
+        console.log(selectedRegion,  result.address.region);
 
-            cities(selectedProvince.province_code).then((city) => {
-              var cities = city;
-              // setCityData(city);
+        provinces(selectedRegion.region_code).then((province) => {
+          var provinces = province;
+          // setProvinceData(province);
 
-              console.log(city);
-              let selectedCity = cities.find((data) => data.city_name === result.address.city)
-              console.log('Selected City Data: ', selectedCity);
+          console.log(province);
+          let selectedProvince = provinces.find((data) => data.province_name === result.address.province)
+          console.log('Selected Province Data: ', selectedProvince);
 
-              barangays(selectedCity.city_code).then((barangay) => {
-                var barangays = barangay;
-                // setBarangayData(barangay);
+          cities(selectedProvince.province_code).then((city) => {
+            var cities = city;
+            // setCityData(city);
 
-                console.log(barangay);
-                let selectedBarangay = barangays.find((data) => data.brgy_name === result.address.barangay)
-                console.log('Selected Barangay Data: ', selectedBarangay);
+            console.log(city);
+            let selectedCity = cities.find((data) => data.city_name === result.address.city)
+            console.log('Selected City Data: ', selectedCity);
 
-                setRegionData(regions);
-                setProvinceData(provinces);
-                setCityData(cities);
-                setBarangayData(barangays);
+            barangays(selectedCity.city_code).then((barangay) => {
+              var barangays = barangay;
+              // setBarangayData(barangay);
 
-                setTabAddress({
-                  ...tabAddress,
-                  region: result.address.region,
-                  province: result.address.province,
-                  city: result.address.city,
-                  barangay: result.address.barangay,
-                  line1: result.address.addressLine1,
-                  line2: result.address.addressLine2,
-                })
-              });
+              console.log(barangay);
+              let selectedBarangay = barangays.find((data) => data.brgy_name === result.address.barangay)
+              console.log('Selected Barangay Data: ', selectedBarangay);
+
+              setRegionData(regions);
+              setProvinceData(provinces);
+              setCityData(cities);
+              setBarangayData(barangays);
+
+              setTabAddress({
+                ...tabAddress,
+                region: result.address.region,
+                province: result.address.province,
+                city: result.address.city,
+                barangay: result.address.barangay,
+                line1: result.address.addressLine1,
+                line2: result.address.addressLine2,
+              })
             });
           });
         });
-      })
-      .catch(function (error) {
-        console.log(error.response.data.message);
-        setAlert({
-          show: true,
-          header: error.response.data.message,
-          isError: true,
-        });
       });
-    }
-  }, [])
+    })
+    .catch(function (error) {
+      console.log(error.response.data.message);
+      setAlert({
+        show: true,
+        header: error.response.data.message,
+        isError: true,
+      });
+    });
+  }
 
   useEffect(() => {
     // console.log('Data: ', data)
@@ -234,6 +245,129 @@ const UpdateProfile = () => {
 
   const handleUpdateProfile = (e) => {
     e.preventDefault();
+
+    if(tab === 1){
+      const data = {
+        id: userId,
+        tabAccount
+      }
+      let endpoint = contextData.link + 'api/updateAccountByID';
+      axios.post(endpoint, {data})
+      .then(function (response) {
+        // console.log("Update Success", response.data);
+        setAlert({
+          show: true,
+          header: response.data.message,
+          isError: false,
+        });
+      })
+      .catch(function (error) {
+        console.log(error.response.data.message);
+        setAlert({
+          show: true,
+          header: error.response.data.message,
+          isError: true,
+        });
+      });
+    } else if(tab === 2){
+      const data = {
+        id: userId,
+        tabPersonal
+      }
+      let endpoint = contextData.link + 'api/updatePersonalByID';
+      axios.post(endpoint, {data})
+      .then(function (response) {
+        // console.log("Update Success", response.data);
+        setAlert({
+          show: true,
+          header: response.data.message,
+          isError: false,
+        });
+      })
+      .catch(function (error) {
+        console.log(error.response.data.message);
+        setAlert({
+          show: true,
+          header: error.response.data.message,
+          isError: true,
+        });
+      });
+    } else if(tab === 3){
+      const data = {
+        id: userId,
+        tabAddress
+      }
+      let endpoint = contextData.link + 'api/updateAddressByID';
+      axios.post(endpoint, {data})
+      .then(function (response) {
+        // console.log("Update Success", response.data);
+        setAlert({
+          show: true,
+          header: response.data.message,
+          isError: false,
+        });
+      })
+      .catch(function (error) {
+        console.log(error.response.data.message);
+        setAlert({
+          show: true,
+          header: error.response.data.message,
+          isError: true,
+        });
+      });
+    } else if(tab === 4){
+      const data = {
+        id: userId,
+        tabSocial
+      }
+      let endpoint = contextData.link + 'api/updateSocialByID';
+      axios.post(endpoint, {data})
+      .then(function (response) {
+        // console.log("Update Success", response.data);
+        setAlert({
+          show: true,
+          header: response.data.message,
+          isError: false,
+        });
+      })
+      .catch(function (error) {
+        console.log(error.response.data.message);
+        setAlert({
+          show: true,
+          header: error.response.data.message,
+          isError: true,
+        });
+      });
+    } else if(tab === 5){
+      const data = {
+        id: userId,
+        tabHealth
+      }
+      let endpoint = contextData.link + 'api/updateHealthByID';
+      axios.post(endpoint, {data})
+      .then(function (response) {
+        // console.log("Update Success", response.data);
+        setAlert({
+          show: true,
+          header: response.data.message,
+          isError: false,
+        });
+      })
+      .catch(function (error) {
+        console.log(error.response.data.message);
+        setAlert({
+          show: true,
+          header: error.response.data.message,
+          isError: true,
+        });
+      });
+    }
+
+  }
+
+  const handleResetFields = (e) => {
+    e.preventDefault();
+    fetchUserProfile();
   }
 
   return (
@@ -499,25 +633,25 @@ const UpdateProfile = () => {
                     </div>
                     <div className="flex flex-col gap-5 p-2 text-sm">
                       {/* 1 */}
-                      <div className="flex justify-between border-b-[1px] border-gray-300">
-                        <div className="font-semibold ">
+                      <div className="flex justify-between border-b-[1px] border-gray-300 gap-5">
+                        <div className="font-semibold shrink-0">
                           Facebook Link
                         </div>
-                        <input type="text" value={tabSocial.facebook} placeholder={'Empty'} onChange={(e)=>{setTabSocial({...tabSocial, facebook: e.target.value })}}  className="text-right outline-none " required/>
+                        <input type="text" value={tabSocial.facebook} placeholder={'Empty'} onChange={(e)=>{setTabSocial({...tabSocial, facebook: e.target.value })}}  className="w-full text-right outline-none" />
                       </div>
                       {/* 2 */}
-                      <div className="flex justify-between border-b-[1px] border-gray-300">
-                        <div className="font-semibold ">
+                      <div className="flex justify-between border-b-[1px] border-gray-300 gap-5">
+                        <div className="font-semibold shrink-0 ">
                           Instagram Link
                         </div>
-                        <input type="text" value={tabSocial.instagram} placeholder={'Empty'} onChange={(e)=>{setTabSocial({...tabSocial, instagram: e.target.value })}}  className="text-right outline-none " required/>
+                        <input type="text" value={tabSocial.instagram} placeholder={'Empty'} onChange={(e)=>{setTabSocial({...tabSocial, instagram: e.target.value })}}  className="w-full text-right outline-none" />
                       </div>
                       {/* 3 */}
-                      <div className="flex justify-between border-b-[1px] border-gray-300">
-                        <div className="font-semibold ">
+                      <div className="flex justify-between border-b-[1px] border-gray-300 gap-5">
+                        <div className="font-semibold shrink-0 ">
                           Twitter Link
                         </div>
-                        <input type="text" value={tabSocial.twitter} placeholder={'Empty'} onChange={(e)=>{setTabSocial({...tabSocial, twitter: e.target.value })}}  className="text-right outline-none " required/>
+                        <input type="text" value={tabSocial.twitter} placeholder={'Empty'} onChange={(e)=>{setTabSocial({...tabSocial, twitter: e.target.value })}}  className="w-full text-right outline-none " />
                       </div>
                     </div>
                   </> :
@@ -559,14 +693,14 @@ const UpdateProfile = () => {
                         <div className="font-semibold shrink-0">
                           Health Conditions
                         </div>
-                        <textarea value={tabHealth.conditions} onChange={(e)=>{setTabHealth({...tabHealth, conditions: e.target.value })}} maxLength={500} rows={3} className="w-full text-right outline-none resize-none" />
+                        <textarea value={tabHealth.conditions} onChange={(e)=>{setTabHealth({...tabHealth, conditions: e.target.value })}} maxLength={500} rows={3} placeholder={'Empty'} className="w-full text-right outline-none resize-none" />
                       </div>
                     </div>
                   </>
                 }
                 {/* Actions */}
                 <div className="flex justify-end gap-2 text-sm">
-                  <button type="reset" className="px-3 py-2 text-white bg-gray-500 rounded-full hover:bg-gray-600">Reset</button>
+                  <button onClick={handleResetFields} className="px-3 py-2 text-white bg-gray-500 rounded-full hover:bg-gray-600">Reset</button>
                   <button type="submit" className="px-3 py-2 text-white bg-red-700 rounded-full hover:bg-red-900">Save Changes</button>
                 </div>
               </form>
