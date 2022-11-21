@@ -11,6 +11,7 @@ import { FaTimes } from 'react-icons/fa';
 import { MainContext } from '../App.js'
 import MainNavigationBar from '../components/MainNavigationBar';
 import SideBar from '../components/SideBar.js';
+import { Widget } from "@uploadcare/react-widget";
 import axios  from "axios";
 import profilepic from '../assets/images/profilepic.jpg'
 
@@ -23,7 +24,8 @@ const UpdateProfile = () => {
   const [tab, setTab] = useState(1);
 
   const [tabAccount, setTabAccount] = useState({
-    status: 'Active',
+    status: '',
+    pic: '',
   })
 
   const [tabPersonal, setTabPersonal] = useState({
@@ -100,6 +102,7 @@ const UpdateProfile = () => {
       setTabAccount({
         ...tabAccount,
         status: result.user.status,
+        pic: result.user.profilePicture,
       })
 
       setTabPersonal({
@@ -468,7 +471,7 @@ const UpdateProfile = () => {
                     <div className="py-2 font-bold">
                       Account
                     </div>
-                    <div className="flex flex-col gap-2 p-2 text-sm">
+                    <div className="flex flex-col gap-5 p-2 text-sm">
                       {/* 1 */}
                       <div className="flex justify-between border-b-[1px] border-gray-300">
                         <div className="font-semibold ">
@@ -478,6 +481,27 @@ const UpdateProfile = () => {
                           <option value="Active">Active</option>
                           <option value="Inactive">Inactive</option>
                         </select>
+                      </div>
+                      {/* 2 */}
+                      <div className="flex justify-between border-b-[1px] border-gray-300 gap-10 pb-2">
+                        <div className="font-semibold shrink-0">
+                          Profile Picture
+                        </div>
+                        <label className="border border-black w-60 h-60">
+                          <img src={tabAccount.pic ? tabAccount.pic : profilepic} alt="profile" width={"100%"} className="cursor-pointer "/>
+                          <div className="hidden">
+                            <Widget
+                              publicKey='41d925640f30fcc7b2c5'
+                              id='file'
+                              imagesOnly={true}
+                              systemDialog={true}
+                              onChange={ info => {
+                                console.log('Upload completed:', info)
+                                setTabAccount({...tabAccount, pic: info.cdnUrl })
+                              }}
+                            />
+                          </div>
+                        </label>
                       </div>
                     </div>
                   </> :

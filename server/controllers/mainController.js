@@ -152,6 +152,7 @@ export const updateAccount = async (req, res) => {
 
         const user = await User.update({
             status: req.body.data.tabAccount.status,
+            profilePicture: req.body.data.tabAccount.pic,
         },{
             where: {
                 id: req.body.data.id
