@@ -145,3 +145,136 @@ export const findUserByID = async (req, res) => {
         res.status(400).json({ message: error.message });
     }
 }
+
+export const updateAccount = async (req, res) => {
+    try {
+        console.log("BODY: ", req.body.data)
+
+        const user = await User.update({
+            status: req.body.data.tabAccount.status,
+        },{
+            where: {
+                id: req.body.data.id
+            }
+        });
+
+        if(!user){
+            res.status(400).json({ message: "Failed to Update Profile!" });
+        } else {
+            res.status(200).json({ message: "Profile Updated!", });
+        }
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}
+
+export const updatePersonal = async (req, res) => {
+    try {
+        console.log("BODY: ", req.body.data)
+
+        const user = await User.update({
+            firstname: req.body.data.tabPersonal.firstName,
+            middlename: req.body.data.tabPersonal.middleName,
+            lastname: req.body.data.tabPersonal.lastName,
+            gender: req.body.data.tabPersonal.gender,
+            age: req.body.data.tabPersonal.age,
+            mobileNumber: req.body.data.tabPersonal.contact,
+            email: req.body.data.tabPersonal.email,
+            shortBio: req.body.data.tabPersonal.bio,
+        },{
+            where: {
+                id: req.body.data.id
+            }
+        });
+
+        if(!user){
+            res.status(400).json({ message: "Failed to Update Profile!" });
+        } else {
+            res.status(200).json({ message: "Profile Updated!", });
+        }
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}
+
+export const updateAddress = async (req, res) => {
+    try {
+        console.log("BODY: ", req.body.data)
+
+        const address = await Address.update({
+            region: req.body.data.tabAddress.region,
+            province: req.body.data.tabAddress.province,
+            city: req.body.data.tabAddress.city,
+            barangay: req.body.data.tabAddress.barangay,
+            addressLine1: req.body.data.tabAddress.line1,
+            addressLine2: req.body.data.tabAddress.line2,
+        },{
+            where: {
+                userID: req.body.data.id
+            }
+        });
+
+        if(!address){
+            res.status(400).json({ message: "Failed to Update Profile!" });
+        } else {
+            res.status(200).json({ message: "Profile Updated!", });
+        }
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}
+
+export const updateSocial = async (req, res) => {
+    try {
+        console.log("BODY: ", req.body.data)
+
+        const user = await User.update({
+            linkFB: req.body.data.tabSocial.facebook,
+            linkIG: req.body.data.tabSocial.instagram,
+            linkTW: req.body.data.tabSocial.twitter,
+        },{
+            where: {
+                id: req.body.data.id
+            }
+        });
+
+        if(!user){
+            res.status(400).json({ message: "Failed to Update Profile!" });
+        } else {
+            res.status(200).json({ message: "Profile Updated!", });
+        }
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}
+
+export const updateHealth = async (req, res) => {
+    try {
+        console.log("BODY: ", req.body.data)
+
+        const user = await User.update({
+            bloodGroup: req.body.data.tabHealth.bloodGroup,
+        },{
+            where: {
+                id: req.body.data.id
+            }
+        });
+
+        const health = await DonorInfo.update({
+            healthStatus: req.body.data.tabHealth.status,
+            healthConditions: req.body.data.tabHealth.conditions,
+        },{
+            where: {
+                userID: req.body.data.id
+            }
+        });
+
+        if(!health && !user){
+            res.status(400).json({ message: "Failed to Update Profile!" });
+        } else {
+            res.status(200).json({ message: "Profile Updated!", });
+        }
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}
