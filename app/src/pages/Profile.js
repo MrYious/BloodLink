@@ -1,5 +1,5 @@
 import { FaAngleLeft, FaAngleRight, FaFacebookSquare, FaInstagramSquare, FaQuoteLeft, FaRegStar, FaStar, FaTimes, FaTwitterSquare } from 'react-icons/fa';
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 
 import { MainContext } from '../App.js'
@@ -10,14 +10,16 @@ import profilepic from '../assets/images/profilepic.jpg'
 import sample from '../assets/images/sample.jpg'
 
 const Profile = () => {
-  // USE THIS PAGE ON OTHER PERSON'S PROFILE
-  // TODO: MAP REVIEWS, LINK MODALS AND OTHER PERSON's PROFILE
+  // TODO: GET AND LOAD REVIEWS
+  // IMAGES
   const contextData = useContext(MainContext);
   const location = useLocation();
   const navigate = useNavigate();
   const userId = localStorage.getItem('userID');
+  let { nameID } = useParams();
 
-  const [isOtherUser, setIsOtherUser] = useState(false);
+  console.log(userId, nameID);
+  const [isOtherUser, setIsOtherUser] = useState(nameID ? true : false);
   const [userProfile, setUserProfile] = useState({
     user: {
       id: 1,
@@ -60,18 +62,63 @@ const Profile = () => {
     }
   });
 
+  const [userReviews, setuserReviews] = useState([
+    {
+      donor: {
+        id: '1',
+        name: 'Mark Edison Rosario',
+      },
+      seeker: {
+        id: '2',
+        name: 'Tessia Eralith',
+      },
+      date: '2022-11-12',
+      comment: '1 He is very helpful, a good person.',
+      rating: 3,
+      image: '',
+    },
+    {
+      donor: {
+        id: '1',
+        name: 'Mark Edison Rosario',
+      },
+      seeker: {
+        id: '2',
+        name: 'Tessia Eralith',
+      },
+      date: '2022-11-13',
+      comment: '2 He is very helpful, a good person.',
+      rating: 3,
+      image: '',
+    },
+    {
+      donor: {
+        id: '1',
+        name: 'Mark Edison Rosario',
+      },
+      seeker: {
+        id: '2',
+        name: 'Tessia Eralith',
+      },
+      date: '2022-11-15',
+      comment: '3 He is very helpful, a good person.',
+      rating: 3,
+      image: '',
+    },
+  ])
+
   const [modalContent, setModalContent] = useState({
     donor: {
       id: '',
-      name: 'Mark Edison Rosario',
+      name: '',
     },
     seeker: {
       id: '',
-      name: 'Tessia Eralith',
+      name: '',
     },
-    date: '2022-11-11',
-    comment: 'He is very helpful, a good person.',
-    rating: 4,
+    date: '',
+    comment: '',
+    rating: 0,
     image: '',
   })
 
@@ -87,24 +134,7 @@ const Profile = () => {
     if(!userId){
       navigate("/");
     }else{
-      const data = {
-        id: userId,
-      }
-      let endpoint = contextData.link + 'api/getUserByID';
-      axios.post(endpoint, {data})
-      .then(function (response) {
-        // console.log("Load UserProfile Success", response.data);
-        // console.log(JSON.stringify(response.data.userProfile));
-        setUserProfile(response.data.userProfile);
-      })
-      .catch(function (error) {
-        console.log(error.response.data.message);
-        setAlert({
-          show: true,
-          header: error.response.data.message,
-          isError: true,
-        });
-      });
+      fetchUserProfile()
     }
   }, [])
 
@@ -116,9 +146,35 @@ const Profile = () => {
         isError: location.state.isError,
       });
     }
+    setShowModal(false);
+    setIsOtherUser(nameID ? true : false);
+    fetchUserProfile();
   }, [location])
 
+  const fetchUserProfile = () => {
+    const data = {
+      id: nameID ? nameID : userId,
+    }
+    let endpoint = contextData.link + 'api/getUserByID';
+    axios.post(endpoint, {data})
+    .then(function (response) {
+      // console.log("Load UserProfile Success", response.data);
+      // console.log(JSON.stringify(response.data.userProfile));
+      setUserProfile(response.data.userProfile);
+    })
+    .catch(function (error) {
+      console.log(error.response.data.message);
+      setAlert({
+        show: true,
+        header: error.response.data.message,
+        isError: true,
+      });
+    });
+  }
+
   const handleOpenReview = (i) => {
+    // console.log(i, userReviews[i]);
+    setModalContent(userReviews[i]);
     setShowModal(true);
   }
 
@@ -161,9 +217,9 @@ const Profile = () => {
                     <FaQuoteLeft />
                   </div>
                   <div className='flex flex-col gap-2'>
-                    <div className='flex gap-2 text-lg cursor-pointer hover:underline' >
+                    <Link to={`/main/profile/${modalContent.seeker.id}`} className='flex gap-2 text-lg cursor-pointer hover:underline' >
                       {modalContent.seeker.name}
-                    </div>
+                    </Link>
                     <div className='flex text-2xl'>
                       {
                         [...Array(modalContent.rating)].map((e, i) => <FaStar key={i} />)
@@ -173,8 +229,7 @@ const Profile = () => {
                       }
                     </div>
                     <div className="leading-relaxed text-slate-500">
-                      {/* {modalContent.comment} */}
-                      Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis p
+                      {modalContent.comment}
                     </div>
                     <div className='italic'>
                       {modalContent.date}
@@ -447,137 +502,41 @@ const Profile = () => {
                     <FaAngleRight className='text-xl cursor-pointer hover:text-green-500'/>
                   </div>
                 </div>
-                {/* <div className='text-sm'>
-                  No Records
-                </div> */}
-                <div className='flex flex-wrap justify-around gap-5 text-sm'>
-                  <div onClick={()=>{handleOpenReview(1)}} className='flex w-[100%] md:w-[48%] gap-2 p-2 border border-black rounded cursor-pointer shrink-0 hover:bg-gray-200'>
-                    <div className='flex items-center justify-center p-2 text-2xl'>
-                      <FaQuoteLeft />
+                {
+                  !userReviews
+                  ?
+                    <div className='text-sm'>
+                      No Records
                     </div>
-                    <div className='flex flex-col gap-2'>
-                      <div className='text-sm italic text-justify'>
-                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis p
-                      </div>
-                      <div className='flex gap-1'>
-                        {
-                          [...Array(3)].map((e, i) => <FaStar key={i} />)
-                        }
-                        {
-                          [...Array(5 - 3)].map((e, i) => <FaRegStar key={i} />)
-                        }
-                      </div>
-                      <div className='text-xs'>
-                        Mark Edison Rosario
-                      </div>
+                  :
+                    <div className='flex flex-wrap justify-around gap-5 text-sm'>
+                      {
+                        userReviews.map((review, i) =>
+                        <div key={i} onClick={()=>{handleOpenReview(i)}} className='flex w-[100%] md:w-[48%] gap-2 p-2 border border-black rounded cursor-pointer shrink-0 hover:bg-gray-200'>
+                          <div className='flex items-center justify-center p-2 text-2xl'>
+                            <FaQuoteLeft />
+                          </div>
+                          <div className='flex flex-col gap-2'>
+                            <div className='text-sm italic text-justify'>
+                              {review.comment}
+                            </div>
+                            <div className='flex gap-1'>
+                              {
+                                [...Array(review.rating)].map((e, i) => <FaStar key={i} />)
+                              }
+                              {
+                                [...Array(5 - review.rating)].map((e, i) => <FaRegStar key={i} />)
+                              }
+                            </div>
+                            <div className='text-xs'>
+                              {review.seeker.name}
+                            </div>
+                          </div>
+                        </div>
+                        )
+                      }
                     </div>
-                  </div>
-                  <div onClick={()=>{handleOpenReview(1)}} className='flex w-[100%] md:w-[48%] gap-2 p-2 border border-black rounded cursor-pointer shrink-0 hover:bg-gray-200'>
-                    <div className='flex items-center justify-center p-2 text-2xl'>
-                      <FaQuoteLeft />
-                    </div>
-                    <div className='flex flex-col gap-2'>
-                      <div className='text-sm italic text-justify'>
-                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis p
-                      </div>
-                      <div className='flex gap-1'>
-                        {
-                          [...Array(3)].map((e, i) => <FaStar key={i} />)
-                        }
-                        {
-                          [...Array(5 - 3)].map((e, i) => <FaRegStar key={i} />)
-                        }
-                      </div>
-                      <div className='text-xs'>
-                        Mark Edison Rosario
-                      </div>
-                    </div>
-                  </div>
-                  <div onClick={()=>{handleOpenReview(1)}} className='flex w-[100%] md:w-[48%] gap-2 p-2 border border-black rounded cursor-pointer shrink-0 hover:bg-gray-200'>
-                    <div className='flex items-center justify-center p-2 text-2xl'>
-                      <FaQuoteLeft />
-                    </div>
-                    <div className='flex flex-col gap-2'>
-                      <div className='text-sm italic text-justify'>
-                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis p
-                      </div>
-                      <div className='flex gap-1'>
-                        {
-                          [...Array(3)].map((e, i) => <FaStar key={i} />)
-                        }
-                        {
-                          [...Array(5 - 3)].map((e, i) => <FaRegStar key={i} />)
-                        }
-                      </div>
-                      <div className='text-xs'>
-                        Mark Edison Rosario
-                      </div>
-                    </div>
-                  </div>
-                  <div onClick={()=>{handleOpenReview(1)}} className='flex w-[100%] md:w-[48%] gap-2 p-2 border border-black rounded cursor-pointer shrink-0 hover:bg-gray-200'>
-                    <div className='flex items-center justify-center p-2 text-2xl'>
-                      <FaQuoteLeft />
-                    </div>
-                    <div className='flex flex-col gap-2'>
-                      <div className='text-sm italic text-justify'>
-                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis p
-                      </div>
-                      <div className='flex gap-1'>
-                        {
-                          [...Array(3)].map((e, i) => <FaStar key={i} />)
-                        }
-                        {
-                          [...Array(5 - 3)].map((e, i) => <FaRegStar key={i} />)
-                        }
-                      </div>
-                      <div className='text-xs'>
-                        Mark Edison Rosario
-                      </div>
-                    </div>
-                  </div>
-                  <div onClick={()=>{handleOpenReview(1)}} className='flex w-[100%] md:w-[48%] gap-2 p-2 border border-black rounded cursor-pointer shrink-0 hover:bg-gray-200'>
-                    <div className='flex items-center justify-center p-2 text-2xl'>
-                      <FaQuoteLeft />
-                    </div>
-                    <div className='flex flex-col gap-2'>
-                      <div className='text-sm italic text-justify'>
-                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis p
-                      </div>
-                      <div className='flex gap-1'>
-                        {
-                          [...Array(3)].map((e, i) => <FaStar key={i} />)
-                        }
-                        {
-                          [...Array(5 - 3)].map((e, i) => <FaRegStar key={i} />)
-                        }
-                      </div>
-                      <div className='text-xs'>
-                        Mark Edison Rosario
-                      </div>
-                    </div>
-                  </div>
-                  <div onClick={()=>{handleOpenReview(1)}} className='flex w-[100%] md:w-[48%] gap-2 p-2 border border-black rounded cursor-pointer shrink-0 hover:bg-gray-200'>
-                    <div className='flex items-center justify-center p-2 text-2xl'>
-                      <FaQuoteLeft />
-                    </div>
-                    <div className='flex flex-col gap-2'>
-                      <div className='text-sm italic text-justify'>
-                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis p
-                      </div>
-                      <div className='flex gap-1'>
-                        {
-                          [...Array(3)].map((e, i) => <FaStar key={i} />)
-                        }
-                        {
-                          [...Array(5 - 3)].map((e, i) => <FaRegStar key={i} />)
-                        }
-                      </div>
-                      <div className='text-xs'>
-                        Mark Edison Rosario
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                }
               </div>
             </div>
           </div>
