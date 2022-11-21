@@ -253,9 +253,9 @@ const Profile = () => {
                       SOCIAL MEDIA
                     </div>
                     <div className="flex gap-4 text-4xl ">
-                      <FaFacebookSquare  className='cursor-pointer hover:text-red-800'/>
-                      <FaInstagramSquare className='cursor-pointer hover:text-red-800'/>
-                      <FaTwitterSquare className='cursor-pointer hover:text-red-800'/>
+                      <FaFacebookSquare onClick={()=> {window.open( userProfile.user.linkFB , '_blank')}}  className='cursor-pointer hover:text-red-800'/>
+                      <FaInstagramSquare onClick={()=> {window.open( userProfile.user.linkIG , '_blank')}} className='cursor-pointer hover:text-red-800'/>
+                      <FaTwitterSquare onClick={()=> {window.open( userProfile.user.linkTW , '_blank')}} className='cursor-pointer hover:text-red-800'/>
                     </div>
                   </div>
                   {
