@@ -44,7 +44,7 @@ const Login = () => {
       localStorage.setItem('userID', response.data.checkUser.id);
       localStorage.setItem('fname', response.data.checkUser.firstname);
       localStorage.setItem('lname', response.data.checkUser.lastname);
-      localStorage.setItem('profile', response.data.checkUser.profilePicture);
+      localStorage.setItem('profile', response.data.checkUser.profilePicture ? response.data.checkUser.profilePicture : '');
       navigate("/main", {state: {message: response.data.message, isError: false}})
     })
     .catch(function (error) {

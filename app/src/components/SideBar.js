@@ -19,7 +19,7 @@ const SideBar = () => {
             <div onMouseEnter={() => {setIsOpen(true)}} onClick={() => {setIsOpen(true)}} onMouseLeave={() => {setIsOpen(false)}}  className={`flex flex-col p-2 ${isOpen ? 'w-[300px]' : 'w-[50px] items-center'}  bg-gray-50 drop-shadow-xl border-r-[1px] z-[1] h-full shrink-0 fixed border-gray-400`}>
                 <Link to={'/main/profile'} className="flex items-center h-12 gap-2 mb-3 rounded cursor-pointer hover:bg-gray-300">
                     <div className='flex items-center justify-center h-full w-14 shrink-0'>
-                        <img className='w-10 border border-black rounded-full shadow cursor-pointer shadow-black'  src={ profile !== 'null' ? profile : profilepic} alt="profilepic" />
+                        <img className='w-10 border border-black rounded-full shadow cursor-pointer shadow-black'  src={ profile ? profile : profilepic} alt="profilepic" />
                     </div>
                     {
                         isOpen &&

@@ -9,8 +9,7 @@ const MainNavigationBar = () => {
   let location = useLocation();
   const navigate = useNavigate();
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+  const profile = localStorage.getItem('profile');
 
   useEffect(() => {
     animateScroll.scrollToTop();
@@ -47,7 +46,7 @@ const MainNavigationBar = () => {
           </Link>
           <div className="relative flex flex-col gap-5 dropdown">
             <a href="#" className="transition duration-150 ease-in-out dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
-              <img className='w-12 border border-black rounded-full shadow cursor-pointer shadow-black'  src={profilepic} alt="profilepic" />
+              <img className='w-12 border border-black rounded-full shadow cursor-pointer shadow-black'  src={ profile ? profile : profilepic} alt="profilepic" />
               <FaSortDown className='absolute bottom-0 right-0 text-xl'/>
             </a>
             {/* LINKS */}
