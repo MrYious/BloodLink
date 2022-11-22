@@ -45,8 +45,8 @@ const MainNavigationBar = () => {
             <FaHome className='text-lg md:text-xl' />
           </Link>
           <div className="relative flex flex-col gap-5 dropdown">
-            <a href="#" className="transition duration-150 ease-in-out dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
-              <img className='w-12 border border-black rounded-full shadow cursor-pointer shadow-black'  src={ profile ? profile : profilepic} alt="profilepic" />
+            <a href="#" className="w-12 h-12 overflow-hidden transition duration-150 ease-in-out dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+              <img className='w-full h-full border border-black rounded-full shadow cursor-pointer shadow-black'  src={ profile ? profile : profilepic} alt="profilepic" />
               <FaSortDown className='absolute bottom-0 right-0 text-xl'/>
             </a>
             {/* LINKS */}

@@ -277,7 +277,7 @@ const Profile = () => {
             <div className="flex flex-col p-10 w-[100%] md:w-[85%] lg:w-[65%] gap-8 bg-gray-50 drop-shadow-xl shadow-white">
               {/* 1 */}
               <div className="flex flex-col w-full gap-5 lg:gap-14 lg:flex-row">
-                <div className="bg-black w-60 h-60 shrink-0">
+                <div className="flex items-center justify-center overflow-hidden w-60 h-60 shrink-0">
                   <img src={userProfile.user.profilePicture ? userProfile.user.profilePicture : profilepic} className='w-full ' alt="profilepicture" />
                 </div>
                 <div className="flex flex-col justify-around w-full h-full gap-6 lg:gap-3">

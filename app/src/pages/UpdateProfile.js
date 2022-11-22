@@ -487,8 +487,8 @@ const UpdateProfile = () => {
                         <div className="font-semibold shrink-0">
                           Profile Picture
                         </div>
-                        <label className="border border-black w-60 h-60">
-                          <img src={tabAccount.pic ? tabAccount.pic : profilepic} alt="profile" width={"100%"} className="cursor-pointer "/>
+                        <label className="flex items-center justify-center overflow-hidden border border-black w-60 h-60 ">
+                          <img src={tabAccount.pic ? tabAccount.pic : profilepic} alt="profile" width={"100%"} height={"100%"} className="cursor-pointer "/>
                           <div className="hidden">
                             <Widget
                               publicKey='41d925640f30fcc7b2c5'
