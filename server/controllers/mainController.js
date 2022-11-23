@@ -146,6 +146,29 @@ export const findUserByID = async (req, res) => {
     }
 }
 
+export const getAllUsers = async (req, res) => {
+    try {
+        console.log("BODY: ", req.body.data)
+
+        const user = await User.findAll();
+
+        const address = await Address.findAll();
+
+        const donorInfo = await DonorInfo.findAll();
+
+        if(!user){
+            res.status(400).json({ message: "Error loading user's profile data!" });
+        } else {
+            res.status(200).json({ message: "Retrieve Success!", userProfiles: {
+                user,
+                address,
+                donorInfo,
+            }});
+        }
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}
 export const updateAccount = async (req, res) => {
     try {
         console.log("BODY: ", req.body.data)

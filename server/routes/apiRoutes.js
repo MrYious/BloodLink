@@ -1,12 +1,13 @@
 import {
     createNewUser,
     findUserByID,
+    getAllUsers,
     updateAccount,
     updateAddress,
     updateHealth,
     updatePersonal,
     updateSocial,
-    validateUserLogin,
+    validateUserLogin
 } from "../controllers/mainController.js";
 
 import express from "express";
@@ -17,6 +18,7 @@ const apiRouter = express.Router();
 apiRouter.post('/login', validateUserLogin);
 apiRouter.post('/register', createNewUser)
 apiRouter.post('/getUserByID', findUserByID);
+apiRouter.post('/getAllUsers', getAllUsers);
 apiRouter.post('/updateAccountByID', updateAccount);
 apiRouter.post('/updatePersonalByID', updatePersonal);
 apiRouter.post('/updateAddressByID', updateAddress);
