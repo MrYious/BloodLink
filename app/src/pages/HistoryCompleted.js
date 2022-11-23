@@ -103,13 +103,13 @@ const HistoryCompleted = () => {
             {/* 1 */}
             <SideBar />
             {/* 2 */}
-            <div className="flex flex-col items-start justify-around w-full p-5 bg-gray-100 lg:flex-row">
+            <div className="flex flex-col items-start w-full gap-5 p-5 bg-gray-100 lg:justify-around lg:flex-row">
               {/* 1 */}
-              <div className="bg-gray-50 w-[100%] lg:w-[50%] flex items-center flex-col p-5 rounded drop-shadow-lg">
+              <div className="bg-gray-50 w-[100%] lg:w-[60%] flex items-center flex-col p-5 rounded drop-shadow-lg">
                 Main Contents
               </div>
               {/* 2 */}
-              <div className="bg-gray-50 w-[100%] md:w-[90%] lg:w-[30%] flex flex-col items-center p-5 rounded drop-shadow-lg">
+              <div className="bg-gray-50 w-[100%] lg:w-[33%] flex flex-col items-center p-5 rounded drop-shadow-lg">
                 Side Contents
               </div>
             </div>
