@@ -206,7 +206,6 @@ const UpdateProfile = () => {
     setCityData([]);
     setBarangayData([]);
 
-    // Get Provinces
     provinces(selectedData.region_code).then((province) => {
       console.log(province);
       setProvinceData(province);
@@ -232,7 +231,6 @@ const UpdateProfile = () => {
     console.log('Selected City Data: ', selectedData);
     setTabAddress({...tabAddress, city: e.target.value, barangay: ''})
 
-    // Get Provinces
     barangays(selectedData.city_code).then((barangay) => {
       console.log(barangay);
       setBarangayData(barangay);
