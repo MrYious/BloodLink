@@ -1,4 +1,10 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import {
+  barangays,
+  cities,
+  provinces,
+  regions,
+} from "select-philippines-address";
 import { useContext, useEffect, useState } from "react";
 
 import { FaTimes } from 'react-icons/fa';
@@ -21,9 +27,33 @@ const BrowseDonor = () => {
     isError: false
   });
 
+  const [filters, setFilters] = useState({
+    status: '',
+    name: '',
+    gender: '',
+    age: 0,
+    region: '',
+    province: '',
+    city: '',
+    barangay: '',
+    bloodGroup: '',
+    healthStatus: '',
+    rating: 0,
+  })
+
+  const [regionData, setRegionData] = useState([]);
+  const [provinceData, setProvinceData] = useState([]);
+  const [cityData, setCityData] = useState([])
+  const [barangayData, setBarangayData] = useState([])
+
   useEffect(() => {
     if(!userId){
       navigate("/")
+    } else {
+      regions().then((region) => {
+        // console.log(region);
+        setRegionData(region);
+      });
     }
   }, [])
 
@@ -36,6 +66,52 @@ const BrowseDonor = () => {
       });
     }
   }, [location])
+
+  const handleSelectRegion = (e) =>{
+    console.log(e.target.value);
+    const selectedData = regionData.find((data) => data.region_name === e.target.value)
+    console.log('Selected Region Data: ', selectedData);
+    setFilters({...filters, region: e.target.value, province: '', city: '', barangay: ''})
+    setCityData([]);
+    setBarangayData([]);
+
+    provinces(selectedData.region_code).then((province) => {
+      console.log(province);
+      setProvinceData(province);
+    });
+  }
+
+  const handleSelectProvince = (e) =>{
+    console.log(e.target.value);
+    const selectedData = provinceData.find((data) => data.province_name === e.target.value)
+    console.log('Selected Province Data: ', selectedData);
+    setFilters({...filters, province: e.target.value, city: '', barangay: ''})
+    setBarangayData([]);
+
+    cities(selectedData.province_code).then((city) => {
+      console.log(city);
+      setCityData(city);
+    });
+  }
+
+  const handleSelectCity = (e) =>{
+    console.log(e.target.value);
+    const selectedData = cityData.find((data) => data.city_name === e.target.value)
+    console.log('Selected City Data: ', selectedData);
+    setFilters({...filters, city: e.target.value, barangay: ''})
+
+    barangays(selectedData.city_code).then((barangay) => {
+      console.log(barangay);
+      setBarangayData(barangay);
+    });
+  }
+
+  const handleSelectBarangay = (e) =>{
+    console.log(e.target.value);
+    const selectedData = barangayData.find((data) => data.brgy_name === e.target.value)
+    console.log('Selected Barangay Data: ', selectedData);
+    setFilters({...filters, barangay: e.target.value})
+  }
 
   return (
     <section className='flex flex-col w-full min-h-screen '>
@@ -105,11 +181,122 @@ const BrowseDonor = () => {
           <div className="flex flex-col items-start w-full gap-5 p-5 bg-gray-100 lg:justify-around lg:flex-row">
             {/* 1 */}
             <div className="bg-gray-50 w-[100%] lg:w-[60%] flex items-center flex-col p-5 rounded drop-shadow-lg">
-              Main Contents
+              BROWSE DONORS
             </div>
             {/* 2 */}
-            <div className="bg-gray-50 w-[100%] lg:w-[33%] flex flex-col items-center p-5 rounded drop-shadow-lg">
-              Side Contents
+            <div className="bg-gray-50 w-[100%] lg:w-[35%] gap-5 flex flex-col p-5 rounded drop-shadow-lg">
+              <div className="font-bold text-center">
+                FILTERS
+              </div>
+              <div className="flex flex-col gap-5 p-2 text-sm">
+                <div className="flex justify-between border-b-[1px] border-gray-300">
+                  <div className="font-semibold ">
+                    Status
+                  </div>
+                  <select value={filters.status} onChange={(e)=>{setFilters({...filters, status: e.target.value })}} className="outline-none cursor-pointer" >
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                  </select>
+                </div>
+                <div className="flex justify-between border-b-[1px] border-gray-300">
+                  <div className="font-semibold ">
+                    Name
+                  </div>
+                  <input type="text" value={filters.name} onChange={(e)=>{setFilters({...filters, name: e.target.value })}} maxLength={30} className="text-right outline-none "/>
+                </div>
+                <div className="flex justify-between border-b-[1px] border-gray-300 flex-wrap">
+                  <div className="font-semibold ">
+                    Gender
+                  </div>
+                  <select value={filters.gender} onChange={(e)=>{setFilters({...filters, gender: e.target.value })}} className="text-right outline-none cursor-pointer" >
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                  </select>
+                </div>
+                <div className="flex justify-between border-b-[1px] border-gray-300">
+                  <div className="font-semibold ">
+                    Age
+                  </div>
+                  <input type="number" value={filters.age} onChange={(e)=>{setFilters({...filters, age: e.target.value })}} max={150}  className="text-right outline-none "/>
+                </div>
+                <div className="flex flex-col justify-between item border-b-[1px] border-gray-300  flex-wrap">
+                  <div className="font-semibold ">
+                    Region
+                  </div>
+                  <select value={filters.region} onChange={handleSelectRegion} className="text-right outline-none cursor-pointer">
+                    <option key={'0'} value='' disabled>Region</option>
+                    {
+                      regionData.map(
+                        (region) => <option key={region.id} value={region.region_name}>{region.region_name}</option>
+                      )
+                    }
+                  </select>
+                </div>
+                <div className="flex justify-between border-b-[1px] border-gray-300">
+                  <div className="font-semibold ">
+                    Province
+                  </div>
+                  <select value={filters.province} onChange={handleSelectProvince} className="text-right outline-none cursor-pointer">
+                    <option key={'0'} value='' disabled>Province</option>
+                    {
+                      provinceData.map(
+                        (province) => <option key={province.province_code} value={province.province_name}>{province.province_name}</option>
+                      )
+                    }
+                  </select>
+                </div>
+                <div className="flex justify-between border-b-[1px] border-gray-300">
+                  <div className="font-semibold ">
+                    City
+                  </div>
+                  <select value={filters.city} onChange={handleSelectCity} className="text-right outline-none cursor-pointer">
+                    <option key={'0'} value='' disabled>City</option>
+                    {
+                      cityData.map(
+                        (city) => <option key={city.city_code} value={city.city_name}>{city.city_name}</option>
+                      )
+                    }
+                  </select>
+                </div>
+                <div className="flex justify-between border-b-[1px] border-gray-300">
+                  <div className="font-semibold ">
+                    Barangay
+                  </div>
+                  <select value={filters.barangay} onChange={handleSelectBarangay} className="text-right outline-none cursor-pointer">
+                    <option key={'0'} value='' disabled>Barangay</option>
+                    {
+                      barangayData.map(
+                        (barangay) => <option key={barangay.brgy_code} value={barangay.brgy_name}>{barangay.brgy_name}</option>
+                      )
+                    }
+                  </select>
+                </div>
+                <div className="flex justify-between border-b-[1px] border-gray-300 ">
+                  <div className="font-semibold">
+                    Blood Group
+                  </div>
+                  <select value={filters.bloodGroup} onChange={(e)=>{setFilters({...filters, bloodGroup: e.target.value })}} className="text-right outline-none cursor-pointer">
+                    <option value={'A+'} >A+</option>
+                    <option value={'A-'} >A-</option>
+                    <option value={'B+'} >B+</option>
+                    <option value={'B-'} >B-</option>
+                    <option value={'O+'} >O+</option>
+                    <option value={'O-'} >O-</option>
+                    <option value={'AB+'} >AB+</option>
+                    <option value={'AB-'} >AB-</option>
+                  </select>
+                </div>
+                <div className="flex justify-between border-b-[1px] border-gray-300">
+                  <div className="font-semibold ">
+                    Health Status
+                  </div>
+                  <select value={filters.healthStatus} onChange={(e)=>{setFilters({...filters, healthStatus: e.target.value })}} className="text-right outline-none cursor-pointer">
+                    <option value="Great">Great</option>
+                    <option value="Normal">Normal</option>
+                    <option value="Bad">Bad</option>
+                  </select>
+                </div>
+              </div>
             </div>
           </div>
         </div>
