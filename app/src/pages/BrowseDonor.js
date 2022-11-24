@@ -150,6 +150,7 @@ const BrowseDonor = () => {
   }
 
   const handleResetFilters = () => {
+    setFilteredUsers(allUsers);
     setFilters({
       status: '',
       name: '',
@@ -164,7 +165,6 @@ const BrowseDonor = () => {
       rating: 0,
     });
   }
-
 
   return (
     <section className='flex flex-col w-full min-h-screen '>
