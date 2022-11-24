@@ -19,6 +19,10 @@ const BrowseDonor = () => {
   const navigate = useNavigate();
   const userId = localStorage.getItem('userID');
 
+  const [allUsers, setAllUsers] = useState([])
+  const [filteredUsers, setFilteredUsers] = useState([]);
+  const [selectedUser, setSelectedUser] = useState({});
+
   const [showModal, setShowModal] = useState(false);
   const [alert, setAlert] = useState({
     show: false,
@@ -53,6 +57,7 @@ const BrowseDonor = () => {
       regions().then((region) => {
         // console.log(region);
         setRegionData(region);
+        fetchAllUsers();
       });
     }
   }, [])
@@ -66,6 +71,33 @@ const BrowseDonor = () => {
       });
     }
   }, [location])
+
+  const fetchAllUsers = () => {
+    let endpoint = contextData.link + 'api/getAllUsers';
+    axios.post(endpoint)
+    .then(function (response) {
+      console.log(response.data.userProfiles);
+      var result = response.data.userProfiles;
+      var allUsers = result.user.map((user)=>{
+        return {
+          user,
+          address: result.address.find((address) => address.userID === user.id),
+          donorInfo: result.donorInfo.find((donorInfo) => donorInfo.userID === user.id)
+        }
+      })
+      console.log("All Users", allUsers);
+      setAllUsers(allUsers);
+      setFilteredUsers(allUsers);
+    })
+    .catch(function (error) {
+      console.log(error.response.data.message);
+      setAlert({
+        show: true,
+        header: error.response.data.message,
+        isError: true,
+      });
+    });
+  }
 
   const handleSelectRegion = (e) =>{
     console.log(e.target.value);
@@ -112,6 +144,27 @@ const BrowseDonor = () => {
     console.log('Selected Barangay Data: ', selectedData);
     setFilters({...filters, barangay: e.target.value})
   }
+
+  const handleFilterResults = () => {
+    console.table("Filters: ", filters);
+  }
+
+  const handleResetFilters = () => {
+    setFilters({
+      status: '',
+      name: '',
+      gender: '',
+      age: 0,
+      region: '',
+      province: '',
+      city: '',
+      barangay: '',
+      bloodGroup: '',
+      healthStatus: '',
+      rating: 0,
+    });
+  }
+
 
   return (
     <section className='flex flex-col w-full min-h-screen '>
@@ -178,10 +231,21 @@ const BrowseDonor = () => {
           {/* 1 */}
           <SideBar />
           {/* 2 */}
-          <div className="flex flex-col items-start w-full gap-5 p-5 bg-gray-100 lg:justify-around lg:flex-row">
+          <div className="flex flex-col-reverse items-start w-full gap-5 p-5 bg-gray-100 lg:justify-around lg:flex-row">
             {/* 1 */}
             <div className="bg-gray-50 w-[100%] lg:w-[60%] flex items-center flex-col p-5 rounded drop-shadow-lg">
               BROWSE DONORS
+              <div className="flex items-center justify-center h-40">1</div>
+              <div className="flex items-center justify-center h-40">1</div>
+              <div className="flex items-center justify-center h-40">1</div>
+              <div className="flex items-center justify-center h-40">1</div>
+              <div className="flex items-center justify-center h-40">1</div>
+              <div className="flex items-center justify-center h-40">1</div>
+              <div className="flex items-center justify-center h-40">1</div>
+              <div className="flex items-center justify-center h-40">1</div>
+              <div className="flex items-center justify-center h-40">1</div>
+              <div className="flex items-center justify-center h-40">1</div>
+              <div className="flex items-center justify-center h-40">1</div>
             </div>
             {/* 2 */}
             <div className="bg-gray-50 w-[100%] lg:w-[35%] gap-5 flex flex-col p-5 rounded drop-shadow-lg">
@@ -193,7 +257,8 @@ const BrowseDonor = () => {
                   <div className="font-semibold ">
                     Status
                   </div>
-                  <select value={filters.status} onChange={(e)=>{setFilters({...filters, status: e.target.value })}} className="outline-none cursor-pointer" >
+                  <select value={filters.status} onChange={(e)=>{setFilters({...filters, status: e.target.value })}} className="text-right outline-none cursor-pointer" >
+                    <option value="All">All</option>
                     <option value="Active">Active</option>
                     <option value="Inactive">Inactive</option>
                   </select>
@@ -202,13 +267,14 @@ const BrowseDonor = () => {
                   <div className="font-semibold ">
                     Name
                   </div>
-                  <input type="text" value={filters.name} onChange={(e)=>{setFilters({...filters, name: e.target.value })}} maxLength={30} className="text-right outline-none "/>
+                  <input type="text" value={filters.name} placeholder={'Empty'} onChange={(e)=>{setFilters({...filters, name: e.target.value })}} maxLength={30} className="text-right outline-none "/>
                 </div>
                 <div className="flex justify-between border-b-[1px] border-gray-300 flex-wrap">
                   <div className="font-semibold ">
                     Gender
                   </div>
                   <select value={filters.gender} onChange={(e)=>{setFilters({...filters, gender: e.target.value })}} className="text-right outline-none cursor-pointer" >
+                    <option value="All">All</option>
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
                   </select>
@@ -276,6 +342,7 @@ const BrowseDonor = () => {
                     Blood Group
                   </div>
                   <select value={filters.bloodGroup} onChange={(e)=>{setFilters({...filters, bloodGroup: e.target.value })}} className="text-right outline-none cursor-pointer">
+                    <option value="All">All</option>
                     <option value={'A+'} >A+</option>
                     <option value={'A-'} >A-</option>
                     <option value={'B+'} >B+</option>
@@ -291,11 +358,20 @@ const BrowseDonor = () => {
                     Health Status
                   </div>
                   <select value={filters.healthStatus} onChange={(e)=>{setFilters({...filters, healthStatus: e.target.value })}} className="text-right outline-none cursor-pointer">
+                    <option value="All">All</option>
                     <option value="Great">Great</option>
                     <option value="Normal">Normal</option>
                     <option value="Bad">Bad</option>
                   </select>
                 </div>
+              </div>
+              <div className="flex gap-2">
+                <button onClick={handleResetFilters} className="w-20 p-2 font-bold bg-gray-300 border border-gray-300 rounded shadow shadow-bg-gray-800 shrink-0 hover:bg-gray-400">
+                  Reset
+                </button>
+                <button onClick={handleFilterResults} className="w-full p-2 font-bold text-white bg-blue-700 border-blue-600 rounded shadow hover:bg-blue-800">
+                  Filter Results
+                </button>
               </div>
             </div>
           </div>
