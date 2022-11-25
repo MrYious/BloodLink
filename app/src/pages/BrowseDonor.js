@@ -268,8 +268,8 @@ const BrowseDonor = () => {
                 :
                   <div className='flex flex-col gap-5 p-1 md:gap-2'>
                     {
-                      filteredUsers.map((users) =>
-                        <Link to={'/main/profile/'+ users.user.id} className="flex flex-col items-center overflow-hidden bg-gray-200 border border-gray-400 rounded-md cursor-pointer md:flex-row hover:border-gray-800 hover:shadow-sm hover:shadow-gray-400">
+                      filteredUsers.map((users, i) =>
+                        <Link key={i} to={'/main/profile/'+ users.user.id} className="flex flex-col items-center overflow-hidden bg-gray-200 border border-gray-400 rounded-md cursor-pointer md:flex-row hover:border-gray-800 hover:shadow-sm hover:shadow-gray-400">
                           <div className='flex items-center justify-center w-full overflow-hidden bg-black select-none md:w-28 shrink-0'>
                             <img src={users.user.profilePicture ? users.user.profilePicture : profilepic} className='w-full' alt="profilepicture" />
                           </div>
