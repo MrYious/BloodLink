@@ -1,3 +1,4 @@
+import { FaAngleLeft, FaAngleRight, FaRegStar, FaStar, FaTimes, } from 'react-icons/fa';
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   barangays,
@@ -7,11 +8,16 @@ import {
 } from "select-philippines-address";
 import { useContext, useEffect, useState } from "react";
 
-import { FaTimes } from 'react-icons/fa';
 import { MainContext } from '../App.js'
 import MainNavigationBar from '../components/MainNavigationBar';
 import SideBar from '../components/SideBar.js';
 import axios  from "axios";
+import profilepic from '../assets/images/profilepic.jpg'
+
+// import profilepic from '../assets/images/profilepic1.jpg'
+
+
+
 
 const BrowseDonor = () => {
   const contextData = useContext(MainContext);
@@ -23,6 +29,8 @@ const BrowseDonor = () => {
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState({});
 
+  const [pages, setPages] = useState(10)
+  const [pageNumber, setPageNumber] = useState(1)
   const [showModal, setShowModal] = useState(false);
   const [alert, setAlert] = useState({
     show: false,
@@ -166,6 +174,18 @@ const BrowseDonor = () => {
     });
   }
 
+  const handleNextPage = () => {
+    if(pageNumber !== pages){
+      setPageNumber(pageNumber+1);
+    }
+  }
+
+  const handlePreviousPage = () => {
+    if(pageNumber !== 1){
+      setPageNumber(pageNumber-1);
+    }
+  }
+
   return (
     <section className='flex flex-col w-full min-h-screen '>
       {/* ALERT */}
@@ -233,19 +253,80 @@ const BrowseDonor = () => {
           {/* 2 */}
           <div className="flex flex-col-reverse items-start w-full gap-5 p-5 bg-gray-100 lg:justify-around lg:flex-row">
             {/* 1 */}
-            <div className="bg-gray-50 w-[100%] lg:w-[60%] flex items-center flex-col p-5 rounded drop-shadow-lg">
-              BROWSE DONORS
-              <div className="flex items-center justify-center h-40">1</div>
-              <div className="flex items-center justify-center h-40">1</div>
-              <div className="flex items-center justify-center h-40">1</div>
-              <div className="flex items-center justify-center h-40">1</div>
-              <div className="flex items-center justify-center h-40">1</div>
-              <div className="flex items-center justify-center h-40">1</div>
-              <div className="flex items-center justify-center h-40">1</div>
-              <div className="flex items-center justify-center h-40">1</div>
-              <div className="flex items-center justify-center h-40">1</div>
-              <div className="flex items-center justify-center h-40">1</div>
-              <div className="flex items-center justify-center h-40">1</div>
+            <div className="bg-gray-50 w-[100%] lg:w-[60%] flex flex-col p-5 rounded drop-shadow-lg gap-3">
+              <div className="flex items-center justify-between">
+                <div className="font-bold">BROWSE DONORS</div>
+                <div className='flex items-center gap-1 text-sm select-none'>
+                  <FaAngleLeft onClick={handlePreviousPage} className={` cursor-pointer hover:text-green-600`}/>
+                  <div>Page {pageNumber} / {pages}</div>
+                  <FaAngleRight onClick={handleNextPage} className={` cursor-pointer hover:text-green-600`} />
+                </div>
+              </div>
+              {
+                filteredUsers.length === 0
+                ?
+                  <div className="flex items-center justify-center h-40">No Records Found</div>
+                :
+                  <div className='flex flex-col gap-5 p-1 md:gap-2'>
+                    {
+                      filteredUsers.map((users) =>
+                        <div className="flex flex-col items-center overflow-hidden bg-gray-200 border border-gray-400 rounded-md cursor-pointer md:flex-row hover:border-gray-800 hover:shadow-sm hover:shadow-gray-400">
+                          <div className='flex items-center justify-center w-full overflow-hidden bg-black select-none md:w-28 shrink-0'>
+                            <img src={users.user.profilePicture ? users.user.profilePicture : profilepic} className='w-full' alt="profilepicture" />
+                          </div>
+                          <div className='flex w-full h-full'>
+                            <div className='flex flex-col justify-between w-1/2 gap-2 px-4 py-2 text-sm md:gap-0'>
+                              <div className='text-lg font-bold'>
+                                {users.user.firstname + ' ' + users.user.lastname}
+                              </div>
+                              <div className=''>
+                                {users.user.gender}
+                              </div>
+                              <div className=''>
+                                {users.user.age + ' years old'}
+                              </div>
+                              <div className='flex gap-1 text-lg'>
+                                {
+                                  [...Array(users.donorInfo.avgRating)].map((e, i) => <FaStar key={i} />)
+                                }
+                                {
+                                  [...Array(5 - users.donorInfo.avgRating)].map((e, i) => <FaRegStar key={i} />)
+                                }
+                              </div>
+                            </div>
+                            <div className='flex flex-col justify-between w-1/2 gap-2 px-4 py-2 text-sm md:gap-0'>
+                              <div className=''>
+                                Status: <span className={`font-bold ${users.user.status === 'Active' ? 'text-green-700' :'text-red-700' }`}>
+                                  {users.user.status}
+                                  </span>
+                              </div>
+                              <div className=''>
+                                Blood Group: {users.user.bloodGroup}
+                              </div>
+                              <div className=''>
+                                Last Donation: {users.donorInfo.lastDonation ? users.donorInfo.lastDonation : 'N/A'}
+                              </div>
+                              <div className=''>
+                                Total Donations: {users.donorInfo.totalDonations}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      )
+                    }
+                  </div>
+              }
+              {/* SHOW only if more than 1 page */}
+              {
+                pages > 1 &&
+                <div className="flex items-center justify-center">
+                  <div className='flex items-center gap-1 text-sm select-none'>
+                    <FaAngleLeft onClick={handlePreviousPage} className={` cursor-pointer hover:text-green-600`}/>
+                    <div>Page {pageNumber} / {pages}</div>
+                    <FaAngleRight onClick={handleNextPage} className={` cursor-pointer hover:text-green-600`} />
+                  </div>
+                </div>
+              }
             </div>
             {/* 2 */}
             <div className="bg-gray-50 w-[100%] lg:w-[35%] gap-5 flex flex-col p-5 rounded drop-shadow-lg">
