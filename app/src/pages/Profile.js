@@ -312,7 +312,7 @@ const Profile = () => {
                 </>
                 }
                 <div className='flex flex-col gap-2 pt-5 '>
-                  <div className='text-xs italic'>To proceed, you also need to provide a message to the requested donor.</div>
+                  <div className='text-xs italic'>To proceed, you have to provide a message to the requested donor.</div>
                   <textarea value={requestMessage} onChange={(e)=>{setRequestMessage(e.target.value)}} placeholder='Empty' rows={5} maxLength={200} className='w-full p-1 border border-gray-700 rounded outline-none resize-none '></textarea>
                 </div>
               </div>
