@@ -28,7 +28,7 @@ const BrowseDonor = () => {
   const [allUsers, setAllUsers] = useState([])
   const [filteredUsers, setFilteredUsers] = useState([]);
 
-  const [pages, setPages] = useState(10)
+  const [pages, setPages] = useState(1)
   const [pageNumber, setPageNumber] = useState(1)
   const [showModal, setShowModal] = useState(false);
   const [alert, setAlert] = useState({
@@ -78,6 +78,11 @@ const BrowseDonor = () => {
       });
     }
   }, [location])
+
+  useEffect(() => {
+    // setPages(Math.ceil(new Array(50).length / 15));
+    setPages(Math.ceil(filteredUsers.length / 15));
+  }, [filteredUsers])
 
   const fetchAllUsers = () => {
     let endpoint = contextData.link + 'api/getAllUsers';
@@ -268,7 +273,9 @@ const BrowseDonor = () => {
                 :
                   <div className='flex flex-col gap-5 p-1 md:gap-2'>
                     {
-                      filteredUsers.map((users, i) =>
+                      filteredUsers
+                      .slice(15 * (pageNumber - 1), 15 * pageNumber > filteredUsers.length ? filteredUsers.length : 15 * pageNumber)
+                      .map((users, i) =>
                         <Link key={i} to={'/main/profile/'+ users.user.id} className="flex flex-col items-center overflow-hidden bg-gray-200 border border-gray-400 rounded-md cursor-pointer md:flex-row hover:border-gray-800 hover:shadow-sm hover:shadow-gray-400">
                           <div className='flex items-center justify-center w-full overflow-hidden bg-black select-none md:w-28 shrink-0'>
                             <img src={users.user.profilePicture ? users.user.profilePicture : profilepic} className='w-full' alt="profilepicture" />
