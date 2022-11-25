@@ -16,8 +16,8 @@ import profilepic from '../assets/images/profilepic.jpg'
 
 // import profilepic from '../assets/images/profilepic1.jpg'
 
-
-
+// PAGINATION
+// FILTER + LOCAL STORAGE
 
 const BrowseDonor = () => {
   const contextData = useContext(MainContext);
@@ -27,7 +27,6 @@ const BrowseDonor = () => {
 
   const [allUsers, setAllUsers] = useState([])
   const [filteredUsers, setFilteredUsers] = useState([]);
-  const [selectedUser, setSelectedUser] = useState({});
 
   const [pages, setPages] = useState(10)
   const [pageNumber, setPageNumber] = useState(1)
@@ -270,7 +269,7 @@ const BrowseDonor = () => {
                   <div className='flex flex-col gap-5 p-1 md:gap-2'>
                     {
                       filteredUsers.map((users) =>
-                        <div className="flex flex-col items-center overflow-hidden bg-gray-200 border border-gray-400 rounded-md cursor-pointer md:flex-row hover:border-gray-800 hover:shadow-sm hover:shadow-gray-400">
+                        <Link to={'/main/profile/'+ users.user.id} className="flex flex-col items-center overflow-hidden bg-gray-200 border border-gray-400 rounded-md cursor-pointer md:flex-row hover:border-gray-800 hover:shadow-sm hover:shadow-gray-400">
                           <div className='flex items-center justify-center w-full overflow-hidden bg-black select-none md:w-28 shrink-0'>
                             <img src={users.user.profilePicture ? users.user.profilePicture : profilepic} className='w-full' alt="profilepicture" />
                           </div>
@@ -311,7 +310,7 @@ const BrowseDonor = () => {
                               </div>
                             </div>
                           </div>
-                        </div>
+                        </Link>
                       )
                     }
                   </div>
