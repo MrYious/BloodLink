@@ -18,8 +18,7 @@ const Profile = () => {
   const userId = localStorage.getItem('userID');
   let { nameID } = useParams();
 
-  console.log(userId, nameID);
-  const [isOtherUser, setIsOtherUser] = useState(nameID ? true : false);
+  const [isMe, setIsMe] = useState(true);
   const [userProfile, setUserProfile] = useState({
     user: {
       id: 1,
@@ -122,7 +121,10 @@ const Profile = () => {
     image: '',
   })
 
-  const [showModal, setShowModal] = useState(false);
+  const [requestMessage, setRequestMessage] = useState('');
+
+  const [showReviewModal, setShowReviewModal] = useState(false);
+  const [showRequestModal, setShowRequestModal] = useState(false);
   const [alert, setAlert] = useState({
     show: false,
     header: '',
@@ -146,10 +148,15 @@ const Profile = () => {
         isError: location.state.isError,
       });
     }
-    setShowModal(false);
-    setIsOtherUser(nameID ? true : false);
+    setShowReviewModal(false);
+    setShowRequestModal(false);
+    setIsMe(nameID ? nameID === userId ? true : false : true);
     fetchUserProfile();
   }, [location])
+
+  useEffect(() => {
+    setRequestMessage('')
+  }, [showRequestModal])
 
   const fetchUserProfile = () => {
     const data = {
@@ -175,7 +182,28 @@ const Profile = () => {
   const handleOpenReview = (i) => {
     // console.log(i, userReviews[i]);
     setModalContent(userReviews[i]);
-    setShowModal(true);
+    setShowReviewModal(true);
+  }
+
+  const handleOpenRequestDonation = () => {
+    setShowRequestModal(true);
+  }
+
+  const handleRequestDonation = () => {
+    if (requestMessage === '') {
+      setAlert({
+        show: true,
+        header: 'Please enter a message to proceed.',
+        isError: true,
+      });
+    } else {
+      setAlert({
+        show: true,
+        header: 'Success',
+        isError: false,
+      });
+      setShowRequestModal(false);
+    }
   }
 
   return (
@@ -193,8 +221,8 @@ const Profile = () => {
           <FaTimes onClick={()=>{setAlert({...alert, show: false})}} className={`-mt-2 -mr-2 text-2xl  ${ alert.isError ? 'text-red-900' : 'text-green-900'}  cursor-pointer`}/>
         </div>
       }
-      {/* MODAL */}
-      {showModal && (
+      {/* REVIEW MODAL */}
+      {showReviewModal && (
       <>
         <div
           className="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none"
@@ -207,7 +235,7 @@ const Profile = () => {
                 <h3 className="text-xl font-semibold">
                   Donor Review
                 </h3>
-                <FaTimes onClick={() => setShowModal(false)} className='text-xl cursor-pointer ' />
+                <FaTimes onClick={() => setShowReviewModal(false)} className='text-xl cursor-pointer ' />
               </div>
               {/*body*/}
               <div className="flex flex-col p-6 text-sm md:flex-row ">
@@ -248,16 +276,61 @@ const Profile = () => {
                 <button
                   className="px-6 py-2 mb-1 mr-1 text-xs font-bold text-red-500 uppercase transition-all duration-150 ease-linear outline-none hover:underline background-transparent focus:outline-none"
                   type="button"
-                  onClick={() => setShowModal(false)}
+                  onClick={() => setShowReviewModal(false)}
                 >
                   Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="fixed inset-0 z-40 bg-black opacity-25"></div>
+      </>
+      )}
+      {/* REQUEST MODAL */}
+      {showRequestModal && (
+      <>
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none"
+        >
+          <div className="relative w-auto max-w-3xl mx-auto my-6">
+            {/*content*/}
+            <div className="relative flex flex-col w-full bg-white border-0 rounded-lg shadow-lg outline-none focus:outline-none">
+              {/*header*/}
+              <div className="flex items-start justify-between p-5 border-b border-solid rounded-t border-slate-200">
+                <h3 className="text-xl font-semibold">
+                  Request a Blood Donation
+                </h3>
+                <FaTimes onClick={() => setShowRequestModal(false)} className='text-xl cursor-pointer ' />
+              </div>
+              {/*body*/}
+              <div className="flex flex-col gap-2 p-6 text-sm">
+                <div>Are you sure you want to request blood from <b>{userProfile.user.firstname + ' ' + userProfile.user.lastname}</b>?</div>
+                { userProfile.user.status === 'Inactive' && <>
+                  <div>The user's account is set to  <b className='text-red-700'>{userProfile.user.status}</b>.</div>
+                  <div>Do you still want to send a blood donation request?</div>
+                </>
+                }
+                <div className='flex flex-col gap-2 pt-5 '>
+                  <div className='text-xs italic'>To proceed, you also need to provide a message to the requested donor.</div>
+                  <textarea value={requestMessage} onChange={(e)=>{setRequestMessage(e.target.value)}} placeholder='Empty' rows={5} maxLength={200} className='w-full p-1 border border-gray-700 rounded outline-none resize-none '></textarea>
+                </div>
+              </div>
+              {/*footer*/}
+              <div className="flex items-center justify-end p-6 border-t border-solid rounded-b border-slate-200">
+                <button
+                  className="px-6 py-2 mb-1 mr-1 text-xs font-bold text-red-500 uppercase transition-all duration-150 ease-linear outline-none hover:underline background-transparent focus:outline-none"
+                  type="button"
+                  onClick={() => setShowRequestModal(false)}
+                >
+                  Cancel
                 </button>
                 <button
                   className="px-6 py-3 mb-1 mr-1 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 hover:bg-emerald-700 active:bg-emerald-600 hover:shadow-lg focus:outline-none"
                   type="button"
-                  onClick={() => setShowModal(false)}
+                  onClick={handleRequestDonation}
                 >
-                  Save Changes
+                  Send Request
                 </button>
               </div>
             </div>
@@ -314,10 +387,15 @@ const Profile = () => {
                     </div>
                   </div>
                   {
-                    !isOtherUser &&
-                    <div>
-                      <Link to={'/main/update'} className='py-1 text-xs bg-red-300 border border-red-500 rounded-full px-7 hover:bg-red-500'>Edit Profile</Link>
-                    </div>
+                    isMe
+                    ?
+                      <div>
+                        <Link to={'/main/update'} className='py-1 text-xs bg-red-300 border border-red-500 rounded-full px-7 hover:bg-red-500'>Edit Profile</Link>
+                      </div>
+                    :
+                      <div>
+                        <button onClick={handleOpenRequestDonation} className='py-1 text-xs bg-blue-300 border border-blue-500 rounded-full px-7 hover:bg-blue-500'>Request Blood Donation</button>
+                      </div>
                   }
                 </div>
               </div>
