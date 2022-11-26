@@ -17,7 +17,6 @@ import profilepic from '../assets/images/profilepic.jpg'
 
 // import profilepic from '../assets/images/profilepic1.jpg'
 
-// FILTER + LOCAL STORAGE
 
 const BrowseDonor = () => {
   const contextData = useContext(MainContext);
