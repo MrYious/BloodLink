@@ -10,13 +10,13 @@ import { useContext, useEffect, useState } from "react";
 
 import { MainContext } from '../App.js'
 import MainNavigationBar from '../components/MainNavigationBar';
+import Rating from 'react-rating'
 import SideBar from '../components/SideBar.js';
 import axios  from "axios";
 import profilepic from '../assets/images/profilepic.jpg'
 
 // import profilepic from '../assets/images/profilepic1.jpg'
 
-// PAGINATION
 // FILTER + LOCAL STORAGE
 
 const BrowseDonor = () => {
@@ -38,19 +38,25 @@ const BrowseDonor = () => {
     isError: false
   });
 
-  const [filters, setFilters] = useState({
-    status: '',
-    name: '',
-    gender: '',
-    age: 0,
-    region: '',
-    province: '',
-    city: '',
-    barangay: '',
-    bloodGroup: '',
-    healthStatus: '',
-    rating: 0,
-  })
+  const [filters, setFilters] = useState(
+    localStorage.getItem('filters')
+    ?
+      JSON.parse(localStorage.getItem('filters'))
+    :
+      {
+        status: '',
+        name: '',
+        gender: '',
+        age: 0,
+        region: '',
+        province: '',
+        city: '',
+        barangay: '',
+        bloodGroup: '',
+        healthStatus: '',
+        rating: 0,
+      }
+  )
 
   const [regionData, setRegionData] = useState([]);
   const [provinceData, setProvinceData] = useState([]);
@@ -65,6 +71,66 @@ const BrowseDonor = () => {
         // console.log(region);
         setRegionData(region);
         fetchAllUsers();
+
+        const storedFilters = localStorage.getItem('filters');
+        var obj = JSON.parse(storedFilters);
+        if(storedFilters){
+          regions().then((region) => {
+            var regions = region;
+            // setRegionData(region);
+
+            // console.log(region);
+            let selectedRegion = regions.find((data) => data.region_name === obj.region)
+            // console.log('Selected Region Data: ', selectedRegion);
+
+            if(selectedRegion){
+              provinces(selectedRegion.region_code).then((province) => {
+                var provinces = province;
+                // setProvinceData(province);
+
+                console.log(province);
+                let selectedProvince = provinces.find((data) => data.province_name === obj.province)
+                // console.log('Selected Province Data: ', selectedProvince);
+
+                if(selectedProvince){
+                  cities(selectedProvince.province_code).then((city) => {
+                    var cities = city;
+                    // setCityData(city);
+
+                    console.log(city);
+                    let selectedCity = cities.find((data) => data.city_name === obj.city)
+                    // console.log('Selected City Data: ', selectedCity);
+
+                    if(selectedCity){
+                      barangays(selectedCity.city_code).then((barangay) => {
+                        var barangays = barangay;
+                        // setBarangayData(barangay);
+
+                        console.log(barangay);
+                        let selectedBarangay = barangays.find((data) => data.brgy_name === obj.barangay)
+                        // console.log('Selected Barangay Data: ', selectedBarangay);
+
+                        setRegionData(regions);
+                        setProvinceData(provinces);
+                        setCityData(cities);
+                        setBarangayData(barangays);
+                      });
+                    } else {
+                      setRegionData(regions);
+                      setProvinceData(provinces);
+                      setCityData(cities);
+                    }
+                  });
+                } else {
+                  setRegionData(regions);
+                  setProvinceData(provinces);
+                }
+              });
+            } else {
+              setRegionData(regions);
+            }
+          });
+        }
       });
     }
   }, [])
@@ -81,7 +147,7 @@ const BrowseDonor = () => {
 
   useEffect(() => {
     // setPages(Math.ceil(new Array(50).length / 15));
-    setPages(Math.ceil(filteredUsers.length / 15));
+    setPages(Math.ceil(filteredUsers.length / 15) > 0 ? Math.ceil(filteredUsers.length / 15) : 1);
   }, [filteredUsers])
 
   const fetchAllUsers = () => {
@@ -100,6 +166,7 @@ const BrowseDonor = () => {
       console.log("All Users", allUsers);
       setAllUsers(allUsers);
       setFilteredUsers(allUsers);
+      handleFilterResults(allUsers);
     })
     .catch(function (error) {
       console.log(error.response.data.message);
@@ -157,11 +224,78 @@ const BrowseDonor = () => {
     setFilters({...filters, barangay: e.target.value})
   }
 
-  const handleFilterResults = () => {
-    console.table("Filters: ", filters);
+  const handleFilterResults = (allUsers) => {
+    localStorage.setItem('filters', JSON.stringify(filters));
+    var filtered = allUsers;
+    console.log("ALL DONORS", filtered)
+
+    console.log(filters.age, filters.age > 0? true: false)  ;
+
+    if(filters.status && filters.status !== 'All'){
+      filtered = filtered.filter(users =>
+        users.user.status === filters.status
+      );
+    }
+    if(filters.name){
+      filtered = filtered.filter(users =>
+        users.user.firstname.toLowerCase().includes(filters.name.toLowerCase()) ||
+        users.user.lastname.toLowerCase().includes(filters.name.toLowerCase()) ||
+        users.user.middlename.toLowerCase().includes(filters.name.toLowerCase())
+      );
+    }
+    if(filters.gender && filters.gender !== 'All'){
+      filtered = filtered.filter(users =>
+        users.user.gender === filters.gender
+      );
+    }
+    if(filters.age > 0){
+      filtered = filtered.filter(users =>
+        users.user.age === parseInt(filters.age)
+      );
+    }
+    if(filters.rating > 0){
+      filtered = filtered.filter(users =>
+        users.donorInfo.avgRating === parseInt(filters.rating)
+      );
+    }
+    if(filters.region){
+      console.log(filters.region);
+      filtered = filtered.filter(users =>
+        users.address.region === filters.region
+      );
+    }
+    if(filters.province){
+      filtered = filtered.filter(users =>
+        users.address.province === filters.province
+      );
+    }
+    if(filters.city){
+      filtered = filtered.filter(users =>
+        users.address.city === filters.city
+      );
+    }
+    if(filters.barangay){
+      filtered = filtered.filter(users =>
+        users.address.barangay === filters.barangay
+      );
+    }
+    if( filters.bloodGroup && filters.bloodGroup !== 'All'){
+      filtered = filtered.filter(users =>
+        users.user.bloodGroup === filters.bloodGroup
+      );
+    }
+    if( filters.healthStatus && filters.healthStatus !== 'All'){
+      filtered = filtered.filter(users =>
+        users.donorInfo.healthStatus === filters.healthStatus
+      );
+    }
+
+    setFilteredUsers(filtered);
+    console.log("FILTERED", filtered);
   }
 
   const handleResetFilters = () => {
+    localStorage.removeItem('filters');
     setFilteredUsers(allUsers);
     setFilters({
       status: '',
@@ -335,11 +469,11 @@ const BrowseDonor = () => {
               }
             </div>
             {/* 2 */}
-            <div className="bg-gray-50 w-[100%] lg:w-[35%] gap-5 flex flex-col p-5 rounded drop-shadow-lg">
+            <div className="bg-gray-50 w-[100%] lg:w-[35%] gap-3 flex flex-col p-5 rounded drop-shadow-lg">
               <div className="font-bold text-center">
                 FILTERS
               </div>
-              <div className="flex flex-col gap-5 p-2 text-sm">
+              <div className="flex flex-col gap-4 p-2 text-sm">
                 <div className="flex justify-between border-b-[1px] border-gray-300">
                   <div className="font-semibold ">
                     Status
@@ -370,7 +504,21 @@ const BrowseDonor = () => {
                   <div className="font-semibold ">
                     Age
                   </div>
-                  <input type="number" value={filters.age} onChange={(e)=>{setFilters({...filters, age: e.target.value })}} max={150}  className="text-right outline-none "/>
+                  <input type="number" min={0} value={filters.age} onChange={(e)=>{setFilters({...filters, age: e.target.value })}} max={150}  className="text-right outline-none "/>
+                </div>
+                <div className="flex justify-between border-b-[1px] border-gray-300">
+                  <div className="font-semibold ">
+                    Rating
+                  </div>
+                  <div className='text-lg'>
+                    <Rating
+                      emptySymbol={<FaRegStar />}
+                      fullSymbol={<FaStar />}
+                      initialRating={filters.rating}
+                      value={filters.rating}
+                      onChange={(value) => {setFilters({...filters, rating: value})}}
+                    />
+                  </div>
                 </div>
                 <div className="flex flex-col justify-between item border-b-[1px] border-gray-300  flex-wrap">
                   <div className="font-semibold ">
@@ -456,7 +604,7 @@ const BrowseDonor = () => {
                 <button onClick={handleResetFilters} className="w-20 p-2 font-bold bg-gray-300 border border-gray-300 rounded shadow shadow-bg-gray-800 shrink-0 hover:bg-gray-400">
                   Reset
                 </button>
-                <button onClick={handleFilterResults} className="w-full p-2 font-bold text-white bg-blue-700 border-blue-600 rounded shadow hover:bg-blue-800">
+                <button onClick={()=>{handleFilterResults(allUsers)}} className="w-full p-2 font-bold text-white bg-blue-700 border-blue-600 rounded shadow hover:bg-blue-800">
                   Filter Results
                 </button>
               </div>
