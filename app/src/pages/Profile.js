@@ -56,7 +56,13 @@ const Profile = () => {
     acceptDonorReq: {
 
     },
-    allReviews: {
+    seekDonorReq: {
+
+    },
+    reviews: {
+
+    },
+    otherUsers: {
 
     }
   });
