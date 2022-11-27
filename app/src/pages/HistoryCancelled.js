@@ -13,6 +13,10 @@ const HistoryCancelled = () => {
   const navigate = useNavigate();
   const userId = localStorage.getItem('userID');
 
+  const [allRequests, setAllRequests] = useState([
+    
+  ]);
+
   const [showModal, setShowModal] = useState(false);
   const [alert, setAlert] = useState({
     show: false,
@@ -102,14 +106,17 @@ const HistoryCancelled = () => {
           {/* 1 */}
           <SideBar />
           {/* 2 */}
-          <div className="flex flex-col items-start w-full gap-5 p-5 bg-gray-100 lg:justify-around lg:flex-row">
+          <div className="flex items-start justify-center w-full gap-5 p-5 bg-gray-100">
             {/* 1 */}
-            <div className="bg-gray-50 w-[100%] lg:w-[60%] flex items-center flex-col p-5 rounded drop-shadow-lg">
-              Main Contents
-            </div>
-            {/* 2 */}
-            <div className="bg-gray-50 w-[100%] lg:w-[33%] flex flex-col items-center p-5 rounded drop-shadow-lg">
-              Side Contents
+            <div className="bg-gray-50 w-[100%] lg:w-[60%] flex flex-col p-5 rounded drop-shadow-lg">
+            <div className="font-bold">HISTORY: LIST OF CANCELLED REQUESTS</div>
+              {
+                allRequests.length === 0
+                ?
+                  <div className="flex items-center justify-center h-40">No Records Found</div>
+                :
+                  <></>
+              }
             </div>
           </div>
         </div>

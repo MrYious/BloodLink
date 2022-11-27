@@ -13,6 +13,23 @@ const Requests = () => {
   const navigate = useNavigate();
   const userId = localStorage.getItem('userID');
 
+
+  // donor: {
+  //   id: '1',
+  //   name: 'Mark Edison Rosario',
+  // },
+  // seeker: {
+  //   id: '2',
+  //   name: 'Tessia Eralith',
+  // },
+  // date: '2022-11-12',
+  // comment: '1 He is very helpful, a good person.',
+  // rating: 3,
+  // image: '',
+
+  const [allRequests, setAllRequests] = useState([
+    
+  ]);
   const [showModal, setShowModal] = useState(false);
   const [alert, setAlert] = useState({
     show: false,
@@ -24,6 +41,8 @@ const Requests = () => {
   useEffect(() => {
     if(!userId){
       navigate("/")
+    } else {
+      fetchAllPendingRequests()
     }
   }, [])
 
@@ -36,6 +55,26 @@ const Requests = () => {
       });
     }
   }, [location])
+
+  const fetchAllPendingRequests = () => {
+    const data = {
+      id: userId,
+      status: 'Pending',
+    }
+    let endpoint = contextData.link + 'api/getRequest';
+    axios.post(endpoint, {data})
+    .then(function (response) {
+      console.log('Pending Requests ', response.data.requests);
+    })
+    .catch(function (error) {
+      console.log(error.response.data.message);
+      setAlert({
+        show: true,
+        header: 'Action Failed',
+        isError: true,
+      });
+    });
+  }
 
   return (
     <section className='flex flex-col w-full min-h-screen '>
@@ -102,14 +141,67 @@ const Requests = () => {
           {/* 1 */}
           <SideBar />
           {/* 2 */}
-          <div className="flex flex-col items-start w-full gap-5 p-5 bg-gray-100 lg:justify-around lg:flex-row">
+          <div className="flex items-start justify-center w-full gap-5 p-5 bg-gray-100">
             {/* 1 */}
-            <div className="bg-gray-50 w-[100%] lg:w-[60%] flex items-center flex-col p-5 rounded drop-shadow-lg">
-              Main Contents
-            </div>
-            {/* 2 */}
-            <div className="bg-gray-50 w-[100%] lg:w-[33%] flex flex-col items-center p-5 rounded drop-shadow-lg">
-              Side Contents
+            <div className="bg-gray-50 w-[100%] lg:w-[60%] flex flex-col p-5 rounded drop-shadow-lg">
+              <div className="font-bold">YOUR PENDING REQUESTS</div>
+              {
+                allRequests.length === 0
+                ?
+                  <div className="flex items-center justify-center h-40">No Records Found</div>
+                :
+                  <></>
+                  // <div className='flex flex-col gap-5 p-1 md:gap-2'>
+                  //   {
+                  //     filteredUsers
+                  //     .slice(15 * (pageNumber - 1), 15 * pageNumber > filteredUsers.length ? filteredUsers.length : 15 * pageNumber)
+                  //     .map((users, i) =>
+                  //       <Link key={i} to={'/main/profile/'+ users.user.id} className="flex flex-col items-center overflow-hidden bg-gray-200 border border-gray-400 rounded-md cursor-pointer md:flex-row hover:border-gray-800 hover:shadow-sm hover:shadow-gray-400">
+                  //         <div className='flex items-center justify-center w-full overflow-hidden bg-black select-none md:w-28 shrink-0'>
+                  //           <img src={users.user.profilePicture ? users.user.profilePicture : profilepic} className='w-full' alt="profilepicture" />
+                  //         </div>
+                  //         <div className='flex w-full h-full'>
+                  //           <div className='flex flex-col justify-between w-1/2 gap-2 px-4 py-2 text-sm md:gap-0'>
+                  //             <div className='text-lg font-bold'>
+                  //               {users.user.firstname + ' ' + users.user.lastname}
+                  //             </div>
+                  //             <div className=''>
+                  //               {users.user.gender}
+                  //             </div>
+                  //             <div className=''>
+                  //               {users.user.age + ' years old'}
+                  //             </div>
+                  //             <div className='flex gap-1 text-lg'>
+                  //               {
+                  //                 [...Array(users.donorInfo.avgRating)].map((e, i) => <FaStar key={i} />)
+                  //               }
+                  //               {
+                  //                 [...Array(5 - users.donorInfo.avgRating)].map((e, i) => <FaRegStar key={i} />)
+                  //               }
+                  //             </div>
+                  //           </div>
+                  //           <div className='flex flex-col justify-between w-1/2 gap-2 px-4 py-2 text-sm md:gap-0'>
+                  //             <div className=''>
+                  //               Status: <span className={`font-bold ${users.user.status === 'Active' ? 'text-green-700' :'text-red-700' }`}>
+                  //                 {users.user.status}
+                  //                 </span>
+                  //             </div>
+                  //             <div className=''>
+                  //               Blood Group: {users.user.bloodGroup}
+                  //             </div>
+                  //             <div className=''>
+                  //               Last Donation: {users.donorInfo.lastDonation ? users.donorInfo.lastDonation : 'N/A'}
+                  //             </div>
+                  //             <div className=''>
+                  //               Total Donations: {users.donorInfo.totalDonations}
+                  //             </div>
+                  //           </div>
+                  //         </div>
+                  //       </Link>
+                  //     )
+                  //   }
+                  // </div>
+              }
             </div>
           </div>
         </div>
