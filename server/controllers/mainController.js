@@ -117,17 +117,46 @@ export const findUserByID = async (req, res) => {
 
         const acceptDonorReq = await DonorRequest.findAll({
             where: {
-                donorID: req.body.data.id
+                donorID: req.body.data.id,
+                status: 'Completed'
             }
         });
 
         const seekDonorReq = await DonorRequest.findAll({
             where: {
-                seekerID: req.body.data.id
+                seekerID: req.body.data.id,
+                status: 'Completed'
             }
         });
 
-        const allReviews = await Review.findAll();
+        const donorRequestsIDs = [
+            ...acceptDonorReq.filter((req) => {return req.id}),
+            ...seekDonorReq.filter((req) => {return req.id}),
+        ]
+
+        const reviews = await Review.findAll({
+            where: {
+                donorRequestID: donorRequestsIDs,
+            }
+        });
+
+        const otherUsers = {
+            users: await User.findAll({
+                where: {
+                    id: donorRequestsIDs
+                }
+            }),
+            addresses: await Address.findAll({
+                where: {
+                    userID: donorRequestsIDs
+                }
+            }),
+            donorInfos: await DonorInfo.findAll({
+                where: {
+                    userID: donorRequestsIDs
+                }
+            })
+        }
 
         if(!user){
             res.status(400).json({ message: "Error loading user's profile data!" });
@@ -138,7 +167,8 @@ export const findUserByID = async (req, res) => {
                 donorInfo,
                 acceptDonorReq,
                 seekDonorReq,
-                allReviews,
+                reviews,
+                otherUsers
             }});
         }
     } catch (error) {
@@ -169,6 +199,7 @@ export const getAllUsers = async (req, res) => {
         res.status(400).json({ message: error.message });
     }
 }
+
 export const updateAccount = async (req, res) => {
     try {
         console.log("BODY: ", req.body.data)
@@ -298,6 +329,154 @@ export const updateHealth = async (req, res) => {
         } else {
             res.status(200).json({ message: "Profile Updated!", });
         }
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}
+
+
+export const createNewRequest = async (req, res) => {
+    try {
+        console.log("BODY: ", req.body.data)
+
+        const requestData = {
+            donorID: req.body.data.donorID,
+            seekerID: req.body.data.seekerID,
+            message: req.body.data.message,
+            status: 'Pending',
+        }
+        console.log(requestData);
+
+        const request = await DonorRequest.create(requestData);
+
+
+        if(!request){
+            res.status(400).json({ message: "Failed to Send Blood Donation Request!" });
+        } else {
+            res.status(200).json({ message: "Blood Donation Request Sent!", });
+        }
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}
+// Seeker -> Donor -> Seeker
+// Pending -> Active -> Completed
+export const updateRequest = async (req, res) => {
+    try {
+        console.log("BODY: ", req.body.data)
+
+        const request = await DonorRequest.update({
+            status: req.body.data.status,
+        },{
+            where: {
+                id: req.body.data.id
+            }
+        });
+
+        var msg = 'The request is now active.';
+
+        if(req.body.data.status === 'Declined' || req.body.data.status === 'Cancelled'){
+            // FAILED
+            msg = 'The request is removed';
+            const failedRequest = await DonorRequest.update({
+                reason: req.body.data.reason,
+            },{
+                where: {
+                    id: req.body.data.id
+                }
+            });
+        } else if(req.body.data.status === 'Completed'){
+            // COMPLETED
+            msg = 'The request is now complete' + req.body.data.status;
+            const completedRequest = await DonorRequest.update({
+                clinicName: req.body.data.clinicName,
+                donationDate: req.body.data.donationDate,
+            },{
+                where: {
+                    id: req.body.data.id
+                }
+            });
+
+            const reviewData = {
+                donorRequestID: req.body.data.id,
+                comment: req.body.data.comment,
+                rating: req.body.data.rating,
+                image: req.body.data.image,
+            }
+            console.log(reviewData);
+
+            const review = await Review.create(reviewData);
+
+        }
+
+
+        if(!request){
+            res.status(400).json({ message: "Action Failed! Please try again!" });
+        } else {
+            res.status(200).json({ message: msg, });
+        }
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}
+
+export const getRequest = async (req, res) => {
+    try {
+        console.log("BODY: ", req.body.data)
+
+        const acceptDonorReq = await DonorRequest.findAll({
+            where: {
+                donorID: req.body.data.id,
+                status: req.body.data.status,
+            }
+        });
+
+        const seekDonorReq = await DonorRequest.findAll({
+            where: {
+                seekerID: req.body.data.id,
+                status: req.body.data.status,
+            }
+        });
+
+        const donorRequestsIDs = [
+            ...acceptDonorReq.filter((req) => {return req.id}),
+            ...seekDonorReq.filter((req) => {return req.id}),
+        ]
+
+        const listUsers = {
+            users: await User.findAll({
+                where: {
+                    id: donorRequestsIDs
+                }
+            }),
+            addresses: await Address.findAll({
+                where: {
+                    userID: donorRequestsIDs
+                }
+            }),
+            donorInfos: await DonorInfo.findAll({
+                where: {
+                    userID: donorRequestsIDs
+                }
+            })
+        }
+
+        var reviews = [];
+        if(req.body.data.status === 'Completed'){
+            reviews = await Review.findAll({
+                where: {
+                    donorRequestID: donorRequestsIDs,
+                }
+            });
+        }
+
+        res.status(200).json({ message: "Retrieve Success!", requests: {
+            listUsers,
+            acceptDonorReq,
+            seekDonorReq,
+            reviews
+        }});
+
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
