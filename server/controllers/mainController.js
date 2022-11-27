@@ -483,12 +483,15 @@ export const getRequest = async (req, res) => {
             });
         }
 
-        res.status(200).json({ message: "Retrieve Success!", requests: {
-            listUsers,
-            acceptDonorReq,
-            seekDonorReq,
-            reviews
-        }});
+        res.status(200).json({
+            message: "Retrieve Success!",
+            requests: {
+                listUsers,
+                acceptDonorReq,
+                seekDonorReq,
+                reviews
+            }
+        });
 
     } catch (error) {
         res.status(400).json({ message: error.message });
