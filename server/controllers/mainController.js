@@ -339,22 +339,35 @@ export const createNewRequest = async (req, res) => {
     try {
         console.log("BODY: ", req.body.data)
 
-        const requestData = {
-            donorID: req.body.data.donorID,
-            seekerID: req.body.data.seekerID,
-            message: req.body.data.message,
-            status: 'Pending',
-        }
-        console.log(requestData);
+        const isExisting = await DonorRequest.findAll({
+            where: {
+                donorID: req.body.data.donorID,
+                seekerID: req.body.data.seekerID,
+            }
+        })
 
-        const request = await DonorRequest.create(requestData);
+        console.log(isExisting, isExisting ? true : false);
 
-
-        if(!request){
-            res.status(400).json({ message: "Failed to Send Blood Donation Request!" });
+        if(isExisting.length > 0){
+            res.status(400).json({ message: "There is existing request with the donor!" });
         } else {
-            res.status(200).json({ message: "Blood Donation Request Sent!", });
+            const requestData = {
+                donorID: req.body.data.donorID,
+                seekerID: req.body.data.seekerID,
+                message: req.body.data.message,
+                status: 'Pending',
+            }
+            console.log(requestData);
+
+            const request = await DonorRequest.create(requestData);
+
+            if(!request){
+                res.status(400).json({ message: "Failed to Send Blood Donation Request!" });
+            } else {
+                res.status(200).json({ message: "Blood Donation Request Sent!", });
+            }
         }
+
     } catch (error) {
         res.status(400).json({ message: error.message });
     }

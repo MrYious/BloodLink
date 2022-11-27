@@ -203,12 +203,32 @@ const Profile = () => {
         isError: true,
       });
     } else {
-      setAlert({
-        show: true,
-        header: 'Success',
-        isError: false,
+      const data = {
+        donorID: userProfile.user.id,
+        seekerID: userId,
+        message: requestMessage,
+      }
+      let endpoint = contextData.link + 'api/request';
+      axios.post(endpoint, {data})
+      .then(function (response) {
+        setAlert({
+          show: true,
+          header: 'Success',
+          message: response.data.message,
+          isError: false,
+        });
+        setShowRequestModal(false);
+      })
+      .catch(function (error) {
+        console.log(error.response.data.message);
+        setAlert({
+          show: true,
+          header: 'Action Failed',
+          message: error.response.data.message,
+          isError: true,
+        });
+        setShowRequestModal(false);
       });
-      setShowRequestModal(false);
     }
   }
 
