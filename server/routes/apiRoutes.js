@@ -1,11 +1,14 @@
 import {
+    createNewRequest,
     createNewUser,
     findUserByID,
     getAllUsers,
+    getRequest,
     updateAccount,
     updateAddress,
     updateHealth,
     updatePersonal,
+    updateRequest,
     updateSocial,
     validateUserLogin
 } from "../controllers/mainController.js";
@@ -24,9 +27,9 @@ apiRouter.post('/updatePersonalByID', updatePersonal);
 apiRouter.post('/updateAddressByID', updateAddress);
 apiRouter.post('/updateSocialByID', updateSocial);
 apiRouter.post('/updateHealthByID', updateHealth);
-// apiRouter.post('/request', createRequest);
-// apiRouter.patch('/request', updateRequest);
-// apiRouter.post('/requestList', getRequestsByID);
+apiRouter.post('/request', createNewRequest);
+apiRouter.patch('/request', updateRequest);
+apiRouter.post('/getRequest', getRequest);
 // apiRouter.post('/seedusers', seedUser);
 
 export default apiRouter;
