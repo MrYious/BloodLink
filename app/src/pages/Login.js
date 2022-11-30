@@ -2,6 +2,7 @@ import { FaEnvelope, FaLock, FaTimes } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 
+import { BiLogIn } from "react-icons/bi";
 import { MainContext } from '../App.js'
 import NavigationBar from '../components/NavigationBar';
 import axios  from "axios";
@@ -95,7 +96,8 @@ const Login = () => {
               <FaLock className="text-3xl text-blue-900"/>
               <input className="w-full bg-transparent focus:outline-none" minLength={5} maxLength={16} value={password} onChange={(e)=> {setPassword(e.target.value)}} type={"password"} placeholder="Password" autoComplete="password" required/>
             </div>
-            <button type="submit" className="w-full py-2 text-xl font-bold tracking-wide text-gray-200 bg-green-700 rounded-sm shadow-md hover:bg-green-900 shadow-black">
+            <button type="submit" className="flex items-center justify-center w-full gap-4 py-2 text-xl font-bold tracking-wide text-gray-200 bg-green-700 rounded-sm shadow-md hover:bg-green-900 shadow-black">
+              <BiLogIn className="text-4xl" />
               LOGIN
             </button>
           </div>
