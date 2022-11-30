@@ -1,12 +1,13 @@
 import {
-  FaAngleRight,
   FaBug,
   FaBullhorn,
   FaFacebookF,
+  FaHandHoldingMedical,
   FaHeadset,
   FaInstagram,
   FaLaptopCode,
   FaRedditAlien,
+  FaSearch,
   FaTwitter,
   FaYoutube
 } from "react-icons/fa";
@@ -31,10 +32,16 @@ const Landing = () => {
             <div className='text-xl italic lg:text-3xl md:text-2xl'>
               Your <span className='text-red-600'>blood</span> can save <span className='border-b-2 border-blue-800'> lives </span>
             </div>
-            <Link to={'/register'} className='flex items-center px-4 py-2 mb-2 text-white bg-red-800 rounded-md shadow-sm text-md md:text-lg lg:text-xl w-fit shadow-black hover:bg-red-900'>
-              <FaAngleRight className="text-md"/>
-              Become a DONOR
-            </Link>
+            <div className="flex gap-2">
+              <Link to={'/register'} className='flex items-center gap-2 px-4 py-2 mb-2 text-white bg-red-800 rounded-md shadow-sm text-md md:text-lg lg:text-xl w-fit shadow-black hover:bg-red-900'>
+                <FaHandHoldingMedical className="text-md"/>
+                Be a DONOR
+              </Link>
+              <Link to={'/search'} className='flex items-center gap-2 px-4 py-2 mb-2 text-white bg-red-800 rounded-md shadow-sm text-md md:text-lg lg:text-xl w-fit shadow-black hover:bg-red-900'>
+                <FaSearch className="text-md"/>
+                Browse Donors
+              </Link>
+            </div>
           </div>
         </div>
       </section>
