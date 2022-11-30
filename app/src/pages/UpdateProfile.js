@@ -23,6 +23,9 @@ const UpdateProfile = () => {
 
   const [tab, setTab] = useState(1);
 
+  const [newProfile, setnewProfile] = useState('')
+  const [newName, setnewName] = useState('')
+
   const [tabAccount, setTabAccount] = useState({
     status: '',
     pic: '',
@@ -261,6 +264,8 @@ const UpdateProfile = () => {
           header: response.data.message,
           isError: false,
         });
+        localStorage.setItem('profile', tabAccount.pic);
+        setnewProfile(tabAccount.pic);
       })
       .catch(function (error) {
         console.log(error.response.data.message);
@@ -284,6 +289,9 @@ const UpdateProfile = () => {
           header: response.data.message,
           isError: false,
         });
+        localStorage.setItem('fname', tabPersonal.firstName);
+        localStorage.setItem('lname', tabPersonal.lastName);
+        setnewName(tabPersonal.firstName +  tabPersonal.lastName);
       })
       .catch(function (error) {
         console.log(error.response.data.message);
@@ -429,12 +437,12 @@ const UpdateProfile = () => {
         <div className="fixed inset-0 z-40 bg-black opacity-25"></div>
       </>
       )}
-      <MainNavigationBar />
+      <MainNavigationBar newProfile newName/>
       <div className='flex flex-col min-h-[100vh] '>
         <div className="h-[10vh]"></div>
         <div className="flex min-h-[90vh]">
           {/* 1 */}
-          <SideBar />
+          <SideBar newProfile newName/>
           {/* 2 */}
           <div className="flex justify-center w-full bg-gray-100 ">
             <div className="flex flex-col md:flex-row justify-start items-start w-[100%] md:w-[85%] lg:w-[65%] gap-5">
