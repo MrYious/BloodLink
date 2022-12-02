@@ -1,35 +1,40 @@
+import { FaCheck, FaRegStar, FaStar, FaTimes } from 'react-icons/fa';
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 
-import { FaTimes } from 'react-icons/fa';
 import { MainContext } from '../App.js'
 import MainNavigationBar from '../components/MainNavigationBar';
 import SideBar from '../components/SideBar.js';
 import axios  from "axios";
+import profilepic from '../assets/images/profilepic.jpg'
 
 const Requests = () => {
   const contextData = useContext(MainContext);
   const location = useLocation();
   const navigate = useNavigate();
   const userId = localStorage.getItem('userID');
-
-
-  // donor: {
-  //   id: '1',
-  //   name: 'Mark Edison Rosario',
-  // },
-  // seeker: {
-  //   id: '2',
-  //   name: 'Tessia Eralith',
-  // },
-  // date: '2022-11-12',
-  // comment: '1 He is very helpful, a good person.',
-  // rating: 3,
-  // image: '',
+  const fname = localStorage.getItem('fname');
+  const lname = localStorage.getItem('lname');
 
   const [allRequests, setAllRequests] = useState([
-    
+    {
+      isDonor: true,
+      user: {
+        id: '2',
+        image: '',
+        name: 'Tessia Eralith',
+        bloodType: 'O+',
+        gender: 'Female',
+        status: 'Active',
+        age: 22,
+        rating: 2,
+      },
+      status: 'Pending',
+      message: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec qu',
+      date: '2022-11-12',
+    },
   ]);
+
   const [showModal, setShowModal] = useState(false);
   const [alert, setAlert] = useState({
     show: false,
@@ -65,6 +70,48 @@ const Requests = () => {
     axios.post(endpoint, {data})
     .then(function (response) {
       console.log('Pending Requests ', response.data.requests);
+      const result = response.data.requests
+      const requests = [
+        ...result.seekDonorReq.map((req) => {
+        return {
+          isDonor: false,
+          details: req,
+          user: result.listUsers.users.find(user => user.id === req.donorID),
+          donorInfo: result.listUsers.donorInfos.find(donorInfo => donorInfo.userID === req.donorID),
+          address: result.listUsers.addresses.find(address => address.userID === req.donorID),
+        }}),
+        ...result.acceptDonorReq.map((req) => {
+        return {
+          isDonor: true,
+          details: req,
+          user: result.listUsers.users.find(user => user.id === req.seekerID),
+          donorInfo: result.listUsers.donorInfos.find(donorInfo => donorInfo.userID === req.seekerID),
+          address: result.listUsers.addresses.find(address => address.userID === req.seekerID),
+        }}),
+      ]
+
+      const structuredRequests = requests.map((req) => {
+        return {
+          isDonor: req.isDonor,
+          user: {
+            id: req.user.id,
+            image: req.user.profilePicture,
+            name: req.user.firstname + ' ' + req.user.lastname,
+            bloodType: req.user.bloodGroup,
+            gender: req.user.gender,
+            status: req.user.status,
+            age: req.user.age,
+            rating: req.donorInfo.avgRating,
+          },
+          status: req.details.status,
+          message: req.details.message,
+          date: req.details.createdAt,
+        }
+      })
+
+      setAllRequests(structuredRequests)
+
+      console.log('Requests', structuredRequests);
     })
     .catch(function (error) {
       console.log(error.response.data.message);
@@ -143,64 +190,95 @@ const Requests = () => {
           {/* 2 */}
           <div className="flex items-start justify-center w-full gap-5 p-5 bg-gray-100">
             {/* 1 */}
-            <div className="bg-gray-50 w-[100%] lg:w-[60%] flex flex-col p-5 rounded drop-shadow-lg">
+            <div className="bg-gray-50 w-[100%] lg:w-[65%] flex flex-col p-5 gap-3 rounded drop-shadow-lg">
               <div className="font-bold">YOUR PENDING REQUESTS</div>
               {
                 allRequests.length === 0
                 ?
                   <div className="flex items-center justify-center h-40">No Records Found</div>
                 :
-                  <></>
-                  // <div className='flex flex-col gap-5 p-1 md:gap-2'>
-                  //   {
-                  //     filteredUsers
-                  //     .slice(15 * (pageNumber - 1), 15 * pageNumber > filteredUsers.length ? filteredUsers.length : 15 * pageNumber)
-                  //     .map((users, i) =>
-                  //       <Link key={i} to={'/main/profile/'+ users.user.id} className="flex flex-col items-center overflow-hidden bg-gray-200 border border-gray-400 rounded-md cursor-pointer md:flex-row hover:border-gray-800 hover:shadow-sm hover:shadow-gray-400">
-                  //         <div className='flex items-center justify-center w-full overflow-hidden bg-black select-none md:w-28 shrink-0'>
-                  //           <img src={users.user.profilePicture ? users.user.profilePicture : profilepic} className='w-full' alt="profilepicture" />
-                  //         </div>
-                  //         <div className='flex w-full h-full'>
-                  //           <div className='flex flex-col justify-between w-1/2 gap-2 px-4 py-2 text-sm md:gap-0'>
-                  //             <div className='text-lg font-bold'>
-                  //               {users.user.firstname + ' ' + users.user.lastname}
-                  //             </div>
-                  //             <div className=''>
-                  //               {users.user.gender}
-                  //             </div>
-                  //             <div className=''>
-                  //               {users.user.age + ' years old'}
-                  //             </div>
-                  //             <div className='flex gap-1 text-lg'>
-                  //               {
-                  //                 [...Array(users.donorInfo.avgRating)].map((e, i) => <FaStar key={i} />)
-                  //               }
-                  //               {
-                  //                 [...Array(5 - users.donorInfo.avgRating)].map((e, i) => <FaRegStar key={i} />)
-                  //               }
-                  //             </div>
-                  //           </div>
-                  //           <div className='flex flex-col justify-between w-1/2 gap-2 px-4 py-2 text-sm md:gap-0'>
-                  //             <div className=''>
-                  //               Status: <span className={`font-bold ${users.user.status === 'Active' ? 'text-green-700' :'text-red-700' }`}>
-                  //                 {users.user.status}
-                  //                 </span>
-                  //             </div>
-                  //             <div className=''>
-                  //               Blood Group: {users.user.bloodGroup}
-                  //             </div>
-                  //             <div className=''>
-                  //               Last Donation: {users.donorInfo.lastDonation ? users.donorInfo.lastDonation : 'N/A'}
-                  //             </div>
-                  //             <div className=''>
-                  //               Total Donations: {users.donorInfo.totalDonations}
-                  //             </div>
-                  //           </div>
-                  //         </div>
-                  //       </Link>
-                  //     )
-                  //   }
-                  // </div>
+                  <div className='flex flex-wrap items-start justify-between gap-5 p-1'>
+                    {
+                      allRequests.map((req, i) =>
+                        <div key={i} className="relative flex flex-col w-[100%] sm:w-[48%] overflow-hidden bg-gray-200 border border-gray-400 rounded-md">
+                          {/* Action */}
+                          {
+                            req.isDonor ?
+                              <div className='absolute right-0 flex flex-col bg-red-200'>
+                                <div onClick={()=>{}} className='flex items-center gap-1 p-3 text-sm bg-green-400 cursor-pointer hover:bg-green-600'>
+                                  <FaCheck className='text-base ' />
+                                  <span className='hidden md:flex'>Accept</span>
+                                </div>
+                                <div onClick={()=>{}} className='flex items-center gap-1 p-3 text-sm bg-red-400 cursor-pointer hover:bg-red-600'>
+                                  <FaTimes className='text-base ' />
+                                  <span className='hidden md:flex'>Decline</span>
+                                </div>
+                              </div>
+                            :
+                              
+                            <div className='absolute right-0 flex flex-col bg-red-200'>
+                              <div onClick={()=>{}} className='flex items-center gap-1 p-3 text-sm bg-red-400 cursor-pointer hover:bg-red-600'>
+                                <FaTimes className='text-base ' />
+                                <span className='hidden md:flex'>Cancel</span>
+                              </div>
+                            </div>
+                          }
+                          {/* 1 */}
+                          <div className='flex w-full overflow-hidden select-none shrink-0'>
+                            <img src={req.user.image ? req.user.image : profilepic} className='w-32' alt="profilepicture" />
+                            <div className='flex flex-col justify-between w-full gap-1 p-2 text-sm'>
+                              <div>{req.user.bloodType}</div>
+                              <div>{req.user.gender}</div>
+                              <div className={`font-bold ${req.user.status === 'Active' ? 'text-green-700' :'text-red-700' }`}>{req.user.status}</div>
+                              <div>{req.user.age} yrs old</div>
+                              <div className='flex gap-1 text-lg'>
+                                {
+                                  [...Array(req.user.rating)].map((e, i) => <FaStar key={i} />)
+                                }
+                                {
+                                  [...Array(5 - req.user.rating)].map((e, i) => <FaRegStar key={i} />)
+                                }
+                              </div>
+                            </div>
+                          </div>
+                          {/* 2 */}
+                          <div className='flex flex-col w-full gap-2 p-2 text-sm'>
+                            <Link to={'/main/profile/'+ req.user.id} target="_blank" className='text-lg font-bold cursor-pointer hover:underline'>
+                              { req.user.name }
+                            </Link>
+                            <div className='flex flex-col gap-1'>
+                              <div className='font-bold text-md'>
+                                STATUS
+                              </div>
+                              <div className='italic'>
+                                {
+                                  req.isDonor ? 'Waiting for your action' : "Waiting for donor's response"
+                                }
+                              </div>
+                            </div>
+                            <div className='flex flex-col gap-1'>
+                              <div className='font-bold text-md'>
+                                {
+                                  req.isDonor ? 'MESSAGE' : 'YOUR MESSAGE'
+                                }
+                              </div>
+                              <div className='italic'>
+                                { req.message }
+                              </div>
+                            </div>
+                            <div className='flex flex-col gap-1'>
+                              <div className='font-bold text-md'>
+                                DATE
+                              </div>
+                              <div className=''>
+                                { req.date }
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      )
+                    }
+                  </div>
               }
             </div>
           </div>
