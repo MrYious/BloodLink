@@ -437,6 +437,7 @@ export const getRequest = async (req, res) => {
     try {
         console.log("BODY: ", req.body.data)
 
+        // I'm accepting blood donation request
         const acceptDonorReq = await DonorRequest.findAll({
             where: {
                 donorID: req.body.data.id,
@@ -444,6 +445,7 @@ export const getRequest = async (req, res) => {
             }
         });
 
+        // I'm seeking for donor
         const seekDonorReq = await DonorRequest.findAll({
             where: {
                 seekerID: req.body.data.id,
@@ -452,24 +454,31 @@ export const getRequest = async (req, res) => {
         });
 
         const donorRequestsIDs = [
-            ...acceptDonorReq.filter((req) => {return req.id}),
-            ...seekDonorReq.filter((req) => {return req.id}),
+            ...acceptDonorReq.map((req) => {return req.id}),
+            ...seekDonorReq.map((req) => {return req.id}),
         ]
+
+        const otherUsersIDs = [
+            ...acceptDonorReq.map((req) => {return req.seekerID}),
+            ...seekDonorReq.map((req) => {return req.donorID}),
+        ]
+
+        console.log(otherUsersIDs);
 
         const listUsers = {
             users: await User.findAll({
                 where: {
-                    id: donorRequestsIDs
+                    id: otherUsersIDs
                 }
             }),
             addresses: await Address.findAll({
                 where: {
-                    userID: donorRequestsIDs
+                    userID: otherUsersIDs
                 }
             }),
             donorInfos: await DonorInfo.findAll({
                 where: {
-                    userID: donorRequestsIDs
+                    userID: otherUsersIDs
                 }
             })
         }
