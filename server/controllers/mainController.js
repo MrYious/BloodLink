@@ -390,7 +390,7 @@ export const updateRequest = async (req, res) => {
 
         if(req.body.data.status === 'Declined' || req.body.data.status === 'Cancelled'){
             // FAILED
-            msg = 'The request is removed';
+            msg = 'The request was removed';
             const failedRequest = await DonorRequest.update({
                 reason: req.body.data.reason,
             },{
@@ -422,9 +422,8 @@ export const updateRequest = async (req, res) => {
 
         }
 
-
         if(!request){
-            res.status(400).json({ message: "Action Failed! Please try again!" });
+            res.status(400).json({ message: "Please try again!" });
         } else {
             res.status(200).json({ message: msg, });
         }
