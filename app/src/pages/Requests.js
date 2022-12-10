@@ -432,7 +432,9 @@ const Requests = () => {
                           }
                           {/* 1 */}
                           <div className='flex w-full overflow-hidden select-none shrink-0'>
-                            <img src={req.user.image ? req.user.image : profilepic} className='w-32' alt="profilepicture" />
+                            <div className="flex items-center justify-center w-32 h-32 overflow-hidden shrink-0">
+                              <img src={req.user.image ? req.user.image : profilepic} className='w-full' alt="profilepicture" />
+                            </div>
                             <div className='flex flex-col justify-between w-full gap-1 p-2 text-sm'>
                               <div>{req.user.bloodType}</div>
                               <div>{req.user.gender}</div>
