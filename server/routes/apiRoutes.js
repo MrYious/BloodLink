@@ -31,6 +31,6 @@ apiRouter.post('/updateHealthByID', updateHealth);
 apiRouter.post('/request', createNewRequest);
 apiRouter.patch('/request', updateRequest);
 apiRouter.post('/getRequest', getRequest);
-apiRouter.delete('/request', deleteRequest);
+apiRouter.post('/deleteRequest', deleteRequest);
 
 export default apiRouter;
