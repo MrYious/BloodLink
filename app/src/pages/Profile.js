@@ -19,6 +19,7 @@ const Profile = () => {
   let { nameID } = useParams();
 
   const [isMe, setIsMe] = useState(true);
+  const [isRelated, setIsRelated] = useState(false);
   const [userProfile, setUserProfile] = useState({
     user: {
       id: 1,
@@ -67,7 +68,7 @@ const Profile = () => {
     }
   });
 
-  const [userReviews, setuserReviews] = useState([
+  const [userReviews, setUserReviews] = useState([
     {
       donor: {
         id: '1',
@@ -167,6 +168,7 @@ const Profile = () => {
   const fetchUserProfile = () => {
     const data = {
       id: nameID ? nameID : userId,
+      userId: userId,
     }
     let endpoint = contextData.link + 'api/getUserByID';
     axios.post(endpoint, {data})
@@ -174,6 +176,7 @@ const Profile = () => {
       // console.log("Load UserProfile Success", response.data);
       // console.log(JSON.stringify(response.data.userProfile));
       setUserProfile(response.data.userProfile);
+      setIsRelated(response.data.isRelated)
     })
     .catch(function (error) {
       console.log(error.response.data.message);
@@ -460,7 +463,8 @@ const Profile = () => {
                     <div className='font-bold '>
                       Contact No.
                     </div>
-                    <div>
+                    {/* true && false */}
+                    <div className={`${ (!isMe && !isRelated) && 'blur-[2px] select-none'}`}>
                       {userProfile.user.mobileNumber}
                     </div>
                   </div>
@@ -468,7 +472,7 @@ const Profile = () => {
                     <div className='font-bold '>
                       Email
                     </div>
-                    <div>
+                    <div className={`${ (!isMe && !isRelated) && 'blur-[2px] select-none'}`}>
                       {userProfile.user.email}
                     </div>
                   </div>
@@ -514,7 +518,7 @@ const Profile = () => {
                     <div className='font-bold shrink-0'>
                       Full Address
                     </div>
-                    <div className='text-right'>
+                    <div className={`${ (!isMe && !isRelated) && 'blur-[2px] select-none'} text-right`}>
                       <div>
                         {userProfile.address.addressLine1}
                       </div>
