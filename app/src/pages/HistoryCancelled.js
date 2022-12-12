@@ -144,6 +144,28 @@ const HistoryCancelled = () => {
 
   const handleDelete = () => {
     setShowModalDelete(false);
+    const data = {
+      id: selectedRequest.id,
+    }
+    let endpoint = contextData.link + 'api/deleteRequest';
+    axios.post(endpoint, {data})
+    .then(function (response) {
+      console.log(response.data.message);
+      setAlert({
+        show: true,
+        header: response.data.message,
+        isError: false,
+      });
+      fetchAllCancelledRequests();
+    })
+    .catch(function (error) {
+      console.log(error.response.data.message);
+      setAlert({
+        show: true,
+        header: 'Action Failed',
+        isError: true,
+      });
+    });
   }
 
   const handleReport = () => {
