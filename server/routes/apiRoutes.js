@@ -1,6 +1,7 @@
 import {
     createNewRequest,
     createNewUser,
+    deleteRequest,
     findUserByID,
     getAllUsers,
     getRequest,
@@ -30,6 +31,6 @@ apiRouter.post('/updateHealthByID', updateHealth);
 apiRouter.post('/request', createNewRequest);
 apiRouter.patch('/request', updateRequest);
 apiRouter.post('/getRequest', getRequest);
-// apiRouter.post('/seedusers', seedUser);
+apiRouter.delete('/request', deleteRequest);
 
 export default apiRouter;

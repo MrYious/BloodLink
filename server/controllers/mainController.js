@@ -505,3 +505,20 @@ export const getRequest = async (req, res) => {
         res.status(400).json({ message: error.message });
     }
 }
+
+export const deleteRequest = async (req, res) => {
+    try {
+        console.log("BODY: ", req.body.data)
+
+        await DonorRequest.destroy({
+            where: {
+                id: req.body.data.id,
+            }
+        });
+
+        res.status(200).json({ message: "Deletion Success!" });
+
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}
