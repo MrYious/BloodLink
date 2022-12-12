@@ -213,20 +213,18 @@ const Requests = () => {
   }
 
   const handleCancel = () => {
+    console.log(selectedRequest.id);
     setShowModalCancel(false);
     const data = {
       id: selectedRequest.id,
-      status: 'Cancelled',
-      reason: '',
     }
-    let endpoint = contextData.link + 'api/request';
-    axios.patch(endpoint, {data})
+    let endpoint = contextData.link + 'api/deleteRequest';
+    axios.post(endpoint, {data})
     .then(function (response) {
       console.log(response.data.message);
       setAlert({
         show: true,
-        header: 'Action Success',
-        message: response.data.message,
+        header: response.data.message,
         isError: false,
       });
       fetchAllPendingRequests();
