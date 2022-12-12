@@ -213,7 +213,6 @@ const Requests = () => {
   }
 
   const handleCancel = () => {
-    console.log(selectedRequest.id);
     setShowModalCancel(false);
     const data = {
       id: selectedRequest.id,
