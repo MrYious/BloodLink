@@ -17,22 +17,22 @@ const HistoryDeclined = () => {
   const lname = localStorage.getItem('lname');
 
   const [allRequests, setAllRequests] = useState([
-    {
-      isDonor: true,
-      user: {
-        id: '2',
-        image: '',
-        name: 'Tessia Eralith',
-        bloodType: 'O+',
-        gender: 'Female',
-        status: 'Active',
-        age: 22,
-        rating: 2,
-      },
-      status: 'Pending',
-      message: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec qu',
-      date: '2022-11-12',
-    },
+    // {
+    //   isDonor: true,
+    //   user: {
+    //     id: '2',
+    //     image: '',
+    //     name: 'Tessia Eralith',
+    //     bloodType: 'O+',
+    //     gender: 'Female',
+    //     status: 'Active',
+    //     age: 22,
+    //     rating: 2,
+    //   },
+    //   status: 'Pending',
+    //   message: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec qu',
+    //   date: '2022-11-12',
+    // },
   ]);
   const [selectedRequest, setSelectedRequest] = useState({});
   const [reason, setReason] = useState('');
