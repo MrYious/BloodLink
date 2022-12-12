@@ -158,10 +158,28 @@ export const findUserByID = async (req, res) => {
             })
         }
 
+        const isExisting1 = await DonorRequest.findAll({
+            where: {
+                donorID: req.body.data.id,
+                seekerID: req.body.data.userId,
+                status: ['Completed', 'Active']
+            }
+        })
+
+        const isExisting2 = await DonorRequest.findAll({
+            where: {
+                donorID: req.body.data.id,
+                seekerID: req.body.data.userId,
+                status: ['Completed', 'Active']
+            }
+        })
+
+        const isRelated = ( isExisting1.length > 0 ) || ( isExisting2.length > 0 )
+
         if(!user){
             res.status(400).json({ message: "Error loading user's profile data!" });
         } else {
-            res.status(200).json({ message: "Retrieve Success!", userProfile: {
+            res.status(200).json({ message: "Retrieve Success!", isRelated, userProfile: {
                 user,
                 address,
                 donorInfo,
@@ -357,7 +375,6 @@ export const createNewRequest = async (req, res) => {
                 message: req.body.data.message,
                 status: 'Pending',
             }
-            console.log(requestData);
 
             const request = await DonorRequest.create(requestData);
 
