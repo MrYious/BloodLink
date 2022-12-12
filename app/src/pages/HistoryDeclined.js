@@ -1,4 +1,4 @@
-import { FaExclamation, FaRegStar, FaStar, FaTimes, FaTrashAlt } from 'react-icons/fa';
+import { FaExclamation, FaTimes, FaTrashAlt } from 'react-icons/fa';
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 
