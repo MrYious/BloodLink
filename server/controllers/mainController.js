@@ -168,8 +168,8 @@ export const findUserByID = async (req, res) => {
 
         const isExisting2 = await DonorRequest.findAll({
             where: {
-                donorID: req.body.data.id,
-                seekerID: req.body.data.userId,
+                donorID: req.body.data.userId,
+                seekerID: req.body.data.id,
                 status: ['Completed', 'Active']
             }
         })
