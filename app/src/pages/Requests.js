@@ -412,18 +412,15 @@ const Requests = () => {
                               <div className='absolute right-0 flex flex-col overflow-hidden bg-red-200 rounded-md shadow-sm shadow-gray-500'>
                                 <div onClick={()=>{handleOpenAcceptModal(req)}} className='flex items-center gap-1 p-3 text-sm bg-green-400 cursor-pointer hover:bg-green-600'>
                                   <FaCheck className='text-base ' />
-                                  <span className='hidden md:flex'>Accept</span>
                                 </div>
                                 <div onClick={()=>{handleOpenDeclineModal(req)}} className='flex items-center gap-1 p-3 text-sm bg-red-400 cursor-pointer hover:bg-red-500'>
                                   <FaTimes className='text-base ' />
-                                  <span className='hidden md:flex'>Decline</span>
                                 </div>
                               </div>
                             :
                               <div className='absolute right-0 flex flex-col overflow-hidden bg-red-200 rounded-md shadow-sm shadow-gray-500'>
                                 <div onClick={()=>{handleOpenCancelModal(req)}} className='flex items-center gap-1 p-3 text-sm bg-red-400 cursor-pointer hover:bg-red-500'>
                                   <FaTimes className='text-base ' />
-                                  <span className='hidden md:flex'>Cancel</span>
                                 </div>
                               </div>
                           }
