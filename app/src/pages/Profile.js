@@ -6,8 +6,8 @@ import { MainContext } from '../App.js'
 import MainNavigationBar from '../components/MainNavigationBar';
 import SideBar from '../components/SideBar.js';
 import axios  from "axios";
+import defaultReviewPic from '../assets/images/defaultReviewPic.png'
 import profilepic from '../assets/images/profilepic.jpg'
-import sample from '../assets/images/sample.jpg'
 
 const Profile = () => {
   // TODO: GET AND LOAD REVIEWS
@@ -315,7 +315,7 @@ const Profile = () => {
                 {/* 2 */}
                 <div className=' w-full md:w-[30%] h-44 p-3 select-none'>
                   <div className='flex items-center justify-center w-[50%] md:w-full h-full border border-black rounded'>
-                    <img src={sample} className="w-full" alt="sample image" />
+                    <img src={defaultReviewPic} className="w-full" alt="sample image" />
                   </div>
                 </div>
               </div>
