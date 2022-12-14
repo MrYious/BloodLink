@@ -94,6 +94,7 @@ const UpdateProfile = () => {
   const fetchUserProfile = () => {
     const data = {
       id: userId,
+      userId: userId,
     }
     let endpoint = contextData.link + 'api/getUserByID';
     axios.post(endpoint, {data})
