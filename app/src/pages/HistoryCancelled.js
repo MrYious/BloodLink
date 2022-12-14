@@ -338,7 +338,7 @@ const HistoryCancelled = () => {
                               <div className='flex flex-col gap-1'>
                                 <div className='font-bold text-md'>
                                   {
-                                    !req.isDonor ? 'REASON' : 'YOUR REASON'
+                                    req.isDonor ? "REASON FOR CANCELLATION" : "YOUR REASON FOR CANCELLATION"
                                   }
                                 </div>
                                 <div className='italic'>
