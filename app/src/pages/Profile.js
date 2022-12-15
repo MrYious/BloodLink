@@ -54,79 +54,28 @@ const Profile = () => {
       healthConditions: "",
       lastDonation: "",
     },
-    acceptDonorReq: {
-
-    },
-    seekDonorReq: {
-
-    },
-    reviews: {
-
-    },
-    otherUsers: {
-
-    }
   });
 
-  const [userReviews, setUserReviews] = useState([
-    {
-      donor: {
-        id: '1',
-        name: 'Mark Edison Rosario',
-      },
-      seeker: {
-        id: '2',
-        name: 'Tessia Eralith',
-      },
-      date: '2022-11-12',
-      comment: '1 He is very helpful, a good person.',
-      rating: 3,
-      image: '',
-    },
-    {
-      donor: {
-        id: '1',
-        name: 'Mark Edison Rosario',
-      },
-      seeker: {
-        id: '2',
-        name: 'Tessia Eralith',
-      },
-      date: '2022-11-13',
-      comment: '2 He is very helpful, a good person.',
-      rating: 3,
-      image: '',
-    },
-    {
-      donor: {
-        id: '1',
-        name: 'Mark Edison Rosario',
-      },
-      seeker: {
-        id: '2',
-        name: 'Tessia Eralith',
-      },
-      date: '2022-11-15',
-      comment: '3 He is very helpful, a good person.',
-      rating: 3,
-      image: '',
-    },
-  ])
+  const [allRequests, setAllRequests] = useState([
+    // {
+    //   isDonor: true,
+    //   user: {
+    //     id: '2',
+    //     image: '',
+    //     name: 'Tessia Eralith',
+    //     bloodType: 'O+',
+    //     gender: 'Female',
+    //     status: 'Active',
+    //     age: 22,
+    //     rating: 2,
+    //   },
+    //   status: 'Pending',
+    //   message: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec qu',
+    //   date: '2022-11-12',
+    // },
+  ]);
 
-  const [modalContent, setModalContent] = useState({
-    donor: {
-      id: '',
-      name: '',
-    },
-    seeker: {
-      id: '',
-      name: '',
-    },
-    date: '',
-    comment: '',
-    rating: 0,
-    image: '',
-  })
+  const [selectedRequest, setSelectedRequest] = useState({});
 
   const [requestMessage, setRequestMessage] = useState('');
   const [reason, setReason] = useState('');
@@ -180,6 +129,56 @@ const Profile = () => {
       // console.log(JSON.stringify(response.data.userProfile));
       setUserProfile(response.data.userProfile);
       setIsRelated(response.data.isRelated)
+      // console.log(response.data.requests);
+      const result = response.data.requests
+      // console.log(result.reviews);
+      const requests = [
+        ...result.seekDonorReq.map((req) => {
+        return {
+          isDonor: false,
+          details: req,
+          user: result.listUsers.users.find(user => user.id === req.donorID),
+          donorInfo: result.listUsers.donorInfos.find(donorInfo => donorInfo.userID === req.donorID),
+          address: result.listUsers.addresses.find(address => address.userID === req.donorID),
+          review: result.reviews.find((review) => review.donorRequestID === req.id)
+        }}),
+        ...result.acceptDonorReq.map((req) => {
+        return {
+          isDonor: true,
+          details: req,
+          user: result.listUsers.users.find(user => user.id === req.seekerID),
+          donorInfo: result.listUsers.donorInfos.find(donorInfo => donorInfo.userID === req.seekerID),
+          address: result.listUsers.addresses.find(address => address.userID === req.seekerID),
+          review: result.reviews.find((review) => review.donorRequestID === req.id)
+        }}),
+      ]
+
+      const structuredRequests = requests.map((req) => {
+        return {
+          id: req.details.id,
+          isDonor: req.isDonor,
+          user: {
+            id: req.user.id,
+            image: req.user.profilePicture,
+            name: req.user.firstname + ' ' + req.user.lastname,
+            bloodType: req.user.bloodGroup,
+            gender: req.user.gender,
+            status: req.user.status,
+            age: req.user.age,
+            rating: req.donorInfo.avgRating,
+          },
+          status: req.details.status,
+          message: req.details.message,
+          clinicName: req.details.clinicName,
+          donationDate: req.details.donationDate,
+          date: req.details.createdAt,
+          review: req.review
+        }
+      })
+
+      setAllRequests(structuredRequests)
+
+      console.log('Requests', structuredRequests);
     })
     .catch(function (error) {
       console.log(error.response.data.message);
@@ -191,9 +190,8 @@ const Profile = () => {
     });
   }
 
-  const handleOpenReview = (i) => {
-    // console.log(i, userReviews[i]);
-    setModalContent(userReviews[i]);
+  const handleOpenReview = (req) => {
+    setSelectedRequest(req);
     setShowReviewModal(true);
   }
 
@@ -281,43 +279,43 @@ const Profile = () => {
               {/*header*/}
               <div className="flex items-start justify-between p-5 border-b border-solid rounded-t border-slate-200">
                 <h3 className="text-xl font-semibold">
-                  Donor Review
+                  Blood Donation Review
                 </h3>
                 <FaTimes onClick={() => setShowReviewModal(false)} className='text-xl cursor-pointer ' />
               </div>
               {/*body*/}
-              <div className="flex flex-col p-6 text-sm md:flex-row ">
-                {/* 1 */}
-                <div className='flex w-full md:w-[70%] shrink-0'>
-                  <div className='flex items-center justify-center p-5 text-2xl'>
-                    <FaQuoteLeft />
-                  </div>
-                  <div className='flex flex-col gap-2'>
-                    <Link to={`/main/profile/${modalContent.seeker.id}`} className='flex gap-2 text-lg cursor-pointer hover:underline' >
-                      {modalContent.seeker.name}
-                    </Link>
-                    <div className='flex text-2xl'>
-                      {
-                        [...Array(modalContent.rating)].map((e, i) => <FaStar key={i} />)
-                      }
-                      {
-                        [...Array(5 - modalContent.rating)].map((e, i) => <FaRegStar key={i} />)
-                      }
-                    </div>
-                    <div className="leading-relaxed text-slate-500">
-                      {modalContent.comment}
-                    </div>
-                    <div className='italic'>
-                      {modalContent.date}
-                    </div>
-                  </div>
+              <div className="flex flex-col items-center gap-2 p-6 text-sm ">
+                <div className='text-2xl'>
+                  <FaQuoteLeft />
                 </div>
-                {/* 2 */}
-                <div className=' w-full md:w-[30%] h-44 p-3 select-none'>
-                  <div className='flex items-center justify-center w-[50%] md:w-full h-full border border-black rounded'>
-                    <img src={defaultReviewPic} className="w-full" alt="sample image" />
-                  </div>
+                <div className="leading-relaxed text-slate-500">
+                  {selectedRequest.review.comment}
                 </div>
+                <div className='flex text-2xl'>
+                  {
+                    [...Array(selectedRequest.review.rating)].map((e, i) => <FaStar key={i} />)
+                  }
+                  {
+                    [...Array(5 - selectedRequest.review.rating)].map((e, i) => <FaRegStar key={i} />)
+                  }
+                </div>
+                <Link to={`/main/profile/${selectedRequest.user.id}`} className='flex gap-2 text-lg cursor-pointer hover:underline' >
+                  {selectedRequest.user.name}
+                </Link>
+                <div className='italic'>
+                  {selectedRequest.clinicName}
+                </div>
+                <div className='italic'>
+                  {selectedRequest.donationDate}
+                </div>
+                {
+                  selectedRequest.review.image &&
+                  <div className='flex items-center justify-center w-full '>
+                    <div className='flex items-center justify-center w-[50%] aspect-video shrink-0'>
+                      <img src={selectedRequest.review.image} className='w-full' alt="image for review" />
+                    </div>
+                  </div>
+                }
               </div>
               {/*footer*/}
               <div className="flex items-center justify-end p-6 border-t border-solid rounded-b border-slate-200">
@@ -678,7 +676,7 @@ const Profile = () => {
                   </div>
                 </div>
                 {
-                  !userReviews
+                  !allRequests
                   ?
                     <div className='text-sm'>
                       No Records
@@ -686,27 +684,25 @@ const Profile = () => {
                   :
                     <div className='flex flex-wrap justify-around gap-5 text-sm'>
                       {
-                        userReviews.map((review, i) =>
-                        <div key={i} onClick={()=>{handleOpenReview(i)}} className='flex w-[100%] md:w-[48%] gap-2 p-2 border border-black rounded cursor-pointer shrink-0 hover:bg-gray-200'>
-                          <div className='flex items-center justify-center p-2 text-2xl'>
-                            <FaQuoteLeft />
-                          </div>
-                          <div className='flex flex-col gap-2'>
-                            <div className='text-sm italic text-justify'>
-                              {review.comment}
+                        allRequests.map((req, i) =>
+                        <div key={i} onClick={()=>{handleOpenReview(req)}} className='flex flex-col items-center w-[100%] md:w-[48%] gap-2 p-2 border border-black rounded cursor-pointer shrink-0 hover:bg-gray-200'>
+                            <div className='flex items-center justify-center p-2 text-2xl'>
+                              <FaQuoteLeft />
+                            </div>
+                            <div className='text-sm italic text-center'>
+                              {req.review.comment}
                             </div>
                             <div className='flex gap-1'>
                               {
-                                [...Array(review.rating)].map((e, i) => <FaStar key={i} />)
+                                [...Array(req.review.rating)].map((e, i) => <FaStar key={i} />)
                               }
                               {
-                                [...Array(5 - review.rating)].map((e, i) => <FaRegStar key={i} />)
+                                [...Array(5 - req.review.rating)].map((e, i) => <FaRegStar key={i} />)
                               }
                             </div>
                             <div className='text-xs'>
-                              {review.seeker.name}
+                              {req.user.name}
                             </div>
-                          </div>
                         </div>
                         )
                       }
