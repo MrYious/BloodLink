@@ -130,9 +130,11 @@ export const findUserByID = async (req, res) => {
         });
 
         const donorRequestsIDs = [
-            ...acceptDonorReq.filter((req) => {return req.id}),
-            ...seekDonorReq.filter((req) => {return req.id}),
+            ...acceptDonorReq.map((req) => {return req.id}),
+            ...seekDonorReq.map((req) => {return req.id}),
         ]
+
+        console.log('IDs ', donorRequestsIDs);
 
         const reviews = await Review.findAll({
             where: {
@@ -175,6 +177,9 @@ export const findUserByID = async (req, res) => {
         })
 
         const isRelated = ( isExisting1.length > 0 ) || ( isExisting2.length > 0 )
+
+        console.log('Accepted ', acceptDonorReq);
+        console.log('Seek ', seekDonorReq);
 
         if(!user){
             res.status(400).json({ message: "Error loading user's profile data!" });
@@ -352,7 +357,6 @@ export const updateHealth = async (req, res) => {
     }
 }
 
-
 export const createNewRequest = async (req, res) => {
     try {
         console.log("BODY: ", req.body.data)
@@ -361,6 +365,7 @@ export const createNewRequest = async (req, res) => {
             where: {
                 donorID: req.body.data.donorID,
                 seekerID: req.body.data.seekerID,
+                status: ['Pending', 'Active'],
             }
         })
 
@@ -417,7 +422,7 @@ export const updateRequest = async (req, res) => {
             });
         } else if(req.body.data.status === 'Completed'){
             // COMPLETED
-            msg = 'The request is now complete' + req.body.data.status;
+            msg = 'The request is now complete';
             const completedRequest = await DonorRequest.update({
                 clinicName: req.body.data.clinicName,
                 donationDate: req.body.data.donationDate,
