@@ -134,7 +134,13 @@ export const findUserByID = async (req, res) => {
             ...seekDonorReq.map((req) => {return req.id}),
         ]
 
+        const otherUsersIDs = [
+            ...acceptDonorReq.map((req) => {return req.seekerID}),
+            ...seekDonorReq.map((req) => {return req.donorID}),
+        ]
+
         console.log('IDs ', donorRequestsIDs);
+        console.log('Users IDs ', otherUsersIDs);
 
         const reviews = await Review.findAll({
             where: {
@@ -142,20 +148,20 @@ export const findUserByID = async (req, res) => {
             }
         });
 
-        const otherUsers = {
+        const listUsers = {
             users: await User.findAll({
                 where: {
-                    id: donorRequestsIDs
+                    id: otherUsersIDs
                 }
             }),
             addresses: await Address.findAll({
                 where: {
-                    userID: donorRequestsIDs
+                    userID: otherUsersIDs
                 }
             }),
             donorInfos: await DonorInfo.findAll({
                 where: {
-                    userID: donorRequestsIDs
+                    userID: otherUsersIDs
                 }
             })
         }
@@ -178,21 +184,24 @@ export const findUserByID = async (req, res) => {
 
         const isRelated = ( isExisting1.length > 0 ) || ( isExisting2.length > 0 )
 
-        console.log('Accepted ', acceptDonorReq);
-        console.log('Seek ', seekDonorReq);
-
         if(!user){
             res.status(400).json({ message: "Error loading user's profile data!" });
         } else {
-            res.status(200).json({ message: "Retrieve Success!", isRelated, userProfile: {
-                user,
-                address,
-                donorInfo,
-                acceptDonorReq,
-                seekDonorReq,
-                reviews,
-                otherUsers
-            }});
+            res.status(200).json({
+                message: "Retrieve Success!",
+                isRelated,
+                userProfile: {
+                    user,
+                    address,
+                    donorInfo,
+                },
+                requests: {
+                    listUsers,
+                    acceptDonorReq,
+                    seekDonorReq,
+                    reviews,
+                }
+            });
         }
     } catch (error) {
         res.status(400).json({ message: error.message });
