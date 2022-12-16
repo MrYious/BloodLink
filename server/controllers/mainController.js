@@ -122,21 +122,12 @@ export const findUserByID = async (req, res) => {
             }
         });
 
-        const seekDonorReq = await DonorRequest.findAll({
-            where: {
-                seekerID: req.body.data.id,
-                status: 'Completed'
-            }
-        });
-
         const donorRequestsIDs = [
             ...acceptDonorReq.map((req) => {return req.id}),
-            ...seekDonorReq.map((req) => {return req.id}),
         ]
 
         const otherUsersIDs = [
             ...acceptDonorReq.map((req) => {return req.seekerID}),
-            ...seekDonorReq.map((req) => {return req.donorID}),
         ]
 
         console.log('IDs ', donorRequestsIDs);
@@ -198,7 +189,6 @@ export const findUserByID = async (req, res) => {
                 requests: {
                     listUsers,
                     acceptDonorReq,
-                    seekDonorReq,
                     reviews,
                 }
             });
