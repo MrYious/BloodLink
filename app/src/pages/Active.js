@@ -6,6 +6,7 @@ import { MainContext } from '../App.js'
 import MainNavigationBar from '../components/MainNavigationBar';
 import Rating from 'react-rating'
 import SideBar from '../components/SideBar.js';
+import { Widget } from "@uploadcare/react-widget";
 import axios  from "axios";
 import defaultReviewPic from '../assets/images/defaultReviewPic.png'
 import profilepic from '../assets/images/profilepic.jpg'
@@ -364,9 +365,21 @@ const Active = () => {
                   </div>
                   <div className='flex flex-col items-end'>
                     <div className='flex items-center justify-center w-full border border-gray-700 rounded '>
-                      <div className='flex items-center justify-center w-[50%] aspect-video shrink-0'>
-                        <img src={defaultReviewPic} className='w-full' alt="image for review" />
-                      </div>
+                      <label className='flex items-center justify-center w-[50%] h-40 overflow-hidden aspect-video shrink-0 cursor-pointer'>
+                        <img src={completionData.review.image ? completionData.review.image : defaultReviewPic} className='w-full' alt="image for review" />
+                        <div className="hidden">
+                          <Widget
+                            publicKey='41d925640f30fcc7b2c5'
+                            id='file'
+                            imagesOnly={true}
+                            systemDialog={true}
+                            onChange={ info => {
+                              console.log('Upload completed:', info)
+                              setCompletionData({...completionData, review: {...completionData.review, image: info.cdnUrl}})
+                            }}
+                          />
+                        </div>
+                      </label>
                     </div>
                     <div className='text-xs italic'>Image about the blood donation activity (optional)</div>
                   </div>
