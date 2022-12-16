@@ -447,10 +447,73 @@ export const updateRequest = async (req, res) => {
                 rating: req.body.data.rating,
                 image: req.body.data.image,
             }
-            console.log(reviewData);
+            // console.log(reviewData);
 
             const review = await Review.create(reviewData);
 
+            const completedRequestData = await DonorRequest.findOne({
+                where: {
+                    status: 'Completed',
+                    id: req.body.data.id
+                }
+            });
+
+            // UPDATE DONOR INFO
+            console.log(completedRequestData.donorID);
+            var donorID = completedRequestData.donorID;
+
+            const completedRequests = await DonorRequest.findAll({
+                where: {
+                    status: 'Completed',
+                    donorID: donorID
+                }
+            });
+
+            // console.log('Completed Req', completedRequests);
+
+            const currentDonorInfo = await DonorInfo.findOne({
+                where: {
+                    userID: donorID
+                }
+            });
+
+            // console.log('Current Donor Info', currentDonorInfo);
+
+            const completedRequestIDs = completedRequests.map((req) => {return req.id});
+
+            // console.log('Completed Req IDs', completedRequestIDs);
+
+            const reviews = await Review.findAll({
+                where: {
+                    donorRequestID: completedRequestIDs,
+                }
+            });
+
+            // console.log('Reviews', reviews);
+            // console.log('Reviews length', reviews.length);
+
+            var sum = 0;
+            if(reviews){
+                reviews.forEach(review => {
+                    sum = review.rating + sum
+                });
+                console.log('current sum', sum);
+                console.log('size', reviews.length);
+            }
+            var avgRating = sum / reviews.length;
+            // console.log('avg rating', avgRating);
+            // console.log('Floor Avg rating', Math.round(avgRating));
+            // console.log('Ceil Avg rating', Math.ceil(avgRating));
+
+            const newDonorInfo = await DonorInfo.update({
+                totalDonations: currentDonorInfo.totalDonations + 1,
+                avgRating: Math.round(avgRating),
+                lastDonation: completedRequestData.updatedAt,
+            }, {
+                where: {
+                    userID: donorID
+                }
+            });
         }
 
         if(!request){
