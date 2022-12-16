@@ -330,6 +330,13 @@ const HistoryCompleted = () => {
                                 [...Array(5 - req.review.rating)].map((e, i) => <FaRegStar key={i} />)
                               }
                             </div>
+                            {
+                              req.review.image && <div className='flex items-center justify-center w-full '>
+                                <label className='flex items-center justify-center w-[50%] h-40 overflow-hidden aspect-video shrink-0'>
+                                  <img src={req.review.image} className='w-full' alt="image for review" />
+                                </label>
+                              </div>
+                            }
                           </div>
                         </div>
                       )
