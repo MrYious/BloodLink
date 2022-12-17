@@ -10,12 +10,18 @@ import defaultReviewPic from '../assets/images/defaultReviewPic.png'
 import profilepic from '../assets/images/profilepic.jpg'
 
 const Profile = () => {
-  // PROFILE pagination
+  // GUEST BROWSE DONOR
+  // REPORT
+  // ADMIN MODERATION
+  // ADMIN CONTENT GENERATION
   const contextData = useContext(MainContext);
   const location = useLocation();
   const navigate = useNavigate();
   const userId = localStorage.getItem('userID');
   let { nameID } = useParams();
+
+  const [pages, setPages] = useState(1)
+  const [pageNumber, setPageNumber] = useState(1)
 
   const [isMe, setIsMe] = useState(true);
   const [isRelated, setIsRelated] = useState(false);
@@ -115,6 +121,10 @@ const Profile = () => {
     setRequestMessage('');
     setReason('');
   }, [showRequestModal, showReportModal])
+
+  useEffect(() => {
+    setPages(Math.ceil(allRequests.length / 10) > 0 ? Math.ceil(allRequests.length / 10) : 1);
+  }, [allRequests])
 
   const fetchUserProfile = () => {
     const data = {
@@ -240,6 +250,18 @@ const Profile = () => {
       });
     } else {
       setShowReportModal(false);
+    }
+  }
+
+  const handleNextPage = () => {
+    if(pageNumber !== pages){
+      setPageNumber(pageNumber+1);
+    }
+  }
+
+  const handlePreviousPage = () => {
+    if(pageNumber !== 1){
+      setPageNumber(pageNumber-1);
     }
   }
 
@@ -661,9 +683,10 @@ const Profile = () => {
                 <div className='flex items-center'>
                   <div className='pr-1 text-sm font-bold text-gray-500 shrink-0'>DONATION HISTORY</div>
                   <div className='w-full border border-gray-500'></div>
-                  <div className='flex'>
-                    <FaAngleLeft className='text-xl cursor-pointer hover:text-green-500'/>
-                    <FaAngleRight className='text-xl cursor-pointer hover:text-green-500'/>
+                  <div className='flex shrink-0'>
+                    <FaAngleLeft onClick={handlePreviousPage} className='text-xl cursor-pointer hover:text-green-500'/>
+                    <div className='text-sm'>{pageNumber} / {pages}</div>
+                    <FaAngleRight onClick={handleNextPage} className='text-xl cursor-pointer hover:text-green-500'/>
                   </div>
                 </div>
                 {
@@ -675,7 +698,9 @@ const Profile = () => {
                   :
                     <div className='flex flex-wrap justify-around gap-5 text-sm'>
                       {
-                        allRequests.map((req, i) =>
+                        allRequests
+                        .slice(10 * (pageNumber - 1), 10 * pageNumber > allRequests.length ? allRequests.length : 10 * pageNumber)
+                        .map((req, i) =>
                         <div key={i} onClick={()=>{handleOpenReview(req)}} className='flex flex-col items-center w-[100%] md:w-[48%] gap-2 p-2 border border-black rounded cursor-pointer shrink-0 hover:bg-gray-200'>
                             <div className='flex items-center justify-center p-2 text-2xl'>
                               <FaQuoteLeft />
