@@ -10,8 +10,7 @@ import defaultReviewPic from '../assets/images/defaultReviewPic.png'
 import profilepic from '../assets/images/profilepic.jpg'
 
 const Profile = () => {
-  // TODO: GET AND LOAD REVIEWS
-  // IMAGES
+  // PROFILE pagination
   const contextData = useContext(MainContext);
   const location = useLocation();
   const navigate = useNavigate();
@@ -133,15 +132,6 @@ const Profile = () => {
       const result = response.data.requests
       // console.log(result.reviews);
       const requests = [
-        ...result.seekDonorReq.map((req) => {
-        return {
-          isDonor: false,
-          details: req,
-          user: result.listUsers.users.find(user => user.id === req.donorID),
-          donorInfo: result.listUsers.donorInfos.find(donorInfo => donorInfo.userID === req.donorID),
-          address: result.listUsers.addresses.find(address => address.userID === req.donorID),
-          review: result.reviews.find((review) => review.donorRequestID === req.id)
-        }}),
         ...result.acceptDonorReq.map((req) => {
         return {
           isDonor: true,
@@ -219,13 +209,14 @@ const Profile = () => {
       let endpoint = contextData.link + 'api/request';
       axios.post(endpoint, {data})
       .then(function (response) {
-        setAlert({
-          show: true,
-          header: 'Success',
-          message: response.data.message,
-          isError: false,
-        });
         setShowRequestModal(false);
+        navigate("/main/requests", {
+          state: {
+            header: 'Success',
+            message: response.data.message,
+            isError: false
+          }
+        })
       })
       .catch(function (error) {
         console.log(error.response.data.message);
@@ -277,7 +268,7 @@ const Profile = () => {
             {/*content*/}
             <div className="relative flex flex-col w-full bg-white border-0 rounded-lg shadow-lg outline-none focus:outline-none">
               {/*header*/}
-              <div className="flex items-start justify-between p-5 border-b border-solid rounded-t border-slate-200">
+              <div className="flex items-start justify-between md:w-[500px] p-5 border-b border-solid rounded-t border-slate-200">
                 <h3 className="text-xl font-semibold">
                   Blood Donation Review
                 </h3>
@@ -310,10 +301,10 @@ const Profile = () => {
                 </div>
                 {
                   selectedRequest.review.image &&
-                  <div className='flex items-center justify-center w-full '>
-                    <div className='flex items-center justify-center w-[50%] aspect-video shrink-0'>
+                  <div className='flex items-center justify-center w-full h-40 overflow-hidden'>
+                    <label className='flex items-center justify-center w-[50%] overflow-hidden aspect-video shrink-0'>
                       <img src={selectedRequest.review.image} className='w-full' alt="image for review" />
-                    </div>
+                    </label>
                   </div>
                 }
               </div>
