@@ -63,7 +63,8 @@ const Requests = () => {
     if(location.state){
       setAlert({
         show: true,
-        header: location.state.message,
+        header: location.state.header,
+        message: location.state.message,
         isError: location.state.isError,
       });
     }
@@ -156,14 +157,13 @@ const Requests = () => {
     let endpoint = contextData.link + 'api/request';
     axios.patch(endpoint, {data})
     .then(function (response) {
-      console.log(response.data.message);
-      setAlert({
-        show: true,
-        header: 'Action Success',
-        message: response.data.message,
-        isError: false,
-      });
-      fetchAllPendingRequests();
+      navigate("/main/active", {
+        state: {
+          header: 'Action Success',
+          message: response.data.message,
+          isError: false
+        }
+      })
     })
     .catch(function (error) {
       console.log(error.response.data.message);
@@ -192,14 +192,13 @@ const Requests = () => {
       let endpoint = contextData.link + 'api/request';
       axios.patch(endpoint, {data})
       .then(function (response) {
-        console.log(response.data.message);
-        setAlert({
-          show: true,
-          header: 'Action Success',
-          message: response.data.message,
-          isError: false,
-        });
-        fetchAllPendingRequests();
+        navigate("/main/history/declined", {
+          state: {
+            header: 'Action Success',
+            message: response.data.message,
+            isError: false
+          }
+        })
       })
       .catch(function (error) {
         console.log(error.response.data.message);
