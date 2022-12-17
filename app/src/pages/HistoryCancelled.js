@@ -62,7 +62,8 @@ const HistoryCancelled = () => {
     if(location.state){
       setAlert({
         show: true,
-        header: location.state.message,
+        header: location.state.header,
+        message: location.state.message,
         isError: location.state.isError,
       });
     }
