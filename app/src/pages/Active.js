@@ -87,7 +87,8 @@ const Active = () => {
     if(location.state){
       setAlert({
         show: true,
-        header: location.state.message,
+        header: location.state.header,
+        message: location.state.message,
         isError: location.state.isError,
       });
     }
@@ -210,14 +211,13 @@ const Active = () => {
       let endpoint = contextData.link + 'api/request';
       axios.patch(endpoint, {data})
       .then(function (response) {
-        console.log(response.data.message);
-        setAlert({
-          show: true,
-          header: 'Action Success',
-          message: response.data.message,
-          isError: false,
-        });
-        fetchAllActiveRequests();
+        navigate("/main/history/completed", {
+          state: {
+            header: 'Action Success',
+            message: response.data.message,
+            isError: false
+          }
+        })
       })
       .catch(function (error) {
         console.log(error.response.data.message);
@@ -247,14 +247,13 @@ const Active = () => {
       let endpoint = contextData.link + 'api/request';
       axios.patch(endpoint, {data})
       .then(function (response) {
-        console.log(response.data.message);
-        setAlert({
-          show: true,
-          header: 'Action Success',
-          message: response.data.message,
-          isError: false,
-        });
-        fetchAllActiveRequests();
+        navigate("/main/history/cancelled", {
+          state: {
+            header: 'Action Success',
+            message: response.data.message,
+            isError: false
+          }
+        })
       })
       .catch(function (error) {
         console.log(error.response.data.message);
