@@ -1,7 +1,9 @@
 import { Route, Routes } from "react-router-dom";
 
 import Active from "./pages/Active";
+import AdminLogin from "./pages/AdminLogin";
 import BrowseDonor from "./pages/BrowseDonor";
+import Dashboard from "./pages/Dashboard";
 import HistoryCancelled from "./pages/HistoryCancelled";
 import HistoryCompleted from "./pages/HistoryCompleted";
 import HistoryDeclined from "./pages/HistoryDeclined";
@@ -45,6 +47,10 @@ function App() {
         <Route path="/main/history/completed" element={<HistoryCompleted />} />
         <Route path="/main/history/declined" element={<HistoryDeclined />} />
         <Route path="/main/history/cancelled" element={<HistoryCancelled />} />
+
+        <Route path="/admin" element={<AdminLogin />} />
+        <Route path="/admin/dashboard" element={<Dashboard />} />
+
       </Routes>
     </MainContext.Provider>
   );
