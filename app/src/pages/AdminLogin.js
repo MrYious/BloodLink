@@ -35,25 +35,24 @@ const AdminLogin = () => {
       username: username,
       password: password,
     }
-    // let endpoint = contextData.link + 'api/login';
-    // axios.post(endpoint, {data})
-    // .then(function (response) {
-    //   console.log("Login Success", response.data)
-    //   localStorage.clear();
-    //   localStorage.setItem('userID', response.data.checkUser.id);
-    //   localStorage.setItem('fname', response.data.checkUser.firstname);
-    //   localStorage.setItem('lname', response.data.checkUser.lastname);
-    //   localStorage.setItem('profile', response.data.checkUser.profilePicture ? response.data.checkUser.profilePicture : '');
-    //   navigate("/main", {state: {message: response.data.message, isError: false}})
-    // })
-    // .catch(function (error) {
-    //   console.log(error.response.data.message);
-    //   setAlert({
-    //     show: true,
-    //     header: error.response.data.message,
-    //     isError: true,
-    //   });
-    // });
+    let endpoint = contextData.link + 'api/adminLogin';
+    axios.post(endpoint, {data})
+    .then(function (response) {
+      console.log("Login Success", response.data)
+      localStorage.clear();
+      localStorage.setItem('adminID', response.data.checkAdmin.id);
+      localStorage.setItem('username', response.data.checkAdmin.username);
+      localStorage.setItem('profile', response.data.checkAdmin.profilePicture ? response.data.checkAdmin.profilePicture : '');
+      navigate("/admin/dashboard", {state: {message: response.data.message, isError: false}})
+    })
+    .catch(function (error) {
+      console.log(error.response.data.message);
+      setAlert({
+        show: true,
+        header: error.response.data.message,
+        isError: true,
+      });
+    });
     e.preventDefault();
   };
 
