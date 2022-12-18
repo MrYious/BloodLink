@@ -11,6 +11,7 @@ import {
     updatePersonal,
     updateRequest,
     updateSocial,
+    validateAdminLogin,
     validateUserLogin
 } from "../controllers/mainController.js";
 
@@ -20,6 +21,7 @@ import express from "express";
 const apiRouter = express.Router();
 
 apiRouter.post('/login', validateUserLogin);
+apiRouter.post('/adminLogin', validateAdminLogin);
 apiRouter.post('/register', createNewUser)
 apiRouter.post('/getUserByID', findUserByID);
 apiRouter.post('/getAllUsers', getAllUsers);
