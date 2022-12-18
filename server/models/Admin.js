@@ -12,6 +12,9 @@ const Admin = dbConfig.define('admin',{
     password:{
         type: DataTypes.STRING
     },
+    profilePicture:{
+        type: DataTypes.STRING,
+    },
 },{
     freezeTableName: true
 });
