@@ -97,18 +97,18 @@ export const validateAdminLogin = async (req, res) => {
     try {
         // console.log("BODY: ", req.body.data)
 
-        const checkUser = await Admin.findOne({
+        const checkAdmin = await Admin.findOne({
             where: {
                 username: req.body.data.username
             }
         });
 
-        if(!checkUser){
+        if(!checkAdmin){
             res.status(400).json({ message: "Incorrect Username or Password!" });
-        } else if(!(bcrypt.compareSync(req.body.data.password, checkUser.password ))){
+        } else if(!(bcrypt.compareSync(req.body.data.password, checkAdmin.password ))){
             res.status(400).json({ message: "Incorrect Username or Password!" });
         } else {
-            res.status(200).json({ message: "Login Success!", checkUser });
+            res.status(200).json({ message: "Login Success!", checkAdmin });
         }
 
     } catch (error) {
