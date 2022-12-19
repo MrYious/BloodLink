@@ -6,14 +6,13 @@ import { MainContext } from '../App.js'
 import MainNavigationBar from '../components/MainNavigationBar';
 import SideBar from '../components/SideBar.js';
 import axios  from "axios";
-import defaultReviewPic from '../assets/images/defaultReviewPic.png'
 import profilepic from '../assets/images/profilepic.jpg'
 
 const Profile = () => {
-  // GUEST BROWSE DONOR
   // REPORT
   // ADMIN MODERATION
   // ADMIN CONTENT GENERATION
+  // ADMIN CONTACT / NEWSLETTER
   const contextData = useContext(MainContext);
   const location = useLocation();
   const navigate = useNavigate();
