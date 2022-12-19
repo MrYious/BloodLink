@@ -1,17 +1,17 @@
 import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
+import AdminNavigationBar from '../components/AdminNavigationBar'
+import AdminSideBar from '../components/AdminSideBar.js';
 import { FaTimes } from 'react-icons/fa';
 import { MainContext } from '../App.js'
-import MainNavigationBar from '../components/MainNavigationBar';
-import SideBar from '../components/SideBar.js';
 import axios  from "axios";
 
 const Dashboard = () => {
   const contextData = useContext(MainContext);
   const location = useLocation();
   const navigate = useNavigate();
-  const userId = localStorage.getItem('userID');
+  const adminID = localStorage.getItem('adminID');
 
   const [showModal, setShowModal] = useState(false);
   const [alert, setAlert] = useState({
@@ -22,9 +22,9 @@ const Dashboard = () => {
   });
 
   useEffect(() => {
-    // if(!userId){
-    //   navigate("/")
-    // }
+    if(!adminID){
+      navigate("/")
+    }
   }, [])
 
   useEffect(() => {
@@ -95,12 +95,12 @@ const Dashboard = () => {
         <div className="fixed inset-0 z-40 bg-black opacity-25"></div>
       </>
       )}
-      <MainNavigationBar />
+      <AdminNavigationBar />
       <div className='flex flex-col min-h-[100vh] '>
         <div className="h-[10vh]"></div>
         <div className="flex min-h-[90vh]">
           {/* 1 */}
-          <SideBar />
+          <AdminSideBar />
           {/* 2 */}
           <div className="flex flex-col items-start w-full gap-5 p-5 bg-gray-100 lg:justify-around lg:flex-row">
             {/* 1 */}
