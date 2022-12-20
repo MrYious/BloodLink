@@ -42,6 +42,7 @@ const AdminLogin = () => {
       localStorage.clear();
       localStorage.setItem('adminID', response.data.checkAdmin.id);
       localStorage.setItem('username', response.data.checkAdmin.username);
+      localStorage.setItem('isMaster', response.data.checkAdmin.role === 'master' ? 'true' : 'false' );
       localStorage.setItem('profile', response.data.checkAdmin.profilePicture ? response.data.checkAdmin.profilePicture : '');
       navigate("/admin/dashboard", {state: {message: response.data.message, isError: false}})
     })

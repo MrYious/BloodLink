@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import AdminNavigationBar from '../components/AdminNavigationBar'
 import AdminSideBar from '../components/AdminSideBar.js';
 import { FaTimes } from 'react-icons/fa';
 import { MainContext } from '../App.js'
@@ -12,6 +11,8 @@ const Dashboard = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const adminID = localStorage.getItem('adminID');
+  const username = localStorage.getItem('username');
+  const profile = localStorage.getItem('profile');
 
   const [showModal, setShowModal] = useState(false);
   const [alert, setAlert] = useState({
@@ -95,21 +96,15 @@ const Dashboard = () => {
         <div className="fixed inset-0 z-40 bg-black opacity-25"></div>
       </>
       )}
-      <AdminNavigationBar />
       <div className='flex flex-col min-h-[100vh] '>
-        <div className="h-[10vh]"></div>
         <div className="flex min-h-[90vh]">
           {/* 1 */}
           <AdminSideBar />
           {/* 2 */}
           <div className="flex flex-col items-start w-full gap-5 p-5 bg-gray-100 lg:justify-around lg:flex-row">
             {/* 1 */}
-            <div className="bg-gray-50 w-[100%] lg:w-[60%] flex items-center flex-col p-5 rounded drop-shadow-lg">
+            <div className="bg-gray-50 w-[100%] flex items-center flex-col p-5 rounded drop-shadow-lg">
               Main Contents
-            </div>
-            {/* 2 */}
-            <div className="bg-gray-50 w-[100%] lg:w-[33%] flex flex-col items-center p-5 rounded drop-shadow-lg">
-              Side Contents
             </div>
           </div>
         </div>
