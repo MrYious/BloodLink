@@ -6,7 +6,7 @@ import { FaTimes } from 'react-icons/fa';
 import { MainContext } from '../App.js'
 import axios  from "axios";
 
-const Dashboard = () => {
+const ManageContents = () => {
   const contextData = useContext(MainContext);
   const location = useLocation();
   const navigate = useNavigate();
@@ -105,7 +105,7 @@ const Dashboard = () => {
           <div className="flex flex-col items-start w-full gap-5 p-5 bg-gray-100 lg:justify-around lg:flex-row">
             {/* 1 */}
             <div className="bg-gray-50 w-[100%] flex items-center flex-col p-5 rounded drop-shadow-lg">
-              Dashboard
+              ManageContent
             </div>
           </div>
         </div>
@@ -114,4 +114,4 @@ const Dashboard = () => {
   );
 }
 
-export default Dashboard;
+export default ManageContents;

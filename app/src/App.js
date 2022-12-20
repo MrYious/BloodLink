@@ -10,10 +10,16 @@ import HistoryDeclined from "./pages/HistoryDeclined";
 import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import Main from "./pages/Main";
+import ManageAdministrators from "./pages/ManageAdministrators";
+import ManageContents from "./pages/ManageContents";
+import ManageMessages from "./pages/ManageMessages";
+import ModerateRequests from "./pages/ModerateRequests";
+import ModerateUsers from "./pages/ModerateUsers";
 import Profile from "./pages/Profile";
 import Register from "./pages/Register";
 import Requests from "./pages/Requests";
 import SearchDonor from "./pages/SearchDonor";
+import Settings from "./pages/Settings";
 import UpdateProfile from "./pages/UpdateProfile";
 import { createContext } from 'react';
 
@@ -50,12 +56,12 @@ function App() {
 
         <Route path="/admin" element={<AdminLogin />} />
         <Route path="/admin/dashboard" element={<Dashboard />} />
-        <Route path="/admin/content" element={<Dashboard />} />
-        <Route path="/admin/message" element={<Dashboard />} />
-        <Route path="/admin/manage/requests" element={<Dashboard />} />
-        <Route path="/admin/manage/users" element={<Dashboard />} />
-        <Route path="/admin/manage/accounts" element={<Dashboard />} />
-        <Route path="/admin/account" element={<Dashboard />} />
+        <Route path="/admin/content" element={<ManageContents />} />
+        <Route path="/admin/message" element={<ManageMessages />} />
+        <Route path="/admin/manage/requests" element={<ModerateRequests />} />
+        <Route path="/admin/manage/users" element={<ModerateUsers />} />
+        <Route path="/admin/manage/accounts" element={<ManageAdministrators />} />
+        <Route path="/admin/account" element={<Settings />} />
 
       </Routes>
     </MainContext.Provider>
