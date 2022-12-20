@@ -50,6 +50,12 @@ function App() {
 
         <Route path="/admin" element={<AdminLogin />} />
         <Route path="/admin/dashboard" element={<Dashboard />} />
+        <Route path="/admin/content" element={<Dashboard />} />
+        <Route path="/admin/message" element={<Dashboard />} />
+        <Route path="/admin/manage/requests" element={<Dashboard />} />
+        <Route path="/admin/manage/users" element={<Dashboard />} />
+        <Route path="/admin/manage/accounts" element={<Dashboard />} />
+        <Route path="/admin/account" element={<Dashboard />} />
 
       </Routes>
     </MainContext.Provider>

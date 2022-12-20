@@ -52,7 +52,7 @@ const AdminSideBar = () => {
                             Dashboard
                         </div>
                     </Link>
-                    <Link to={'/admin/dashboard'} className="flex items-center h-12 gap-2 rounded cursor-pointer hover:bg-gray-300">
+                    <Link to={'/admin/content'} className="flex items-center h-12 gap-2 rounded cursor-pointer hover:bg-gray-300">
                         <div className='flex items-center justify-center h-full text-gray-700 w-14 shrink-0'>
                             <FaEdit className='text-xl'/>
                         </div>
@@ -60,7 +60,7 @@ const AdminSideBar = () => {
                             Featured Contents
                         </div>
                     </Link>
-                    <Link to={'/admin/dashboard'} className="flex items-center h-12 gap-2 rounded cursor-pointer hover:bg-gray-300">
+                    <Link to={'/admin/message'} className="flex items-center h-12 gap-2 rounded cursor-pointer hover:bg-gray-300">
                         <div className='flex items-center justify-center h-full text-gray-700 w-14 shrink-0'>
                             <FaEnvelope className='text-xl'/>
                         </div>
@@ -68,7 +68,7 @@ const AdminSideBar = () => {
                             Contact Us Messages
                         </div>
                     </Link>
-                    <Link to={'/admin/dashboard'} className="flex items-center h-12 gap-2 rounded cursor-pointer hover:bg-gray-300">
+                    <Link to={'/admin/manage/requests'} className="flex items-center h-12 gap-2 rounded cursor-pointer hover:bg-gray-300">
                         <div className='flex items-center justify-center h-full text-gray-700 w-14 shrink-0'>
                             <FaInbox className='text-xl'/>
                         </div>
@@ -76,7 +76,7 @@ const AdminSideBar = () => {
                             Moderate Requests
                         </div>
                     </Link>
-                    <Link to={'/admin/dashboard'} className="flex items-center h-12 gap-2 rounded cursor-pointer hover:bg-gray-300">
+                    <Link to={'/admin/manage/users'} className="flex items-center h-12 gap-2 rounded cursor-pointer hover:bg-gray-300">
                         <div className='flex items-center justify-center h-full text-gray-700 w-14 shrink-0'>
                             <FaUserEdit className='text-xl'/>
                         </div>
@@ -85,7 +85,7 @@ const AdminSideBar = () => {
                         </div>
                     </Link>
                     {
-                        isMaster && <Link to={'/admin/dashboard'} className="flex items-center h-12 gap-2 rounded cursor-pointer hover:bg-gray-300">
+                        isMaster && <Link to={'/admin/manage/accounts'} className="flex items-center h-12 gap-2 rounded cursor-pointer hover:bg-gray-300">
                             <div className='flex items-center justify-center h-full text-gray-700 w-14 shrink-0'>
                                 <FaUsers className='text-xl'/>
                             </div>
@@ -97,7 +97,7 @@ const AdminSideBar = () => {
                     <div>
                         <div className='h-[1px] border border-gray-600'></div>
                     </div>
-                    <Link to={'/admin/dashboard'} className="flex items-center h-12 gap-2 rounded cursor-pointer hover:bg-gray-300">
+                    <Link to={'/admin/account'} className="flex items-center h-12 gap-2 rounded cursor-pointer hover:bg-gray-300">
                         <div className='flex items-center justify-center h-full text-gray-700 w-14 shrink-0'>
                             <FaUserCog className='text-xl '/>
                         </div>
