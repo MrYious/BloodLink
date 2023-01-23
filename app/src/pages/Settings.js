@@ -102,10 +102,11 @@ const Settings = () => {
           {/* 1 */}
           <AdminSideBar />
           {/* 2 */}
-          <div className="flex flex-col items-start w-full gap-5 p-5 bg-gray-100 lg:justify-around lg:flex-row">
+          <div className="flex flex-col items-start w-full p-5 bg-gray-100 lg:justify-around lg:flex-row">
             {/* 1 */}
-            <div className="bg-gray-50 w-[100%] flex items-center flex-col p-5 rounded drop-shadow-lg">
-              Settings
+            <div className="bg-gray-50 w-[100%] flex flex-col gap-5 p-5 rounded drop-shadow-lg">
+              <div className="font-semibold">Administrator / Account Settings </div>
+              <div>Content </div>
             </div>
           </div>
         </div>
