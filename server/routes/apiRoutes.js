@@ -1,18 +1,22 @@
 import {
+    createNewContent,
     createNewRequest,
     createNewUser,
+    deleteContent,
     deleteRequest,
     findUserByID,
+    getAllContents,
     getAllUsers,
     getRequest,
     updateAccount,
     updateAddress,
+    updateContent,
     updateHealth,
     updatePersonal,
     updateRequest,
     updateSocial,
     validateAdminLogin,
-    validateUserLogin
+    validateUserLogin,
 } from "../controllers/mainController.js";
 
 import express from "express";
@@ -34,5 +38,9 @@ apiRouter.post('/request', createNewRequest);
 apiRouter.patch('/request', updateRequest);
 apiRouter.post('/getRequest', getRequest);
 apiRouter.post('/deleteRequest', deleteRequest);
+apiRouter.post('/content', createNewContent);
+apiRouter.post('/getAllContents', getAllContents);
+apiRouter.post('/updateContent', updateContent);
+apiRouter.post('/deleteContent', deleteContent);
 
 export default apiRouter;
