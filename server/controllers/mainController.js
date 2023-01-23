@@ -1,5 +1,6 @@
 import Address from "../models/Address.js";
 import Admin from "../models/Admin.js";
+import Content from "../models/Content.js";
 import DonorInfo from "../models/DonorInfo.js";
 import DonorRequest from "../models/DonorRequest.js";
 import Review from "../models/Review.js";
@@ -379,6 +380,8 @@ export const updateHealth = async (req, res) => {
     }
 }
 
+// REQUESTS
+
 export const createNewRequest = async (req, res) => {
     try {
         console.log("BODY: ", req.body.data)
@@ -627,5 +630,87 @@ export const deleteRequest = async (req, res) => {
 
     } catch (error) {
         res.status(400).json({ message: error.message });
+    }
+}
+
+//  CONTENTS
+
+
+export const createNewContent = async (req, res) => {
+    try {
+        console.log("BODY: ", req.body.data)
+
+        const data = {
+            title: req.body.data.title,
+            content: req.body.data.content,
+        }
+
+        const content = await Content.create(data);
+
+        if(!content){
+            res.status(400).json({ message: "Failed to Create New Content!" });
+        } else {
+            res.status(200).json({ message: "New Content Created!", });
+        }
+
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}
+
+
+export const updateContent = async (req, res) => {
+    try {
+        console.log("BODY: ", req.body.data)
+
+        const content = await Content.update({
+            title: req.body.data.title,
+            content: req.body.data.content,
+        },{
+            where: {
+                id: req.body.data.id
+            }
+        });
+
+        if(!content){
+            res.status(400).json({ message: "Failed to Update Content!" });
+        } else {
+            res.status(200).json({ message: "Content Updated!", });
+        }
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}
+
+export const getAllContents = async (req, res) => {
+    try {
+        console.log("BODY: ", req.body.data)
+
+        const contents = await Content.findAll();
+
+        if(!contents){
+            res.status(400).json({ message: "Error loading contents from server!" });
+        } else {
+            res.status(200).json({ message: "Retrieve Success!", contents});
+        }
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}
+
+export const deleteContent = async (req, res) => {
+    try {
+        console.log("BODY: ", req.body.data)
+
+        await Content.destroy({
+            where: {
+                id: req.body.data.id,
+            }
+        });
+
+        res.status(200).json({ message: "Content Deleted!" });
+
+    } catch (error) {
+        res.status(400).json({ message: "Content is not Deleted!" });
     }
 }
