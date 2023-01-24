@@ -6,12 +6,16 @@ import { MainContext } from '../App.js'
 import MainNavigationBar from '../components/MainNavigationBar';
 import SideBar from '../components/SideBar.js';
 import axios  from "axios";
+import { convertFromRaw } from "draft-js";
+import draftToHtml from 'draftjs-to-html';
 
 const Main = () => {
   const contextData = useContext(MainContext);
   const location = useLocation();
   const navigate = useNavigate();
   const userId = localStorage.getItem('userID');
+
+  const [allContents, setAllContents] = useState([]);
 
   const [showModal, setShowModal] = useState(false);
   const [alert, setAlert] = useState({
@@ -24,6 +28,8 @@ const Main = () => {
   useEffect(() => {
     if(!userId){
       navigate("/")
+    } else {
+      fetchAllContents()
     }
   }, [])
 
@@ -36,6 +42,25 @@ const Main = () => {
       });
     }
   }, [location])
+
+  const fetchAllContents = () => {
+    let endpoint = contextData.link + 'api/getAllContents';
+    axios.post(endpoint)
+    .then(function (response) {
+      console.log('Contents ', response.data.contents);
+      const contents = response.data.contents
+      setAllContents(contents)
+    })
+    .catch(function (error) {
+      console.log(error.response.data.message);
+      setAlert({
+        show: true,
+        header: 'Action Failed',
+        message: error.response.data.message,
+        isError: true,
+      });
+    });
+  }
 
   return (
     <section className='flex flex-col w-full min-h-screen '>
@@ -104,8 +129,37 @@ const Main = () => {
           {/* 2 */}
           <div className="flex flex-col items-start w-full gap-5 p-5 bg-gray-100 lg:justify-around lg:flex-row">
             {/* 1 */}
-            <div className="bg-gray-50 w-[100%] lg:w-[60%] flex items-center flex-col p-5 rounded drop-shadow-lg">
-              Main Contents
+            <div className="bg-gray-50 w-[100%] lg:w-[60%] gap-5 flex items-center flex-col p-5 rounded drop-shadow-lg">
+              {/* SAMPLE */}
+              {
+                allContents.map((content, i) => {
+                  return <div key={i} className="flex flex-col w-full gap-3 p-3 border border-gray-500 rounded">
+                    {/* HEAD */}
+                    <div className="flex flex-col gap-1">
+                      <div className="text-lg font-bold">Sample Title {content.title}</div>
+                      <div className="flex items-center gap-5 text-xs italic">
+                        <div>
+                          <span className="font-semibold">
+                            Created on:
+                          </span> {content.createdAt}
+                        </div>
+                        <div>
+                          <span className="font-semibold">
+                            Last Update:
+                          </span> {content.updatedAt}
+                        </div>
+                      </div>
+                    </div>
+                    {/* BODY */}
+                    <div>
+                      <div
+                        className="w-full"
+                        dangerouslySetInnerHTML={{ __html: draftToHtml(JSON.parse(content.content)) }} 
+                      />
+                    </div>
+                  </div>
+                })
+              }
             </div>
             {/* 2 */}
             <div className="bg-gray-50 w-[100%] lg:w-[33%] flex flex-col items-center p-5 rounded drop-shadow-lg">
